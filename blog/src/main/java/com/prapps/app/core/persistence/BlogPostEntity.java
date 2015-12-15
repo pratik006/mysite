@@ -1,7 +1,5 @@
 package com.prapps.app.core.persistence;
 
-import static com.prapps.app.core.consts.ApplicationConsts.SCHEMA;
-
 import java.io.Serializable;
 import java.util.Calendar;
 
@@ -15,7 +13,7 @@ import javax.persistence.TemporalType;
 
 
 @Entity
-@Table(name="BLOG_POST", schema=SCHEMA)
+@Table(name="BLOG_POST")
 public class BlogPostEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
