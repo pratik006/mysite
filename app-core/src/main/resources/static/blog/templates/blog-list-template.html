@@ -1,0 +1,27 @@
+<h1 class="page-header">
+    A Mix of Adventure and Programming
+    <!--small>Secondary Text</small-->
+</h1>
+<% _.each(blogs, function(blog) { %>
+    <div id="blogEntry">
+        <h2><a href="#blogPost/<%=blog.id%>"><%=blog.get("title")%></a></h2>
+
+        <p class="lead">by <a href="../#about"><%=blog.get("createdBy")%></a></p>
+        <% created = blog.get("created"); %>
+        <p><span class="glyphicon glyphicon-time"></span> Posted on <%=formatDate(created)%></p><hr>
+
+        <% if (blog.get("coverLink")) { %>
+                <img class="img-responsive" src=<%=blog.get("coverLink")%> ><hr>
+        <% } %>
+
+        <% if(blog.get("lead")) { %>
+            <p class="lead"><%=blog.get("lead")%></p>
+        <% } %>
+
+        <% if(blog.get("intro")) { %>
+            <p><%=blog.get("intro")%></p>
+        <% } %>
+
+        <a class="btn btn-primary" href="#blogPost/<%=blog.id%>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a><hr></div>
+    </div>
+<%}) %>

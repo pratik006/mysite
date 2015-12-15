@@ -1,0 +1,87 @@
+<link href="lceditor/editor.css" type="text/css" rel="stylesheet"/>
+<link rel="stylesheet" href="/bootstrap/font-awesome/css/font-awesome.min.css">
+<div class="col-md-12">
+<% var label = "Create";
+    if (typeof blog != 'undefined') { var label = "Edit";  }
+%>
+    <h1 class="page-header">
+        <%=label%> Blog
+        <!--small>Secondary Text</small-->
+    </h1>
+
+    <!-- Third Blog Post -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Editor</h3>
+        </div>
+        <form class="edit-post-form" action="/app/rest/create">
+            <div class="panel-body form-group">
+            <% if(blog) {%>
+                <input type="hidden" name="id" value="<%= getAttribute(blog, "id")%>" />
+            <% } %>
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" name="title" value="<%= getAttribute(blog, "title") %>" >
+            <label for="coverLink">Preview Link (picture):</label>
+            <input type="text" class="form-control" name="coverLink" value="<%= getAttribute(blog, "coverLink")%>" >
+            <div class="media img-responsive">
+                <img class=".img-responsive" style="width: 98%;" src="<%= getAttribute(blog, "coverLink") %>" />
+            </div>
+            <textarea id="rtContent" nmae="content"></textarea> 
+
+            <hr>
+            <div class="btn-toolbar">
+                <button id="btnCreate" type="submit" class="btn btn-sm btn-primary pull-right">Save</button>
+                <button type="button" class="btn btn-sm btn-warning pull-right ">Cancel</button>
+            </div>
+            
+            </div>
+        </form>
+     </div>
+</div>
+
+
+<script src="lceditor/editor.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#rtContent").Editor();        
+
+        /**$('#msgBox').on('shown.bs.modal', function () {
+          $('#myInput').focus()
+        });
+
+        $("#msgClose").click(function() {
+            redirect(ACTION_PATHS['successfulCreateBlog'], 100);
+        });**/
+    });
+    
+    /**$("#btnCreate").click(function() {$('#msgBox').modal('show');
+        var blogPost = new Object();
+        blogPost.title = $("#title").val();
+        blogPost.coverLink = $("#previewLink").val();
+        blogPost.content = $("#rtContent").Editor("getText");
+        console.log(JSON.stringify(blogPost));
+        $.ajax({
+          type: "POST",
+          contentType: "application/json; charset=utf-8",
+          Accept: "application/json",
+          url: ACTION_PATHS['create'],
+          data: JSON.stringify(blogPost),
+          success: function(result){
+             $('#msgBox').modal('show');
+             redirect(ACTION_PATHS['successfulCreateBlog'], 10000);
+          }
+        });
+    });
+    
+    $("#btnCancel").click(function() {
+        $("#title").val("");
+        $("#previewLink").val("");
+        $("#content").Editor("setText", "");
+    });
+
+    function redirect(url, time) {
+        window.location.replace(url);
+        setTimeout("redirect()", time);
+    }**/
+
+</script>

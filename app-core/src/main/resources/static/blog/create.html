@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Pratik's Blog</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="startbootstrap-blog-home-1.0.3/css/blog-home.css" rel="stylesheet">
+    <link href="lceditor/editor.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../bootstrap/font-awesome/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+
+        .modal-dialog {
+                top:30%;
+                right:0%;
+                outline: none;
+                }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/index.html">Pratik's Blog</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="../#about">About</a>
+                    </li>
+                    <li>
+                        <a href="../#services">Services</a>
+                    </li>
+                    <li>
+                        <a href="../#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- MessageBos configuration hidden by default -->
+    <!-- Modal -->
+    <div id="msgBox" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="msgBoxLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content panel panel-primary">
+          <div class="modal-header panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="panel-title modal-title" id="msgBoxLabel">Message</h4>
+          </div>
+          <div class="modal-body">
+                Blog Post created successfully. Redirecting to Blog Home...
+          </div>
+          <div class="modal-footer">
+            <button id="msgClose" type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Message Box config ends -->
+
+    <!-- Page Content -->
+            <!-- Blog Entries Column -->
+            <div class="col-md-12">
+
+                <h1 class="page-header">
+                    Create Blog
+                    <!--small>Secondary Text</small-->
+                </h1>
+
+
+                <!-- Third Blog Post -->
+                <div class="panel panel-primary">
+		            <div class="panel-heading">
+		              <h3 class="panel-title">Editor</h3>
+		            </div>
+		            <form action="/app/rest/create">
+		                <div class="panel-body form-group">
+		              
+		                <label for="title">Title:</label>
+		                <input type="text" class="form-control" id="title">
+		                <label for="coverLink">Preview Link (picture):</label>
+		                <input type="text" class="form-control" id="previewLink">
+		                <textarea id="content"></textarea> 
+		
+		                <hr>
+		                <div class="btn-toolbar">
+		                    <button id="btnCreate" type="button" class="btn btn-sm btn-primary pull-right">Create</button>
+		                    <button type="button" class="btn btn-sm btn-warning pull-right ">Cancel</button>
+		                </div>
+		                
+		            	</div>
+		            </form>
+         		 </div>
+         	</div>
+         </div>
+        <hr>
+
+
+       <div class="footer"></div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="../bootstrap/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+
+<script src="app.js"></script>
+<script src="lceditor/editor.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#content").Editor();
+        $(".footer").load("footer.html");
+
+        $('#msgBox').on('shown.bs.modal', function () {
+          $('#myInput').focus()
+        });
+
+        $("#msgClose").click(function() {
+            redirect(ACTION_PATHS['successfulCreateBlog'], 100);
+        });
+        
+        var id = window.location.href.split("?")[1].split("=")[1];
+        console.log('id: '+id);
+        if(id) {
+        	createBlogPost(id, updateContent);
+        }
+        
+    });
+    
+    $("#btnCreate").click(function() {$('#msgBox').modal('show');
+    	var blogPost = new Object();
+    	blogPost.title = $("#title").val();
+    	blogPost.coverLink = $("#previewLink").val();
+    	blogPost.content = $("#content").Editor("getText");
+    	console.log(JSON.stringify(blogPost));
+    	$.ajax({
+   		  type: "POST",
+   		  contentType: "application/json; charset=utf-8",
+   		  Accept: "application/json",
+   		  url: ACTION_PATHS['create'],
+   		  data: JSON.stringify(blogPost),
+   		  success: function(result){
+             console.log(result);
+             $('#msgBox').modal('show');
+             redirect(ACTION_PATHS['successfulCreateBlog'], 10000);
+          }
+    	});
+    });
+    
+    $("#btnCancel").click(function() {
+    	$("#title").val("");
+    	$("#previewLink").val("");
+    	$("#content").Editor("setText", "");
+    });
+
+    function redirect(url, time) {
+        window.location.replace(url);
+        setTimeout("redirect()", time);
+    }
+    
+    function updateContent(blog) {
+    	$("#title").val(blog.title);
+        if (blog.coverLink) {
+        	$("#previewLink").val(blog.coverLink);
+        	//$("hr").insertAfter("#coverImage");
+        }
+        $("#content").Editor("setText", blog.content);
+    }
+
+</script>
+
+
+</html>

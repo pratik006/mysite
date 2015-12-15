@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+<head>
+<head>
+<style type="text/css" title="currentStyle">
+@import "/resources/css/github.css";
+@import "/resources/css/github1.css";
+</style>
+</head>
+<meta charset="UTF-8">
+<title>Spring Complete Annotation Based Config</title>
+</head>
+
+<body>
+	<div class="gh-header-show">
+		<h1 class="gh-header-title instapaper_title">Spring Complete Annotation Based Config</h1>
+		<br/>
+	</div>
+	<div class="markdown-body">
+		<p>Bean wiring with 'Annotation Only' was a dream for many xml haters. Personally I feel both approach have certain advantages on their own.
+			Here is an example of configuring spring without any xml configuration which also includes JPA configuration with annotations.</p>
+
+		<p>The code can be downloaded and the testcases can be executed as it is.</p>
+
+		<hr>
+
+		<h3>
+			<a id="user-content-1-add-maven-dependencies" class="anchor" href="#1-add-maven-dependencies" aria-hidden="true"><span
+				class="octicon octicon-link"></span></a>1. Add Maven Dependencies
+		</h3>
+
+		<hr>
+
+		<p>File : pom.xml</p>
+
+		<div class="highlight highlight-xml">
+			<pre>&lt;<span class="pl-ent">project</span> <span class="pl-e">xmlns</span>=<span class="pl-s1"><span class="pl-pds">"</span>http://maven.apache.org/POM/4.0.0<span
+					class="pl-pds">"</span></span> <span class="pl-e">xmlns</span><span class="pl-e">:</span><span class="pl-e">xsi</span>=<span class="pl-s1"><span
+					class="pl-pds">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="pl-pds">"</span></span> <span class="pl-e">xsi</span><span class="pl-e">:</span><span
+					class="pl-e">schemaLocation</span>=<span class="pl-s1"><span class="pl-pds">"</span>http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd<span
+					class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">modelVersion</span>&gt;4.0.0&lt;/<span class="pl-ent">modelVersion</span>&gt;
+    &lt;<span class="pl-ent">groupId</span>&gt;com.prapps.tutorial&lt;/<span class="pl-ent">groupId</span>&gt;
+    &lt;<span class="pl-ent">artifactId</span>&gt;spring-java-config&lt;/<span class="pl-ent">artifactId</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;0.0.1-SNAPSHOT&lt;/<span class="pl-ent">version</span>&gt;
+
+    &lt;<span class="pl-ent">properties</span>&gt;
+        &lt;<span class="pl-ent">spring</span>.version&gt;4.1.4.RELEASE&lt;/<span class="pl-ent">spring</span>.version&gt;
+    &lt;/<span class="pl-ent">properties</span>&gt;
+
+    &lt;<span class="pl-ent">dependencies</span>&gt;
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;log4j&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;log4j&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;1.2.17&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;junit&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;junit&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;4.11&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;org.hibernate.javax.persistence&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;hibernate-jpa-2.1-api&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;1.0.0.Final&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;com.h2database&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;h2&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;1.4.185&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;org.hibernate&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;hibernate-core&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;4.3.8.Final&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;org.hibernate&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;hibernate-entitymanager&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;4.3.8.Final&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;javax.inject&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;javax.inject&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;1&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;org.springframework&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;spring-core&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;${spring.version}&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;org.springframework&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;spring-context&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;${spring.version}&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;org.springframework&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;spring-test&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;${spring.version}&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;org.springframework&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;spring-beans&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;${spring.version}&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;org.springframework&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;spring-orm&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;${spring.version}&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+        &lt;<span class="pl-ent">dependency</span>&gt;
+            &lt;<span class="pl-ent">groupId</span>&gt;org.springframework&lt;/<span class="pl-ent">groupId</span>&gt;
+            &lt;<span class="pl-ent">artifactId</span>&gt;spring-tx&lt;/<span class="pl-ent">artifactId</span>&gt;
+            &lt;<span class="pl-ent">version</span>&gt;${spring.version}&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;/<span class="pl-ent">dependency</span>&gt;
+
+    &lt;/<span class="pl-ent">dependencies</span>&gt;
+&lt;/<span class="pl-ent">project</span>&gt;</pre>
+		</div>
+
+		<h3>
+			<a id="user-content-2-create-the-project-structure" class="anchor" href="#2-create-the-project-structure" aria-hidden="true"><span
+				class="octicon octicon-link"></span></a>2. Create the project structure
+		</h3>
+
+		<p>
+			<img src="/resources/images/tutorials/project_structure-spring-java-config.png" alt="project structure">
+		</p>
+
+		<h3>
+			<a id="user-content-3-create-a-vo-class" class="anchor" href="#3-create-a-vo-class" aria-hidden="true"><span class="octicon octicon-link"></span></a>3.
+			Create a VO class
+		</h3>
+
+		<div class="highlight highlight-java">
+			<pre>
+								<span class="pl-k">package</span> <span class="pl-smp">com.prapps.tutorial.guice.vo</span>;
+
+<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">Employee</span> {
+
+    <span class="pl-s">private</span> <span class="pl-st">long</span> id;
+    <span class="pl-s">private</span> <span class="pl-stj">String</span> name;
+    <span class="pl-s">private</span> <span class="pl-st">double</span> salary;
+
+    <span class="pl-s">public</span> <span class="pl-st">long</span> <span class="pl-en">getId</span>() {
+        <span class="pl-k">return</span> id;
+    }
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">setId</span>(<span class="pl-st">long</span> <span
+					class="pl-v">id</span>) {
+        <span class="pl-v">this</span><span class="pl-k">.</span>id <span class="pl-k">=</span> id;
+    }
+    <span class="pl-s">public</span> <span class="pl-stj">String</span> <span class="pl-en">getName</span>() {
+        <span class="pl-k">return</span> name;
+    }
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">setName</span>(<span class="pl-stj">String</span> <span
+					class="pl-v">name</span>) {
+        <span class="pl-v">this</span><span class="pl-k">.</span>name <span class="pl-k">=</span> name;
+    }
+    <span class="pl-s">public</span> <span class="pl-st">double</span> <span class="pl-en">getSalary</span>() {
+        <span class="pl-k">return</span> salary;
+    }
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">setSalary</span>(<span class="pl-st">double</span> <span
+					class="pl-v">salary</span>) {
+        <span class="pl-v">this</span><span class="pl-k">.</span>salary <span class="pl-k">=</span> salary;
+    }
+}</pre>
+		</div>
+
+		<h3>
+			<a id="user-content-4-service-interface" class="anchor" href="#4-service-interface" aria-hidden="true"><span class="octicon octicon-link"></span></a>4.
+			Service Interface
+		</h3>
+
+		<div class="highlight highlight-java">
+			<pre>
+								<span class="pl-k">package</span> <span class="pl-smp">com.prapps.tutorial.guice.service.api</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">java.util.Collection</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.guice.vo.Employee</span>;
+
+<span class="pl-s">public</span> <span class="pl-s">interface</span> <span class="pl-en">EmployeeService</span> {
+
+    <span class="pl-st">void</span> <span class="pl-en">addEmployee</span>(<span class="pl-stj">Employee</span> <span class="pl-v">employee</span>);
+
+    <span class="pl-st">Collection&lt;<span class="pl-stj">Employee</span>&gt;</span> <span class="pl-en">searchEmployeeByName</span>(<span
+					class="pl-stj">String</span> <span class="pl-v">name</span>);
+
+    <span class="pl-stj">Employee</span> <span class="pl-en">searchEmployeeById</span>(<span class="pl-stj">Long</span> <span class="pl-v">id</span>);
+}</pre>
+		</div>
+
+		<h3>
+			<a id="user-content-5-serviceimpl-class" class="anchor" href="#5-serviceimpl-class" aria-hidden="true"><span class="octicon octicon-link"></span></a>5.
+			ServiceImpl class
+		</h3>
+
+		<div class="highlight highlight-java">
+			<pre>
+								<span class="pl-k">package</span> <span class="pl-smp">com.prapps.tutorial.guice.service.impl</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">java.util.ArrayList</span>;
+<span class="pl-k">import</span> <span class="pl-smi">java.util.Collection</span>;
+<span class="pl-k">import</span> <span class="pl-smi">java.util.HashMap</span>;
+<span class="pl-k">import</span> <span class="pl-smi">java.util.Map</span>;
+<span class="pl-k">import</span> <span class="pl-smi">java.util.Map.Entry</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.guice.service.api.EmployeeService</span>;
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.guice.vo.Employee</span>;
+
+<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">EmployeeServiceImpl</span> <span class="pl-s">implements</span> <span
+					class="pl-e">EmployeeService</span> {
+
+    <span class="pl-s">private</span> <span class="pl-st">Map&lt;<span class="pl-stj">Long</span>, <span class="pl-stj">Employee</span>&gt;</span> employeeMap <span
+					class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-st">HashMap&lt;<span class="pl-stj">Long</span>, <span class="pl-stj">Employee</span>&gt;</span>();
+
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">addEmployee</span>(<span class="pl-stj">Employee</span> <span
+					class="pl-v">employee</span>) {
+        employeeMap<span class="pl-k">.</span>put(employee<span class="pl-k">.</span>getId(), employee);
+    }
+
+    <span class="pl-s">public</span> <span class="pl-st">Collection&lt;<span class="pl-stj">Employee</span>&gt;</span> <span class="pl-en">searchEmployeeByName</span>(<span
+					class="pl-stj">String</span> <span class="pl-v">name</span>) {
+        <span class="pl-st">Collection&lt;<span class="pl-stj">Employee</span>&gt;</span> result <span class="pl-k">=</span> <span class="pl-k">new</span> <span
+					class="pl-st">ArrayList&lt;<span class="pl-stj">Employee</span>&gt;</span>();
+        <span class="pl-k">for</span>(<span class="pl-st">Entry&lt;<span class="pl-stj">Long</span>, <span class="pl-stj">Employee</span>&gt;</span> entry <span
+					class="pl-k">:</span> employeeMap<span class="pl-k">.</span>entrySet()) {
+            <span class="pl-k">if</span>(entry<span class="pl-k">.</span>getValue()<span class="pl-k">.</span>getName()<span class="pl-k">.</span>equals(name)) {
+                result<span class="pl-k">.</span>add(entry<span class="pl-k">.</span>getValue());
+            }
+        }
+        <span class="pl-k">return</span> result;
+    }
+
+    <span class="pl-s">public</span> <span class="pl-stj">Employee</span> <span class="pl-en">searchEmployeeById</span>(<span class="pl-stj">Long</span> <span
+					class="pl-v">id</span>) {
+        <span class="pl-k">return</span> employeeMap<span class="pl-k">.</span>get(id);
+    }
+
+}</pre>
+		</div>
+
+		<h3>
+			<a id="user-content-6-dao-interface" class="anchor" href="#6-dao-interface" aria-hidden="true"><span class="octicon octicon-link"></span></a>6. Dao
+			Interface
+		</h3>
+
+		<div class="highlight highlight-java">
+			<pre>
+								<span class="pl-k">package</span> <span class="pl-smp">com.prapps.tutorial.spring.dao.api</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">java.util.List</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.spring.entities.Employee</span>;
+
+<span class="pl-s">public</span> <span class="pl-s">interface</span> <span class="pl-en">EmployeeDao</span> {
+
+    <span class="pl-st">void</span> <span class="pl-en">save</span>(<span class="pl-stj">Employee</span> <span class="pl-v">employee</span>);
+    <span class="pl-stj">Employee</span> <span class="pl-en">findEmployeeById</span>(<span class="pl-st">long</span> <span class="pl-v">id</span>);
+    <span class="pl-st">List&lt;<span class="pl-stj">Employee</span>&gt;</span> <span class="pl-en">findEmployee</span>(<span class="pl-stj">String</span> <span
+					class="pl-v">name</span>);
+}</pre>
+		</div>
+
+		<h3>
+			<a id="user-content-7-daoimpl-class" class="anchor" href="#7-daoimpl-class" aria-hidden="true"><span class="octicon octicon-link"></span></a>7.
+			DaoImpl class
+		</h3>
+
+		<div class="highlight highlight-java">
+			<pre>
+								<span class="pl-k">package</span> <span class="pl-smp">com.prapps.tutorial.spring.dao.impl</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">java.util.List</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">javax.persistence.EntityManager</span>;
+<span class="pl-k">import</span> <span class="pl-smi">javax.persistence.PersistenceContext</span>;
+<span class="pl-k">import</span> <span class="pl-smi">javax.persistence.criteria.CriteriaQuery</span>;
+<span class="pl-k">import</span> <span class="pl-smi">javax.persistence.criteria.Root</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.spring.dao.api.EmployeeDao</span>;
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.spring.entities.Employee</span>;
+
+<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">EmployeeDaoImpl</span> <span class="pl-s">implements</span> <span
+					class="pl-e">EmployeeDao</span> {
+
+    <span class="pl-c">//@Inject -- should not use @Inject</span>
+    <span class="pl-st">@PersistenceContext</span> <span class="pl-s">private</span> <span class="pl-stj">EntityManager</span> emp;
+
+    <span class="pl-s">public</span> <span class="pl-stj">Employee</span> <span class="pl-en">findEmployeeById</span>(<span class="pl-st">long</span> <span
+					class="pl-v">id</span>) {
+        <span class="pl-k">return</span> emp<span class="pl-k">.</span>find(<span class="pl-stj">Employee</span><span class="pl-k">.</span>class, id);
+    }
+
+    <span class="pl-s">public</span> <span class="pl-st">List&lt;<span class="pl-stj">Employee</span>&gt;</span> <span class="pl-en">findEmployee</span>(<span
+					class="pl-stj">String</span> <span class="pl-v">name</span>) {
+        <span class="pl-st">CriteriaQuery&lt;<span class="pl-stj">Employee</span>&gt;</span> createQuery <span class="pl-k">=</span> emp<span
+					class="pl-k">.</span>getCriteriaBuilder()<span class="pl-k">.</span>createQuery(<span class="pl-stj">Employee</span><span class="pl-k">.</span>class);
+        <span class="pl-st">Root&lt;<span class="pl-stj">Employee</span>&gt;</span> root <span class="pl-k">=</span> createQuery<span class="pl-k">.</span>from(<span
+					class="pl-stj">Employee</span><span class="pl-k">.</span>class);
+        createQuery<span class="pl-k">.</span>where(root<span class="pl-k">.</span>get(<span class="pl-s1"><span class="pl-pds">"</span>name<span
+					class="pl-pds">"</span></span>)<span class="pl-k">.</span>in(name));
+        <span class="pl-k">return</span> emp<span class="pl-k">.</span>createQuery(createQuery)<span class="pl-k">.</span>getResultList();
+    }
+
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">save</span>(<span class="pl-stj">Employee</span> <span
+					class="pl-v">employee</span>) {<span class="pl-stj">System</span><span class="pl-k">.</span>err<span class="pl-k">.</span>println(emp);
+        emp<span class="pl-k">.</span>merge(employee);
+    }
+}
+</pre>
+		</div>
+
+		<h3>
+			<a id="user-content-8-configuring-the-applicationcontext" class="anchor" href="#8-configuring-the-applicationcontext" aria-hidden="true"><span
+				class="octicon octicon-link"></span></a>8. Configuring the ApplicationContext
+		</h3>
+
+		<div class="highlight highlight-java">
+			<pre>
+								<span class="pl-k">package</span> <span class="pl-smp">com.prapps.tutorial.spring.ioc</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.context.annotation.Bean</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.context.annotation.ComponentScan</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.context.annotation.Configuration</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.spring.dao.api.EmployeeDao</span>;
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.spring.dao.impl.EmployeeDaoImpl</span>;
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.spring.service.api.EmployeeService</span>;
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.spring.service.impl.EmployeeServiceImpl</span>;
+
+@<span class="pl-stj">Configuration</span>
+@ComponentScan(<span class="pl-s1"><span class="pl-pds">"</span>com.prapps.tutorial<span class="pl-pds">"</span></span>)
+<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">AppContext</span> {
+
+    <span class="pl-st">@Bean</span>
+    <span class="pl-s">public</span> <span class="pl-stj">EmployeeService</span> <span class="pl-en">employeeService</span>() {
+        <span class="pl-stj">EmployeeService</span> employeeService <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">EmployeeServiceImpl</span>();
+        <span class="pl-k">return</span> employeeService;
+    }
+
+    <span class="pl-st">@Bean</span>
+    <span class="pl-s">public</span> <span class="pl-stj">EmployeeDao</span> <span class="pl-en">employeeDao</span>() {
+        <span class="pl-stj">EmployeeDao</span> employeeDao <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">EmployeeDaoImpl</span>();
+
+        <span class="pl-k">return</span> employeeDao;
+    }
+
+}
+</pre>
+		</div>
+
+		<h3>
+			<a id="user-content-9-jpa-persistence-configuration" class="anchor" href="#9-jpa-persistence-configuration" aria-hidden="true"><span
+				class="octicon octicon-link"></span></a>9. JPA Persistence Configuration
+		</h3>
+
+		<div class="highlight highlight-java">
+			<pre>
+								<span class="pl-k">package</span> <span class="pl-smp">com.prapps.tutorial.spring.ioc</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">java.util.Properties</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">javax.inject.Singleton</span>;
+<span class="pl-k">import</span> <span class="pl-smi">javax.persistence.EntityManager</span>;
+<span class="pl-k">import</span> <span class="pl-smi">javax.persistence.EntityManagerFactory</span>;
+<span class="pl-k">import</span> <span class="pl-smi">javax.sql.DataSource</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.context.annotation.Bean</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.context.annotation.Configuration</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.context.annotation.DependsOn</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.context.annotation.Scope</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.jdbc.datasource.DriverManagerDataSource</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.orm.jpa.JpaTransactionManager</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.orm.jpa.JpaVendorAdapter</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.transaction.PlatformTransactionManager</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.transaction.annotation.EnableTransactionManagement</span>;
+
+@<span class="pl-stj">Configuration</span>
+@<span class="pl-stj">EnableTransactionManagement</span>
+@<span class="pl-stj">Singleton</span>
+<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">PersistenceConfig</span> {
+
+    <span class="pl-s">private</span> <span class="pl-s">static</span> <span class="pl-s">final</span> <span class="pl-stj">String</span> <span
+					class="pl-c1">PERSISTENT_UNIT_NAME</span> <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>employee-persister<span
+					class="pl-pds">"</span></span>;
+
+    <span class="pl-st">@Bean</span>
+    <span class="pl-st">@Scope</span>(<span class="pl-s1"><span class="pl-pds">"</span>singleton<span class="pl-pds">"</span></span>)
+    <span class="pl-s">protected</span> <span class="pl-stj">EntityManager</span> <span class="pl-en">entityManager</span>(<span class="pl-stj">EntityManagerFactory</span> <span
+					class="pl-v">entityManagerFactory</span>) {
+        <span class="pl-stj">System</span><span class="pl-k">.</span>err<span class="pl-k">.</span>println(entityManagerFactory<span class="pl-k">.</span>createEntityManager());
+        <span class="pl-k">return</span> entityManagerFactory<span class="pl-k">.</span>createEntityManager();
+    }
+
+    <span class="pl-st">@Bean</span>(<span class="pl-c1">name</span><span class="pl-k">=</span><span class="pl-c1">PERSISTENT_UNIT_NAME</span>)
+    <span class="pl-st">@Scope</span>(<span class="pl-s1"><span class="pl-pds">"</span>singleton<span class="pl-pds">"</span></span>)
+    <span class="pl-st">@DependsOn</span>(<span class="pl-s1"><span class="pl-pds">"</span>dataSource<span class="pl-pds">"</span></span>)
+    <span class="pl-s">protected</span> <span class="pl-stj">LocalContainerEntityManagerFactoryBean</span> <span class="pl-en">entityManagerFactory</span>() {
+        <span class="pl-stj">Properties</span> entityManagerProperties <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">Properties</span>();
+        entityManagerProperties<span class="pl-k">.</span>put(<span class="pl-s1"><span class="pl-pds">"</span>hibernate.dialect<span
+					class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>org.hibernate.dialect.H2Dialect<span class="pl-pds">"</span></span>);
+        entityManagerProperties<span class="pl-k">.</span>put(<span class="pl-s1"><span class="pl-pds">"</span>hibernate.hbm2ddl.auto<span
+					class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>create-drop<span class="pl-pds">"</span></span>);
+        entityManagerProperties<span class="pl-k">.</span>put(<span class="pl-s1"><span class="pl-pds">"</span>show_sql<span class="pl-pds">"</span></span>, <span
+					class="pl-s1"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>);
+        entityManagerProperties<span class="pl-k">.</span>put(<span class="pl-s1"><span class="pl-pds">"</span>hibernate.show_sql<span
+					class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>);
+        entityManagerProperties<span class="pl-k">.</span>put(<span class="pl-s1"><span class="pl-pds">"</span>hibernate.temp.use_jdbc_metadata_defaults<span
+					class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span>);
+
+        <span class="pl-stj">LocalContainerEntityManagerFactoryBean</span> em <span class="pl-k">=</span> <span class="pl-k">new</span> <span
+					class="pl-stj">LocalContainerEntityManagerFactoryBean</span>();
+        em<span class="pl-k">.</span>setDataSource(dataSource());
+        em<span class="pl-k">.</span>setPackagesToScan(<span class="pl-k">new</span> <span class="pl-stj">String</span>[] { <span class="pl-s1"><span
+					class="pl-pds">"</span>com.prapps.tutorial.spring.entities<span class="pl-pds">"</span></span> });
+
+        <span class="pl-stj">JpaVendorAdapter</span> vendorAdapter <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">HibernateJpaVendorAdapter</span>();
+        em<span class="pl-k">.</span>setJpaVendorAdapter(vendorAdapter);
+        em<span class="pl-k">.</span>setJpaProperties(entityManagerProperties);
+        <span class="pl-k">return</span> em;
+    }
+
+    <span class="pl-st">@Bean</span>
+    <span class="pl-s">protected</span> <span class="pl-stj">DataSource</span> <span class="pl-en">dataSource</span>() {
+        <span class="pl-stj">DriverManagerDataSource</span> dataSource <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">DriverManagerDataSource</span>();
+        dataSource<span class="pl-k">.</span>setDriverClassName(<span class="pl-s1"><span class="pl-pds">"</span>org.h2.Driver<span
+					class="pl-pds">"</span></span>);
+        dataSource<span class="pl-k">.</span>setUrl(<span class="pl-s1"><span class="pl-pds">"</span>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true;<span
+					class="pl-pds">"</span></span>);
+        dataSource<span class="pl-k">.</span>setUsername(<span class="pl-s1"><span class="pl-pds">"</span>sa<span class="pl-pds">"</span></span>);
+        dataSource<span class="pl-k">.</span>setPassword(<span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>);
+        <span class="pl-k">return</span> dataSource;
+    }
+
+    <span class="pl-st">@Bean</span>
+    <span class="pl-s">protected</span> <span class="pl-stj">PlatformTransactionManager</span> <span class="pl-en">transactionManager</span>(<span
+					class="pl-stj">EntityManagerFactory</span> <span class="pl-v">emf</span>) {
+        <span class="pl-stj">JpaTransactionManager</span> transactionManager <span class="pl-k">=</span> <span class="pl-k">new</span> <span
+					class="pl-stj">JpaTransactionManager</span>();
+        transactionManager<span class="pl-k">.</span>setEntityManagerFactory(emf);
+
+        <span class="pl-k">return</span> transactionManager;
+    }
+
+    <span class="pl-st">@Bean</span>
+    <span class="pl-s">protected</span> <span class="pl-stj">PersistenceExceptionTranslationPostProcessor</span> <span class="pl-en">exceptionTranslation</span>() {
+        <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-stj">PersistenceExceptionTranslationPostProcessor</span>();
+    }
+}</pre>
+		</div>
+
+		<p>
+			It must be kept in mind that
+			<code>java@Inject</code>
+			should not be used when injecting the
+			<code>javaEntityManager</code>
+			as it will create a new instance of entityManager every time. You can avoid this by requesting a transactional EntityManager (also called "shared
+			<code>EntityManager</code>
+			" because it is a shared, thread-safe proxy for the actual transactional EntityManager) to be injected instead of the factory:
+		</p>
+
+		<p>
+			The
+			<code>java@PersistenceContext</code>
+			annotation has an optional attribute type, which defaults to
+			<code>javaPersistenceContextType.TRANSACTION</code>
+			. This default is what you need to receive a shared
+			<code>javaEntityManager</code>
+			proxy. The alternative,
+			<code>javaPersistenceContextType.EXTENDED</code>
+			, is a completely different affair: This results in a so-called extended EntityManager, which is not thread-safe and hence must not be used in a
+			concurrently accessed component such as a Spring-managed singleton bean. Extended EntityManagers are only supposed to be used in stateful
+			components that, for example, reside in a session, with the lifecycle of the
+			<code>javaEntityManager</code>
+			not tied to a current transaction but rather being completely up to the application. Please refer to <a
+				href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/orm.html">Spring Docs</a> for further details.
+		</p>
+
+		<p>
+			The
+			<code>java@EnableTransactionManagement</code>
+			anotation enables Spring's annotation-driven transaction management capability, similar to the support found in Spring's &lt;tx:*&gt; XML
+			namespace. Please refer to <a
+				href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/transaction/annotation/EnableTransactionManagement.html">Spring
+				API</a> for further details.
+		</p>
+
+		<p>For reference, the example above can be compared to the following Spring XML configuration:</p>
+
+		<div class="highlight highlight-xml">
+			<pre> &lt;<span class="pl-ent">beans</span>&gt;
+     ...
+     &lt;<span class="pl-ent">tx</span><span class="pl-ent">:</span><span class="pl-ent">annotation-driven</span>/&gt;
+
+     &lt;<span class="pl-ent">bean</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">"</span>dataSource<span
+					class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>org.springframework.jdbc.datasource.DriverManagerDataSource<span
+					class="pl-pds">"</span></span>/&gt;
+     &lt;<span class="pl-ent">bean</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">"</span>transactionManager<span
+					class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>org.springframework.orm.jpa.JpaTransactionManager<span
+					class="pl-pds">"</span></span>&gt;
+         &lt;<span class="pl-ent">constructor-arg</span> <span class="pl-e">ref</span>=<span class="pl-s1"><span class="pl-pds">"</span>dataSource<span
+					class="pl-pds">"</span></span>/&gt;
+     &lt;/<span class="pl-ent">bean</span>&gt;
+ &lt;/<span class="pl-ent">beans</span>&gt;</pre>
+		</div>
+
+		<h3>
+			<a id="user-content-10-testclient" class="anchor" href="#10-testclient" aria-hidden="true"><span class="octicon octicon-link"></span></a>10.
+			TestClient
+		</h3>
+
+		<div class="highlight highlight-java">
+			<pre>
+								<span class="pl-k">package</span> <span class="pl-smp">com.prapps.tutorial.spring.java.config</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">java.util.Collection</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">javax.inject.Inject</span>;
+<span class="pl-k">import</span> <span class="pl-smi">javax.transaction.Transactional</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">org.apache.log4j.Logger</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.junit.Test</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.junit.runner.RunWith</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.test.context.ContextConfiguration</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.springframework.test.context.junit4.SpringJUnit4ClassRunner</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.spring.ioc.AppContext</span>;
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.spring.service.api.EmployeeService</span>;
+<span class="pl-k">import</span> <span class="pl-smi">com.prapps.tutorial.spring.vo.Employee</span>;
+
+@RunWith(<span class="pl-stj">SpringJUnit4ClassRunner</span><span class="pl-k">.</span>class)
+@ContextConfiguration(classes<span class="pl-k">=</span>{<span class="pl-stj">AppContext</span><span class="pl-k">.</span>class})
+<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">SpringJavaConfigTestClient</span> {
+
+    <span class="pl-s">private</span> <span class="pl-s">static</span> <span class="pl-s">final</span> <span class="pl-stj">Logger</span> <span
+					class="pl-c1">LOG</span> <span class="pl-k">=</span> <span class="pl-stj">Logger</span><span class="pl-k">.</span>getLogger(<span class="pl-stj">SpringJavaConfigTestClient</span><span
+					class="pl-k">.</span>class);
+    <span class="pl-st">@Inject</span> <span class="pl-s">private</span> <span class="pl-stj">EmployeeService</span> employeeService; 
+
+    <span class="pl-st">@Test</span>
+    <span class="pl-st">@Transactional</span>
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">testAddEmployee</span>() {
+        <span class="pl-stj">Employee</span> employee <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">Employee</span>();
+        employee<span class="pl-k">.</span>setId(<span class="pl-c1">101l</span>);
+        employee<span class="pl-k">.</span>setName(<span class="pl-s1"><span class="pl-pds">"</span>Souvik Majumder<span class="pl-pds">"</span></span>);
+        employee<span class="pl-k">.</span>setSalary(<span class="pl-c1">1234.0d</span>);
+        employeeService<span class="pl-k">.</span>addEmployee(employee);
+
+        employee <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">Employee</span>();
+        employee<span class="pl-k">.</span>setId(<span class="pl-c1">102l</span>);
+        employee<span class="pl-k">.</span>setName(<span class="pl-s1"><span class="pl-pds">"</span>Pratik Sengupta<span class="pl-pds">"</span></span>);
+        employee<span class="pl-k">.</span>setSalary(<span class="pl-c1">4321.0d</span>);
+        employeeService<span class="pl-k">.</span>addEmployee(employee);
+
+        employee <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">Employee</span>();
+        employee<span class="pl-k">.</span>setId(<span class="pl-c1">103l</span>);
+        employee<span class="pl-k">.</span>setName(<span class="pl-s1"><span class="pl-pds">"</span>Debojit Chatterjee<span class="pl-pds">"</span></span>);
+        employee<span class="pl-k">.</span>setSalary(<span class="pl-c1">8675.0d</span>);
+        employeeService<span class="pl-k">.</span>addEmployee(employee);
+    }
+
+    <span class="pl-st">@Test</span>
+    <span class="pl-st">@Transactional</span>
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">testSearchEmployee</span>() {
+        testAddEmployee();
+
+        <span class="pl-stj">Employee</span> employee <span class="pl-k">=</span> employeeService<span class="pl-k">.</span>searchEmployeeById(<span
+					class="pl-c1">101l</span>);
+        assert(<span class="pl-s1"><span class="pl-pds">"</span>Souvik Majumder<span class="pl-pds">"</span></span><span class="pl-k">.</span>equals(employee<span
+					class="pl-k">.</span>getName()));
+        assert(<span class="pl-c1">1234d</span> <span class="pl-k">==</span> employee<span class="pl-k">.</span>getSalary());
+    }
+
+    <span class="pl-st">@Test</span>
+    <span class="pl-st">@Transactional</span>
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">testSearchEmployeeByName</span>() {
+        testAddEmployee();
+
+        <span class="pl-st">Collection&lt;<span class="pl-stj">Employee</span>&gt;</span> employees <span class="pl-k">=</span> employeeService<span
+					class="pl-k">.</span>searchEmployeeByName(<span class="pl-s1"><span class="pl-pds">"</span>Pratik Sengupta<span class="pl-pds">"</span></span>);
+        assert(employees<span class="pl-k">.</span>size() <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>);
+
+        <span class="pl-stj">Employee</span> employee <span class="pl-k">=</span> employees<span class="pl-k">.</span>iterator()<span class="pl-k">.</span>next();
+        assert(<span class="pl-s1"><span class="pl-pds">"</span>Pratik Sengupta<span class="pl-pds">"</span></span><span class="pl-k">.</span>equals(employee<span
+					class="pl-k">.</span>getName()));
+        assert(<span class="pl-c1">4321d</span> <span class="pl-k">==</span> employee<span class="pl-k">.</span>getSalary());
+        <span class="pl-c1">LOG</span><span class="pl-k">.</span>debug(employee);
+    }
+}</pre>
+		</div>
+
+		<h3>
+			<a id="user-content-11-log4jxml" class="anchor" href="#11-log4jxml" aria-hidden="true"><span class="octicon octicon-link"></span></a>11. Log4j.xml
+		</h3>
+
+		<div class="highlight highlight-xml">
+			<pre>&lt;?<span class="pl-ent">xml</span><span class="pl-e"> version</span>=<span class="pl-s1"><span class="pl-pds">"</span>1.0<span
+					class="pl-pds">"</span></span><span class="pl-e"> encoding</span>=<span class="pl-s1"><span class="pl-pds">"</span>UTF-8<span class="pl-pds">"</span></span> ?&gt;
+&lt;!<span class="pl-k">DOCTYPE</span> <span class="pl-v">log4j:configuration</span> SYSTEM "log4j.dtd"&gt;
+&lt;<span class="pl-ent">log4j</span><span class="pl-ent">:</span><span class="pl-ent">configuration</span> <span class="pl-e">debug</span>=<span
+					class="pl-s1"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>
+                     <span class="pl-e">xmlns</span><span class="pl-e">:</span><span class="pl-e">log4j</span>=<span class="pl-s1"><span
+					class="pl-pds">'</span>http://jakarta.apache.org/log4j/<span class="pl-pds">'</span></span>&gt;
+
+   &lt;<span class="pl-ent">appender</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>consoleAppender<span
+					class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>org.apache.log4j.ConsoleAppender<span
+					class="pl-pds">"</span></span>&gt;
+      &lt;<span class="pl-ent">layout</span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>org.apache.log4j.PatternLayout<span
+					class="pl-pds">"</span></span>&gt;
+         &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>ConversionPattern<span
+					class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>%d{dd MMM yyyy HH:mm:ss} %5p %c{1} - %m%n<span
+					class="pl-pds">"</span></span>/&gt;
+      &lt;/<span class="pl-ent">layout</span>&gt;
+   &lt;/<span class="pl-ent">appender</span>&gt;
+
+   &lt;<span class="pl-ent">appender</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>fileAppender<span
+					class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>org.apache.log4j.RollingFileAppender<span
+					class="pl-pds">"</span></span>&gt;
+      &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>append<span
+					class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span>/&gt;
+      &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>file<span
+					class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>out/learning.log<span
+					class="pl-pds">"</span></span>/&gt;
+      &lt;<span class="pl-ent">layout</span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>org.apache.log4j.PatternLayout<span
+					class="pl-pds">"</span></span>&gt;
+         &lt;<span class="pl-ent">param</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>ConversionPattern<span
+					class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>%d{ABSOLUTE} %-5p [%c{1}] %m%n<span
+					class="pl-pds">"</span></span>/&gt;
+      &lt;/<span class="pl-ent">layout</span>&gt;
+   &lt;/<span class="pl-ent">appender</span>&gt;
+
+    &lt;<span class="pl-ent">logger</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>com.prapps.tutorial<span
+					class="pl-pds">"</span></span> <span class="pl-e">additivity</span>=<span class="pl-s1"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span>&gt;  
+        &lt;<span class="pl-ent">level</span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>trace<span
+					class="pl-pds">"</span></span> /&gt;
+        &lt;<span class="pl-ent">appender-ref</span> <span class="pl-e">ref</span>=<span class="pl-s1"><span class="pl-pds">"</span>consoleAppender<span
+					class="pl-pds">"</span></span> /&gt;
+    &lt;/<span class="pl-ent">logger</span>&gt; 
+
+     &lt;<span class="pl-ent">logger</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>org.hibernate<span
+					class="pl-pds">"</span></span> <span class="pl-e">additivity</span>=<span class="pl-s1"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span>&gt;  
+        &lt;<span class="pl-ent">level</span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>trace<span
+					class="pl-pds">"</span></span> /&gt;
+        &lt;<span class="pl-ent">appender-ref</span> <span class="pl-e">ref</span>=<span class="pl-s1"><span class="pl-pds">"</span>consoleAppender<span
+					class="pl-pds">"</span></span> /&gt;
+    &lt;/<span class="pl-ent">logger</span>&gt; 
+
+   &lt;<span class="pl-ent">root</span>&gt;
+      &lt;<span class="pl-ent">level</span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>INFO<span
+					class="pl-pds">"</span></span>/&gt;
+      &lt;<span class="pl-ent">appender-ref</span> <span class="pl-e">ref</span>=<span class="pl-s1"><span class="pl-pds">"</span>consoleAppender<span
+					class="pl-pds">"</span></span>/&gt;
+      &lt;<span class="pl-ent">appender-ref</span> <span class="pl-e">ref</span>=<span class="pl-s1"><span class="pl-pds">"</span>fileAppender<span
+					class="pl-pds">"</span></span>/&gt;
+   &lt;/<span class="pl-ent">root</span>&gt;
+
+&lt;/<span class="pl-ent">log4j</span><span class="pl-ent">:</span><span class="pl-ent">configuration</span>&gt;</pre>
+		</div>
+
+		<p>One of the major advantage of configuring the EntityManager with annotation is that we can use package scanner otherwise using
+			persistence.xml we had to list all the entity classes or give the jar location.</p>
+
+	</div>
+</body>
+</html>

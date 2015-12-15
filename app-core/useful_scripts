@@ -1,0 +1,2 @@
+cd git/openshift/app/app-core/src/main/resources/static
+sudo python -m SimpleHTTPServer 80
