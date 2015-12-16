@@ -22,6 +22,10 @@ public class TrafficServiceImpl implements TrafficService {
 	}
 	@Override
 	public void logTraffic(String remoteAddr, String uri) {
+		if ("7e5b1ce27f15ae829a6bf6e9e14f6931f5f3b218".equals(remoteAddr)) {
+			return;
+		}
+		
 		TrafficEntity entity = new TrafficEntity();
 		entity.setFrom(remoteAddr);
 		entity.setUri(uri);
