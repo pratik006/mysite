@@ -1,4 +1,4 @@
-<link href="lceditor/editor.css" type="text/css" rel="stylesheet"/>
+<link href="/resources/lceditor/editor.css" type="text/css" rel="stylesheet"/>
 <link rel="stylesheet" href="/bootstrap/font-awesome/css/font-awesome.min.css">
 <div class="col-md-12">
 <% var label = "Create";
@@ -40,48 +40,10 @@
 </div>
 
 
-<script src="lceditor/editor.js"></script>
+<script src="/resources/lceditor/editor.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#rtContent").Editor();        
-
-        /**$('#msgBox').on('shown.bs.modal', function () {
-          $('#myInput').focus()
-        });
-
-        $("#msgClose").click(function() {
-            redirect(ACTION_PATHS['successfulCreateBlog'], 100);
-        });**/
     });
-    
-    /**$("#btnCreate").click(function() {$('#msgBox').modal('show');
-        var blogPost = new Object();
-        blogPost.title = $("#title").val();
-        blogPost.coverLink = $("#previewLink").val();
-        blogPost.content = $("#rtContent").Editor("getText");
-        console.log(JSON.stringify(blogPost));
-        $.ajax({
-          type: "POST",
-          contentType: "application/json; charset=utf-8",
-          Accept: "application/json",
-          url: ACTION_PATHS['create'],
-          data: JSON.stringify(blogPost),
-          success: function(result){
-             $('#msgBox').modal('show');
-             redirect(ACTION_PATHS['successfulCreateBlog'], 10000);
-          }
-        });
-    });
-    
-    $("#btnCancel").click(function() {
-        $("#title").val("");
-        $("#previewLink").val("");
-        $("#content").Editor("setText", "");
-    });
-
-    function redirect(url, time) {
-        window.location.replace(url);
-        setTimeout("redirect()", time);
-    }**/
 
 </script>

@@ -1,4 +1,4 @@
-package com.prapps.app.core.secutiry;
+package com.prapps.app.core.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
