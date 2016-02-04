@@ -11,7 +11,7 @@
         <p><span class="glyphicon glyphicon-time"></span> Posted on <%=formatDate(created)%></p><hr>
 
         <% if (blog.get("coverLink")) { %>
-                <img class="img-responsive" src=<%=blog.get("coverLink")%> ><hr>
+                <img class="img-responsive" src=<%=blog.get("coverLink")%> /><hr>
         <% } %>
 
         <% if(blog.get("lead")) { %>

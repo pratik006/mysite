@@ -5,9 +5,11 @@
         by <a href="../#<%=blog.get("createdBy")%>"><span id="postBy"><%=blog.get("createdBy")%></span></a>
     </p>
 </div>
+<% if(loggedUser && loggedUser.userName) { %>
 <div style="float: right;">
-    <p style="vertical-align: middle; " class="pull-right"><a href="#edit/<%=blog.get("id")%>">Edit</a> </p>
+    <p style="vertical-align: middle; " class="pull-right"><a href="#edit/<%=blog.get("id")%>">Edit <% if(loggedUser) %> <%= loggedUser.userName %> </a> </p>
 </div>
+<% } %>
 <hr style="clear: left;" />
 <div>
 
@@ -19,7 +21,7 @@
 <hr>
 
 <!-- Preview Image -->
-<img id="coverImage" class="img-responsive" src=<%=blog.get("coverLink")%>>
+<img id="coverImage" class="img-responsive" src=<%=blog.get("coverLink")%> />
 
 
 <!-- Post Content -->

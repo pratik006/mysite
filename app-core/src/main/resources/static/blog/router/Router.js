@@ -1,3 +1,4 @@
+var loginView = new LoginView();
 var blogView = new BlogView();
 var blogPostView = new BlogPostView();
 var createPostView = new CreatePostView();
@@ -7,7 +8,7 @@ var createPostView = new CreatePostView();
         '': 'home',
         'blogPost/:id': 'blogPost',
         'create': 'create',
-        'edit/:id': 'edit'
+        'edit/:id': 'edit',
     }
 });
 
@@ -15,6 +16,7 @@ var router = new Router();
 
 router.on('route:home', function() {
     blogView.render();
+    loginView.render();
 });
 router.on('route:blogPost', function(id) {
     blogPostView.render(id);

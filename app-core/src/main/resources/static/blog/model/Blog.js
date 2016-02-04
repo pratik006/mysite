@@ -1,7 +1,9 @@
- var Blogs = Backbone.Collection.extend({
-    url: '/rest/blogs'
+var Blogs = Backbone.Collection.extend({
+    url: '/rest/blog'
 });
 var BlogPost = Backbone.Model.extend({
-    urlRoot: '/rest/blogs',
+    urlRoot: '/rest/blog',
     idAttribute: 'id'
 });
+
+var loggedUser;

@@ -1,3 +1,35 @@
+var LoginView = Backbone.View.extend({
+    el: '.dropdown',
+    render: function() {
+        console.log('within render');
+        var that = this;        
+        var html = render('login-form-template');
+        that.$el.html(html);                
+    },
+
+    events: {
+        "click #btnSignIn": "signIn"
+    },
+
+    signIn: function () {
+        console.log('signing in..');
+        var that = this;
+        $.ajax({
+          type: "POST",
+          url: ACTION_PATHS['login'],
+          data: $('#navbar-form').serialize(),
+          success: function(result) {
+            console.log(result);
+            loggedUser = result;
+            that.$el.hide();
+            $('.navbar-collapse ul').append('<li id="mnuCreate"><a href="#create">Create</a></li>');
+          },
+        });
+        router.navigate('', {trigger: false});      
+        
+    },
+});
+
 var BlogView = Backbone.View.extend({
     el: '#viewport',
     render: function() {
@@ -19,7 +51,7 @@ var BlogPostView = Backbone.View.extend({
         var blogPost = new BlogPost({id: id});
         blogPost.fetch({
             success: function(blog) {
-                var html = render('blog-post-template', {blog: blog, formatDate: formatDate});
+                var html = render('blog-post-template', {blog: blog, formatDate: formatDate, loggedUser: loggedUser});
                 that.$el.html(html);        
             }
         });                
