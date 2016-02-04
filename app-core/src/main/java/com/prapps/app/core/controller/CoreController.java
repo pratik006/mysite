@@ -27,7 +27,7 @@ public class CoreController {
 		this.userService = userService;
 	}
 	
-	@RequestMapping(value = "/userinfo", method = RequestMethod.POST)
+	@RequestMapping(value = "/userinfo", method = RequestMethod.GET)
 	@Consumes(value=  MediaType.APPLICATION_JSON)
     public @ResponseBody User getUserInfo() {
 		UserDetails userDetails =

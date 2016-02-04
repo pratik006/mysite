@@ -8,14 +8,14 @@ public class User implements Serializable {
 
 	private long userId;
 	private String userName;
-	//private String password;
+	private String password;
 	private String firstName;
 	private String lastName;
 	private String appCode;
-	/*private Boolean enabled;
+	private Boolean enabled;
 	private Boolean credentialExpired;
 	private Boolean locked;
-	private Boolean expired;*/
+	private Boolean expired;
 	
 	//private transient String roleStr;
 	
@@ -33,12 +33,12 @@ public class User implements Serializable {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	/*public String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}*/
+	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -80,7 +80,7 @@ public class User implements Serializable {
 	public void setAppCode(String appCode) {
 		this.appCode = appCode;
 	}
-	/*public Boolean isLocked() {
+	public Boolean isLocked() {
 		return locked;
 	}
 	public void setLocked(Boolean locked) {
@@ -104,7 +104,7 @@ public class User implements Serializable {
 	}
 	public void setCredentialExpired(Boolean credentialExpired) {
 		this.credentialExpired = credentialExpired;
-	}*/
+	}
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", firstName=" + firstName + ", lastName=" + lastName

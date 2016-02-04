@@ -33,7 +33,7 @@ public class CorsFilter implements Filter {
 	
 	private TrafficService trafficService;
 	private @Value("${urls.to.log}") String loggableUrls;
-	private Set<String> loggableUrlSet = new HashSet<>();
+	private Set<String> loggableUrlSet = new HashSet<String>();
 	
 	@Inject
 	public CorsFilter(TrafficService trafficService) {
