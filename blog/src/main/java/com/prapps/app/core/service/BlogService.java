@@ -57,7 +57,9 @@ public class BlogService {
 	public Collection<BlogPost> findAll() throws BlogServiceException {
 		try {
 			return CollectionUtil.copyProperties(blogRepository.findAll(new Sort(Sort.Direction.DESC, "created")), BlogPost.class);
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (InstantiationException e) {
+			throw new BlogServiceException(e);
+		} catch (IllegalAccessException e) {
 			throw new BlogServiceException(e);
 		}
 	}

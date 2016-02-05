@@ -30,7 +30,7 @@ import com.prapps.app.core.service.BlogService;
 @Controller
 @ControllerAdvice
 @CrossOrigin
-@RequestMapping("/rest/blogs")
+@RequestMapping("/rest/blog")
 public class BlogController {
 
 	private BlogService blogService;
@@ -44,7 +44,7 @@ public class BlogController {
 	@Consumes(value = MediaType.APPLICATION_JSON)
 	public @ResponseBody ResponseEntity<HttpStatus> options(@RequestBody BlogPost blogPost) {
 		HttpHeaders headers = new HttpHeaders();
-		Set<HttpMethod> allow = new HashSet<>();
+		Set<HttpMethod> allow = new HashSet<HttpMethod>();
 		allow.add(HttpMethod.GET);
 		allow.add(HttpMethod.POST);
 		allow.add(HttpMethod.PUT);
@@ -52,10 +52,10 @@ public class BlogController {
 		allow.add(HttpMethod.OPTIONS);
 		headers.setAllow(allow);
 
-		return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+		return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
 	@Consumes(value = MediaType.APPLICATION_JSON)
 	public @ResponseBody BlogPost create(@RequestBody BlogPost blogPost) {
 		return blogService.create(blogPost);
@@ -78,4 +78,5 @@ public class BlogController {
 	public @ResponseBody BlogPost getBlog(@PathVariable("id") Long id) {
 		return blogService.getBlog(id);
 	}
+	
 }
