@@ -7,8 +7,10 @@ var createPostView = new CreatePostView();
     routes: {
         '': 'home',
         'blogPost/:id/:code': 'blogPost',
+        'blogPost/:id': 'blogPost',
         'create': 'create',
         'edit/:id': 'edit',
+        'edit/:id/:code': 'edit',
     }
 });
 

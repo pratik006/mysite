@@ -51,7 +51,7 @@ var BlogPostView = Backbone.View.extend({
         var blogPost = new BlogPost({id: id});
         blogPost.fetch({
             success: function(blog) {
-                var html = render('blog-post-template', {blog: blog, formatDate: formatDate, loggedUser: loggedUser});
+                var html = render('blog-post-template', {blog: blog, formatDate: formatDate, loggedUser: loggedUser, user: user});
                 that.$el.html(html);        
             }
         });                

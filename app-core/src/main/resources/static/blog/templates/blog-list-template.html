@@ -4,7 +4,7 @@
 </h1>
 <% _.each(blogs, function(blog) { %>
     <div id="blogEntry">
-        <h2><a href="#blogPost/<%=blog.id%>"><%=blog.get("title")%></a></h2>
+        <h2><a href="#blogPost/<%=blog.id%>/<%= blog.get('blogCode') %>"><%=blog.get("title")%></a></h2>
 
         <p class="lead">by <a href="../#about"><%=blog.get("createdBy")%></a></p>
         <% created = blog.get("created"); %>
