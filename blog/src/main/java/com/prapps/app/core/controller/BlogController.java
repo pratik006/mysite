@@ -73,10 +73,16 @@ public class BlogController {
 		return blogService.findAll();
 	}
 
+	@RequestMapping(value = "/{id}/{blogCode}", method = RequestMethod.GET)
+	@Produces(value = MediaType.APPLICATION_JSON)
+	public @ResponseBody BlogPost getBlog(@PathVariable("id") Long id, @PathVariable(value = "blogCode") String blogCode) {
+		return blogService.getBlog(id);
+	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@Produces(value = MediaType.APPLICATION_JSON)
 	public @ResponseBody BlogPost getBlog(@PathVariable("id") Long id) {
-		return blogService.getBlog(id);
+		return getBlog(id, null);
 	}
 	
 }

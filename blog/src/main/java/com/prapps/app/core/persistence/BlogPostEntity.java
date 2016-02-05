@@ -22,6 +22,9 @@ public class BlogPostEntity implements Serializable {
 	@Column(name="ID")
 	private Long id;
 	
+	@Column(name="BLOG_CODE")
+	private String blogCode;
+	
 	@Column(name="TITLE")
 	private String title;
 	
@@ -56,6 +59,12 @@ public class BlogPostEntity implements Serializable {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getBlogCode() {
+		return blogCode;
+	}
+	public void setBlogCode(String blogCode) {
+		this.blogCode = blogCode;
 	}
 	public String getTitle() {
 		return title;

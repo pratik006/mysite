@@ -6,7 +6,7 @@ var createPostView = new CreatePostView();
  var Router = Backbone.Router.extend({
     routes: {
         '': 'home',
-        'blogPost/:id': 'blogPost',
+        'blogPost/:id/:code': 'blogPost',
         'create': 'create',
         'edit/:id': 'edit',
     }

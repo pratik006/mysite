@@ -22,6 +22,6 @@
             <p><%=blog.get("intro")%></p>
         <% } %>
 
-        <a class="btn btn-primary" href="#blogPost/<%=blog.id%>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a><hr></div>
+        <a class="btn btn-primary" href="#blogPost/<%=blog.id%>/<%= blog.get('blogCode') %>">Read More<span class="glyphicon glyphicon-chevron-right"></span></a><hr></div>
     </div>
 <%}) %>

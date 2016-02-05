@@ -8,6 +8,7 @@ public class BlogPost implements Serializable {
 	
 	private Long id;
 	private String title;
+	private String blogCode;
 	private String intro;
 	private String lead;
 	private String coverLink;
@@ -28,6 +29,12 @@ public class BlogPost implements Serializable {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getBlogCode() {
+		return blogCode;
+	}
+	public void setBlogCode(String blogCode) {
+		this.blogCode = blogCode;
 	}
 	public String getIntro() {
 		return intro;
