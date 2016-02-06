@@ -34,6 +34,8 @@ public class CorsFilter implements Filter {
 	private TrafficService trafficService;
 	private @Value("${urls.to.log}") String loggableUrls;
 	private Set<String> loggableUrlSet = new HashSet<String>();
+	@Value("${chess.server.uri}")
+	private String chessServerUri;
 	
 	@Inject
 	public CorsFilter(TrafficService trafficService) {
@@ -43,7 +45,10 @@ public class CorsFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		log.debug("loggableUrls: " + loggableUrls);
+		if (log.isDebugEnabled()) {
+			log.debug("loggableUrls: " + loggableUrls);
+		}
+		
 		for (String url : loggableUrls.split(";")) {
 			loggableUrlSet.add(url);
 		}
@@ -54,9 +59,24 @@ public class CorsFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		
 		String remoteAddr = servletRequest.getRemoteAddr();
 		String uri = request.getRequestURI();
-		 if (loggableUrlSet.contains(uri)) {
+		if (log.isDebugEnabled()) {
+			log.debug("Request Uri: "+uri);
+		}
+		
+		
+		if (uri.contains(chessServerUri)) {
+			log.debug("Chess server: "+uri+"\t"+remoteAddr);
+			String resp = handleChessServerRequest(request, response);
+			response.getOutputStream().write(resp.getBytes());
+			response.setContentLength(resp.getBytes().length);
+			response.getOutputStream().close();
+			return;
+		} 
+		
+		if (loggableUrlSet.contains(uri)) {
 			 String hash;
 			try {
 				hash = makeSHA1Hash(remoteAddr);
@@ -80,18 +100,38 @@ public class CorsFilter implements Filter {
 	}
 	
 	 public String makeSHA1Hash(String input)
-	            throws NoSuchAlgorithmException, UnsupportedEncodingException
-	        {
-	            MessageDigest md = MessageDigest.getInstance("SHA1");
-	            md.reset();
-	            byte[] buffer = input.getBytes("UTF-8");
-	            md.update(buffer);
-	            byte[] digest = md.digest();
+	            throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA1");
+        md.reset();
+        byte[] buffer = input.getBytes("UTF-8");
+        md.update(buffer);
+        byte[] digest = md.digest();
 
-	            String hexStr = "";
-	            for (int i = 0; i < digest.length; i++) {
-	                hexStr +=  Integer.toString( ( digest[i] & 0xff ) + 0x100, 16).substring( 1 );
-	            }
-	            return hexStr;
-	        }
+        String hexStr = "";
+        for (int i = 0; i < digest.length; i++) {
+            hexStr +=  Integer.toString( ( digest[i] & 0xff ) + 0x100, 16).substring( 1 );
+        }
+        return hexStr;
+    }
+	 
+	 public String handleChessServerRequest(HttpServletRequest req, HttpServletResponse servletResponse) {
+		 String action = req.getParameter("action");
+		 String ip = req.getParameter("ip");
+		 String localip = req.getParameter("localip");
+		 String port = req.getParameter("port");
+		 String param = req.getParameter("param");
+		 
+		if("set".equalsIgnoreCase(action)) {
+			req.getSession().getServletContext().setAttribute("ip", ip);
+			req.getSession().getServletContext().setAttribute("localip", localip);
+			req.getSession().getServletContext().setAttribute("port", port);
+		}
+		else if("get".equalsIgnoreCase(action)){
+			return (String)req.getSession().getServletContext().getAttribute(param);
+		}
+		else if("my_ip".equalsIgnoreCase(action)){
+			return req.getRemoteAddr();
+		}
+		return ip;
+	 }
 }
