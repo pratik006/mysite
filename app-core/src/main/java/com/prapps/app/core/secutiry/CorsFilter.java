@@ -74,7 +74,11 @@ public class CorsFilter implements Filter {
 			response.setContentLength(resp.getBytes().length);
 			response.getOutputStream().close();
 			return;
-		} 
+		}else if (uri.contains("mulpokhri.html")) {
+			request.getRequestDispatcher("/rest/blog/14/mulpokhri")
+				.forward(request, response);
+			return;
+		}
 		
 		if (loggableUrlSet.contains(uri)) {
 			 String hash;
