@@ -26,6 +26,11 @@
 			<artifactId>blog</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.prapps.app</groupId>
+			<artifactId>app-ui</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

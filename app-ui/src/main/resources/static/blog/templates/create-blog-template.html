@@ -21,6 +21,8 @@
             <% } %>
             <label for="title">Title:</label>
             <input type="text" class="form-control" name="title" value="<%= getAttribute(blog, "title") %>" >
+            <label for="title">Code:</label>
+            <input type="text" class="form-control" name="blogCode" value="<%= getAttribute(blog, "blogCode") %>" >
             <label for="coverLink">Preview Link (picture):</label>
             <input type="text" class="form-control" name="coverLink" value="<%= getAttribute(blog, "coverLink")%>" >
             <div class="media img-responsive">

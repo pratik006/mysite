@@ -10,16 +10,22 @@
   <loc>http://apps-pratiks.rhcloud.com/</loc>
   <lastmod>2016-02-05T18:39:04+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.5</priority>
+</url>
+<url>
+  <loc>http://apps-pratiks.rhcloud.com/blog/index.html</loc>
+  <lastmod>2016-02-05T18:39:04+00:00</lastmod>
+  <changefreq>weekly</changefreq>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>http://apps-pratiks.rhcloud.com/rest/blog/14/mulpokhri</loc>
+  <loc>http://apps-pratiks.rhcloud.com/blog/index.html#blogPost/14/mulpokhri</loc>
   <lastmod>2016-02-05T18:39:04+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://apps-pratiks.rhcloud.com/rest/blog/1/sandakphu_revisited</loc>
+  <loc>http://apps-pratiks.rhcloud.com/blog/index.html#blogPost/1/sandakphu_revisited</loc>
    <lastmod>2016-02-05T18:39:04+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
