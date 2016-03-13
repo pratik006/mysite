@@ -1,4 +1,5 @@
 var loginView = new LoginView();
+var footerView = new FooterView();
 var blogView = new BlogView();
 var blogPostView = new BlogPostView();
 var createPostView = new CreatePostView();
@@ -19,6 +20,7 @@ var router = new Router();
 router.on('route:home', function() {
     blogView.render();
     loginView.render();
+    footerView.render();
 });
 router.on('route:blogPost', function(id) {
     blogPostView.render(id);

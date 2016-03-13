@@ -30,6 +30,15 @@ var LoginView = Backbone.View.extend({
     },
 });
 
+var FooterView = Backbone.View.extend({
+    el: 'footer',
+    render: function() {
+        var that = this;        
+        var html = render('footer-template');
+        that.$el.html(html);                
+    }
+});
+
 var BlogView = Backbone.View.extend({
     el: '#viewport',
     render: function() {
