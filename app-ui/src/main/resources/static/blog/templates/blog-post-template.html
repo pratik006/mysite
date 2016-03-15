@@ -29,15 +29,12 @@
     <%=blog.get("content")%>                    
 </div>
 
-<hr>
-
-<!-- Blog Comments -->
-
 <!-- Comments Form -->
 <div class="well">
     <h4>Leave a Comment:</h4>
-    <form role="form">
+    <form id="comment-form" role="form">
         <div class="form-group">
+            <input type="hidden" name="blogId" value=<%= blog.id %> />
             <div style="width: 40%; float: left;">
                  Your Name: <input type="text" id="name" name="name" class="form-control" style="width: 90%;" />
             </div>
@@ -45,11 +42,15 @@
                 Your Email: <input type="text" id="email" name="email" class="form-control" style="width: 90%;" />
             </div>
             
-            <textarea class="form-control" rows="3"></textarea>
+            <textarea id="comment" name="comment" class="form-control" rows="3"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button id="btnAddComment" type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-
 <hr>
 
+<div class="comments">
+
+
+</div>
+<hr>

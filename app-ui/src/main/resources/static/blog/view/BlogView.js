@@ -1,7 +1,6 @@
 var LoginView = Backbone.View.extend({
     el: '.dropdown',
     render: function() {
-        console.log('within render');
         var that = this;        
         var html = render('login-form-template');
         that.$el.html(html);                
@@ -12,14 +11,12 @@ var LoginView = Backbone.View.extend({
     },
 
     signIn: function () {
-        console.log('signing in..');
         var that = this;
         $.ajax({
           type: "POST",
           url: ACTION_PATHS['login'],
           data: $('#navbar-form').serialize(),
           success: function(result) {
-            console.log(result);
             loggedUser = result;
             that.$el.hide();
             $('.navbar-collapse ul').append('<li id="mnuCreate"><a href="#create">Create</a></li>');
@@ -53,7 +50,13 @@ var BlogView = Backbone.View.extend({
         });                
     }
 });
+
 var BlogPostView = Backbone.View.extend({
+    //inner: null,
+    initialize: function() {
+        this.inner = new BlogCommentsView();
+    },
+
     el: '#viewport',
     render: function(id) {
         var that = this;
@@ -61,11 +64,51 @@ var BlogPostView = Backbone.View.extend({
         blogPost.fetch({
             success: function(blog) {
                 var html = render('blog-post-template', {blog: blog, formatDate: formatDate, loggedUser: loggedUser, user: user});
-                that.$el.html(html);        
+                that.$el.html(html);
+                //inner view rendering
+                that.inner.$el = this.$('.comments');
+                that.inner.render(id);
+                that.$('.comments').html(that.inner.$el.html());
             }
         });                
+    },
+    events: {
+        "submit #comment-form": "saveComment"
+    },
+    saveComment: function(ev) {
+        var that = this;        
+        var postDetail = $(ev.currentTarget).serializeObject();
+        var blogComment = new BlogComment();
+        blogComment.save(postDetail, {
+            success: function(comment) {
+                blogComment.id = comment.id;
+                that.inner.render(postDetail.blogId);
+                that.$('#comment-form')[0].reset();
+            },
+            error: function (model, xhr, options) {
+                console.log(xhr.result.Errors);
+            } 
+        });
+        return false;
     }
 });
+
+var BlogCommentsView = Backbone.View.extend({
+    el: '.comments',
+    render: function(blogId) {
+        var that = this;
+        var blogComments = new BlogComments();
+        blogComments.fetch({data: {blogId: blogId}, 
+            success: function(comments) {
+                var html = render('blog-post-comments-template', {comments: comments.models, formatDate: formatDate});
+                that.$el.html(html);     
+            }
+        });
+        return this;                
+    }
+});
+
+
 
 var CreatePostView = Backbone.View.extend({
     el: '#viewport',
@@ -94,11 +137,9 @@ var CreatePostView = Backbone.View.extend({
     savePost: function(ev) {
         var postDetail = $(ev.currentTarget).serializeObject();
         postDetail.content = $("#rtContent").Editor("getText");
-        console.log(postDetail);
         blogPost = new BlogPost();
         blogPost.save(postDetail, {
             success: function(post) {
-                console.log(post);
                 blogPost.id = post.id;
                 router.navigate('', {trigger: true});
             }
