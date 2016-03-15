@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.prapps.app.core.dto.BlogComment;
 import com.prapps.app.core.dto.BlogPost;
 import com.prapps.app.core.exception.BlogServiceException;
 import com.prapps.app.core.service.BlogService;
@@ -83,6 +85,21 @@ public class BlogController {
 	@Produces(value = MediaType.APPLICATION_JSON)
 	public @ResponseBody BlogPost getBlog(@PathVariable("id") Long id) {
 		return getBlog(id, null);
+	}
+	
+	@RequestMapping(value = "/comment", method = {RequestMethod.PUT, RequestMethod.POST})
+	@Consumes(value = MediaType.APPLICATION_JSON)
+	@Produces(value = MediaType.APPLICATION_JSON)
+	public @ResponseBody Collection<BlogComment> saveComment(@RequestBody BlogComment blogComment) {
+		blogService.create(blogComment);
+		return blogService.getBlog(blogComment.getBlogId()).getComments();
+	}
+	
+	@RequestMapping(value = "/comment", method = RequestMethod.GET)
+	@Consumes(value = MediaType.APPLICATION_JSON)
+	@Produces(value = MediaType.APPLICATION_JSON)
+	public @ResponseBody Collection<BlogComment> getBlogComments(@RequestParam("blogId") Long blogId) {
+		return blogService.getBlogComments(blogId);
 	}
 	
 }

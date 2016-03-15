@@ -2,11 +2,14 @@ package com.prapps.app.core.persistence;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,6 +42,10 @@ public class BlogPostEntity implements Serializable {
 	
 	@Column(name="CONTENT")
 	private String content;
+	
+	@OneToMany
+	@JoinColumn(name = "blog_id", insertable = false, updatable = false)
+	private List<BlogCommentEntity> comments;
 	
 	@Column(name="CREATED_BY")
 	private String createdBy;
@@ -95,6 +102,12 @@ public class BlogPostEntity implements Serializable {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public List<BlogCommentEntity> getComments() {
+		return comments;
+	}
+	public void setComments(List<BlogCommentEntity> comments) {
+		this.comments = comments;
 	}
 	public Calendar getCreated() {
 		return created;

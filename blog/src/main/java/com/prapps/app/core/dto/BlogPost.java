@@ -2,6 +2,7 @@ package com.prapps.app.core.dto;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Collection;
 
 public class BlogPost implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -13,6 +14,7 @@ public class BlogPost implements Serializable {
 	private String lead;
 	private String coverLink;
 	private String content;
+	private Collection<BlogComment> comments;
 	private String createdBy;
 	private String updatedBy;
 	private Calendar created;
@@ -59,6 +61,12 @@ public class BlogPost implements Serializable {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public Collection<BlogComment> getComments() {
+		return comments;
+	}
+	public void setComments(Collection<BlogComment> comments) {
+		this.comments = comments;
 	}
 	public Calendar getCreated() {
 		return created;
