@@ -15,15 +15,20 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+		<start-class>com.prapps.app.core.AppCoreApplication</start-class>
+		<tomcat.version>8.0.28</tomcat.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.prapps.app</groupId>
-			<artifactId>app-api</artifactId>
+			<artifactId>blog</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.prapps.app</groupId>
-			<artifactId>framework-util</artifactId>
+			<artifactId>app-ui</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -101,4 +106,9 @@
 			<artifactId>spring-data-commons</artifactId>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<finalName>app</finalName>
+	</build>
+
 </project>
