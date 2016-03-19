@@ -13,6 +13,7 @@ public enum RolesTypes {
 		value = type;
 	}
 	
+	@Override
 	public String toString() {
         return value;
     }
