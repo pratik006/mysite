@@ -105,6 +105,9 @@ public class User implements Serializable {
 	public void setCredentialExpired(Boolean credentialExpired) {
 		this.credentialExpired = credentialExpired;
 	}
+	public String getFullName() {
+		return firstName + " " + lastName;
+	}
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", firstName=" + firstName + ", lastName=" + lastName

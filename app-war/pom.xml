@@ -8,10 +8,10 @@
 		<artifactId>apps-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>framework-util</artifactId>
-	<name>framework-util</name>
-	<url>http://maven.apache.org</url>
-
+	<artifactId>app-war</artifactId>
+	<name>app-war</name>
+	<packaging>war</packaging>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.prapps.app</groupId>
@@ -19,17 +19,19 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
+			<groupId>com.prapps.app</groupId>
+			<artifactId>app-core</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
+			<groupId>com.prapps.app</groupId>
+			<artifactId>framework-util</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
+			<groupId>com.prapps.app</groupId>
+			<artifactId>blog</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
-
 </project>
