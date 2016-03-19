@@ -1,6 +1,5 @@
 package com.prapps.app.core.persistence;
 
-import java.io.Serializable;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -13,8 +12,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TRAFFIC")
-public class TrafficEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class TrafficEntity {
 
 	@Id
 	@GeneratedValue

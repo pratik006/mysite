@@ -1,7 +1,5 @@
 package com.prapps.app.core.persistence;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,8 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="USER_ATTR")
-public class UserAttributeEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class UserAttributeEntity {
 
 	@Id
 	@Column(name="ATTR_ID")
