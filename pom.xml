@@ -29,6 +29,7 @@
 
 	<modules>
 		<module>app-core</module>
+		<module>app-api</module>
 		<module>blog</module>
 		<module>framework-util</module>
     	<module>app-ui</module>
