@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>app-core</artifactId>
+	<artifactId>app-config</artifactId>
 	<packaging>war</packaging>
 
-	<name>AppCore</name>
-	<description>App Core</description>
+	<name>AppConfig</name>
+	<description>App Config</description>
 
 	<parent>
 		<groupId>com.prapps.app</groupId>
@@ -23,12 +23,27 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.prapps.app</groupId>
+			<artifactId>app-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.prapps.app</groupId>
+			<artifactId>blog</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.prapps.app</groupId>
 			<artifactId>framework-util</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.prapps.app</groupId>
 			<artifactId>app-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.prapps.app</groupId>
+			<artifactId>app-ui</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

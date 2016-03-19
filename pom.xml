@@ -28,6 +28,7 @@
 	</properties>
 
 	<modules>
+		<module>app-config</module>
 		<module>app-core</module>
 		<module>app-api</module>
 		<module>blog</module>
