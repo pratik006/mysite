@@ -17,10 +17,23 @@ var LoginView = Backbone.View.extend({
           url: ACTION_PATHS['login'],
           data: $('#navbar-form').serialize(),
           success: function(result) {
-            loggedUser = result;
-            that.$el.hide();
-            $('.navbar-collapse ul').append('<li id="mnuCreate"><a href="#create">Create</a></li>');
-          },
+        	  try {
+        		  user = JSON.parse(result);
+        		  loggedUser = user;
+                  that.$el.hide();
+                  $('.navbar-collapse ul').append('<li id="mnuCreate"><a href="#create">Create</a></li>');
+                  $(' <div id="success-alert" class="alert alert-success fade in">'
+                		  +'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'
+                	      +'<strong>Success!</strong> This alert box could indicate a successful or positive action.'
+                	      +'</div>'
+                	      ).insertAfter('nav');
+                  $("#success-alert").fadeTo(5000, 500).slideUp(500, function(){
+                	  $("#success-alert").alert('close');
+                  });
+        	  }catch(error) {
+        		  console.log('error occurred while logging in');
+        	  }
+          }
         });
         router.navigate('', {trigger: false});      
         
