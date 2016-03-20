@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 import javax.persistence.LockModeType;
-import javax.persistence.criteria.Order;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Sort;
@@ -15,11 +14,13 @@ import com.prapps.app.core.dataaccess.BlogCommentRepository;
 import com.prapps.app.core.dataaccess.BlogRepository;
 import com.prapps.app.core.dto.BlogComment;
 import com.prapps.app.core.dto.BlogPost;
+import com.prapps.app.core.dto.User;
 import com.prapps.app.core.exception.BlogServiceException;
 import com.prapps.app.core.mapper.BlogMapper;
 import com.prapps.app.core.persistence.BlogCommentEntity;
 import com.prapps.app.core.persistence.BlogPostEntity;
 import com.prapps.app.core.util.CollectionUtil;
+import com.prapps.app.core.util.PrincipalHelper;
 import com.prapps.app.core.util.time.TimeUtil;
 
 @Service
@@ -29,22 +30,26 @@ public class BlogService {
 	private BlogCommentRepository blogCommentRepository;
 	private TimeUtil timeUtil;
 	private BlogMapper blogMapper;
+	private PrincipalHelper principalHelper;
 	
 	@Inject
-	public BlogService(BlogRepository blogRepository, BlogCommentRepository blogCommentRepository, TimeUtil timeUtil, BlogMapper blogMapper) {
+	public BlogService(BlogRepository blogRepository, BlogCommentRepository blogCommentRepository, 
+			TimeUtil timeUtil, BlogMapper blogMapper, PrincipalHelper principalHelper) {
 		this.blogRepository = blogRepository;
 		this.blogCommentRepository = blogCommentRepository;
 		this.timeUtil = timeUtil;
 		this.blogMapper = blogMapper;
+		this.principalHelper = principalHelper;
 	}
 	
 	public BlogPost create(BlogPost post) {
+		User user = principalHelper.getUserDetails();
 		BlogPostEntity entity = new BlogPostEntity();
 		BeanUtils.copyProperties(post, entity);
 		entity.setCreated(timeUtil.getCurrentTime());
-		entity.setCreatedBy("Pratik Sengupta");
+		entity.setCreatedBy(user.getFullName());
 		entity.setUpdated(timeUtil.getCurrentTime());
-		entity.setUpdatedBy("Pratik Sengupta");
+		entity.setUpdatedBy(user.getFullName());
 		entity = blogRepository.save(entity);
 		BeanUtils.copyProperties(entity, post);
 		return post;
@@ -52,12 +57,13 @@ public class BlogService {
 	
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	public BlogPost update(BlogPost post) {
+		User user = principalHelper.getUserDetails();
 		BlogPostEntity entity = blogRepository.findOne(post.getId());
 		post.setCreated(entity.getCreated());
 		post.setCreatedBy(entity.getCreatedBy());
 		BeanUtils.copyProperties(post, entity);
 		entity.setUpdated(timeUtil.getCurrentTime());
-		entity.setUpdatedBy("Pratik Sengupta");
+		entity.setUpdatedBy(user.getFullName());
 		entity = blogRepository.save(entity);
 		BeanUtils.copyProperties(entity, post);
 		return post;
