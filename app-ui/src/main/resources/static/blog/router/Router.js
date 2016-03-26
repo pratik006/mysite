@@ -4,6 +4,7 @@ var blogView = new BlogView();
 var blogPostView = new BlogPostView();
 var createPostView = new CreatePostView();
 
+
  var Router = Backbone.Router.extend({
     routes: {
         '': 'home',
@@ -12,6 +13,7 @@ var createPostView = new CreatePostView();
         'create': 'create',
         'edit/:id': 'edit',
         'edit/:id/:code': 'edit',
+        'album/:id':'album'
     }
 });
 
@@ -30,4 +32,8 @@ router.on('route:create', function() {
 });
 router.on('route:edit', function(id) {
     createPostView.render(id);
+});
+router.on('route:album', function(id) {
+    var blogPostAlbumView = new BlogPostAlbumView();
+    blogPostAlbumView.render(id);
 });

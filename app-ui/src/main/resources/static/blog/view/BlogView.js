@@ -65,7 +65,6 @@ var BlogView = Backbone.View.extend({
 });
 
 var BlogPostView = Backbone.View.extend({
-    //inner: null,
     initialize: function() {
         this.inner = new BlogCommentsView();
     },
@@ -160,6 +159,15 @@ var CreatePostView = Backbone.View.extend({
         return false;
     },
 
+});
+
+var BlogPostAlbumView = Backbone.View.extend({
+    el: '#viewport',
+    render: function(id) {
+        var that = this;        
+        var html = render('blog-post-album-template');
+        that.$el.html(html);                
+    }
 });
 
 
