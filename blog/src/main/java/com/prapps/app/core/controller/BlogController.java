@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.prapps.app.core.dto.BlogComment;
 import com.prapps.app.core.dto.BlogPost;
+import com.prapps.app.core.dto.BlogPostLink;
 import com.prapps.app.core.exception.BlogServiceException;
 import com.prapps.app.core.service.BlogService;
 
@@ -100,6 +101,13 @@ public class BlogController {
 	@Produces(value = MediaType.APPLICATION_JSON)
 	public @ResponseBody Collection<BlogComment> getBlogComments(@RequestParam("blogId") Long blogId) {
 		return blogService.getBlogComments(blogId);
+	}
+	
+	@RequestMapping(value = "/links", method = RequestMethod.GET)
+	@Consumes(value = MediaType.APPLICATION_JSON)
+	@Produces(value = MediaType.APPLICATION_JSON)
+	public @ResponseBody Collection<BlogPostLink> getBlogPostLinks(@RequestParam("blogId") Long blogId) {
+		return blogService.getBlogPostLinks(blogId);
 	}
 	
 }

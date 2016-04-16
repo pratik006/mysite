@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 
 import com.prapps.app.core.dataaccess.BlogCommentRepository;
+import com.prapps.app.core.dataaccess.BlogPostLinksRepository;
 import com.prapps.app.core.dataaccess.BlogRepository;
 import com.prapps.app.core.dto.BlogComment;
 import com.prapps.app.core.dto.BlogPost;
@@ -32,15 +33,18 @@ public class BlogService {
 
 	private BlogRepository blogRepository;
 	private BlogCommentRepository blogCommentRepository;
+	private BlogPostLinksRepository blogPostLinksRepository;
 	private TimeUtil timeUtil;
 	private BlogMapper blogMapper;
 	private PrincipalHelper principalHelper;
 	
 	@Inject
 	public BlogService(BlogRepository blogRepository, BlogCommentRepository blogCommentRepository, 
+			BlogPostLinksRepository blogPostLinksRepository,
 			TimeUtil timeUtil, BlogMapper blogMapper, PrincipalHelper principalHelper) {
 		this.blogRepository = blogRepository;
 		this.blogCommentRepository = blogCommentRepository;
+		this.blogPostLinksRepository = blogPostLinksRepository;
 		this.timeUtil = timeUtil;
 		this.blogMapper = blogMapper;
 		this.principalHelper = principalHelper;
@@ -88,11 +92,6 @@ public class BlogService {
 		BlogPostEntity entity = blogRepository.findOne(id);
 		BeanUtils.copyProperties(entity, blogPost);
 		blogPost.setComments(blogMapper.mapComments(entity.getComments()));
-		List<BlogPostLink> links = new ArrayList<BlogPostLink>(entity.getBlogPostLinkEntities().size());
-		for(BlogPostLinkEntity link : entity.getBlogPostLinkEntities()) {
-			links.add(blogMapper.mapBlogPostLink(link));
-		}
-		blogPost.setBlogPostLinks(links);
 		return blogPost;
 	}
 	
@@ -125,5 +124,14 @@ public class BlogService {
 			}
 		}
 		return null;
+	}
+	
+	public Collection<BlogPostLink> getBlogPostLinks(Long blogId) {
+		Collection<BlogPostLinkEntity> entities = blogPostLinksRepository.findByBlogId(blogId);
+		List<BlogPostLink> links = new ArrayList<BlogPostLink>(entities.size());
+		for(BlogPostLinkEntity link : entities) {
+			links.add(blogMapper.mapBlogPostLink(link));
+		}
+		return links;
 	}
 }

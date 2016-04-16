@@ -15,4 +15,8 @@ var BlogComment = Backbone.Model.extend({
     idAttribute: 'id'
 });
 
+var BlogPostLinks = Backbone.Collection.extend({
+    url: '/rest/blog/links',
+});
+
 var loggedUser;

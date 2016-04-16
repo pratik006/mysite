@@ -32,9 +32,12 @@
             <div class="item active">
                 <img src="http://xubuntu.org/wp-content/uploads/2015/02/1404_whisker.png" alt="First Slide">
             </div>
-            <div class="item">
-                <img src="http://xubuntu.org/wp-content/uploads/2015/02/1404_whisker.png" alt="Second Slide">
-            </div>
+            <% _.each(links, function(link) { %>
+                <div class="item">
+                    <img src="http://xubuntu.org/wp-content/uploads/2015/02/1404_whisker.png" alt="Second Slide">
+                </div>
+            <%}) %>
+            
             <div class="item">
                 <img src="../images/slide3.png" alt="Third Slide">
             </div>

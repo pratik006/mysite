@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,9 +19,8 @@ public class BlogPostLinkEntity implements Serializable {
 	private Long id;
 	@Column(name = "url")
 	private String url;
-	@ManyToOne
-	@JoinColumn(name = "blog_id")
-	private BlogPostEntity blogId;
+	@Column(name = "blog_id", insertable = false, updatable = false)
+	private Long blogId;
 	
 	public Long getId() {
 		return id;
@@ -37,10 +34,10 @@ public class BlogPostLinkEntity implements Serializable {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public BlogPostEntity getBlogId() {
+	public Long getBlogId() {
 		return blogId;
 	}
-	public void setBlogId(BlogPostEntity blogId) {
+	public void setBlogId(Long blogId) {
 		this.blogId = blogId;
 	}
 }
