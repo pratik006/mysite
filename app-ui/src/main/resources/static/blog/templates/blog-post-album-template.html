@@ -29,7 +29,6 @@
         </ol>   
         <!-- Wrapper for carousel items -->
         <div class="carousel-inner">
-            
             <% active = false; %>
             <% _.each(blogPostLinks, function(blogPostLink) { %>
                 <% if (!active) { 
@@ -42,7 +41,6 @@
                         <img src="<%= blogPostLink.get('url') %>" alt="<%= blogPostLink.get('comment') %>">
                     </div>
                 <% } %>
-                
             <%}) %> 
         </div>
         <!-- Carousel controls -->
