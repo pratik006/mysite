@@ -43,10 +43,6 @@ public class BlogPostEntity implements Serializable {
 	@Column(name="CONTENT")
 	private String content;
 	
-	@OneToMany
-	@JoinColumn(name = "blog_id", insertable = false, updatable = false)
-	private List<BlogCommentEntity> comments;
-	
 	@Column(name="CREATED_BY")
 	private String createdBy;
 	
@@ -60,6 +56,14 @@ public class BlogPostEntity implements Serializable {
 	@Column(name="UPDATED_TS")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar updated;
+	
+	@OneToMany
+	@JoinColumn(name = "blog_id", insertable = false, updatable = false)
+	private List<BlogCommentEntity> comments;
+	
+	@OneToMany
+	@JoinColumn(name = "blog_id")
+	private List<BlogPostLinkEntity> blogPostLinkEntities;
 	
 	public Long getId() {
 		return id;
@@ -132,5 +136,11 @@ public class BlogPostEntity implements Serializable {
 	}
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+	public List<BlogPostLinkEntity> getBlogPostLinkEntities() {
+		return blogPostLinkEntities;
+	}
+	public void setBlogPostLinkEntities(List<BlogPostLinkEntity> blogPostLinkEntities) {
+		this.blogPostLinkEntities = blogPostLinkEntities;
 	}
 }
