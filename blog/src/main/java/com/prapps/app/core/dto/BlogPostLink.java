@@ -8,6 +8,7 @@ public class BlogPostLink implements Serializable {
 	private Long id;
 	private Long blogId;
 	private String url;
+	private String comment;
 	private BlogPostLinkType blogPostLinkType;
 	
 	public Long getId() {
@@ -25,8 +26,14 @@ public class BlogPostLink implements Serializable {
 	public String getUrl() {
 		return url;
 	}
-	public void setId(String url) {
+	public void setUrl(String url) {
 		this.url = url;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	public BlogPostLinkType getBlogPostLinkType() {
 		return blogPostLinkType;

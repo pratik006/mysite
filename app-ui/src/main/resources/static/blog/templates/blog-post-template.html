@@ -21,8 +21,11 @@
 <hr>
 
 <!-- Preview Image -->
+<% if (blog.get('hasLinks')) { %>
 <a href="#album/<%=blog.get('id')%>"><img id="coverImage" class="img-responsive" src=<%=blog.get("coverLink")%> /> </a>
-
+<% } else { %>
+<img id="coverImage" class="img-responsive" src=<%=blog.get("coverLink")%> />
+<% } %>
 
 <!-- Post Content -->
 <div id="content">

@@ -29,18 +29,21 @@
         </ol>   
         <!-- Wrapper for carousel items -->
         <div class="carousel-inner">
-            <div class="item active">
-                <img src="http://xubuntu.org/wp-content/uploads/2015/02/1404_whisker.png" alt="First Slide">
-            </div>
-            <% _.each(links, function(link) { %>
-                <div class="item">
-                    <img src="http://xubuntu.org/wp-content/uploads/2015/02/1404_whisker.png" alt="Second Slide">
-                </div>
-            <%}) %>
             
-            <div class="item">
-                <img src="../images/slide3.png" alt="Third Slide">
-            </div>
+            <% active = false; %>
+            <% _.each(blogPostLinks, function(blogPostLink) { %>
+                <% if (!active) { 
+                    active = true;%>
+                    <div class="item active">
+                        <img src="<%= blogPostLink.get('url') %>" alt="<%= blogPostLink.get('comment') %>">
+                    </div>    
+                <% } else { %>
+                    <div class="item">
+                        <img src="<%= blogPostLink.get('url') %>" alt="<%= blogPostLink.get('comment') %>">
+                    </div>
+                <% } %>
+                
+            <%}) %> 
         </div>
         <!-- Carousel controls -->
         <a class="carousel-control left" href="#myCarousel" data-slide="prev">

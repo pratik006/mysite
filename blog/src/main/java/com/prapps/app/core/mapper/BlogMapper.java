@@ -60,7 +60,9 @@ public class BlogMapper {
 	public BlogPostLink mapBlogPostLink(BlogPostLinkEntity entity) {
 		BlogPostLink link = new BlogPostLink();
 		link.setId(entity.getId());
-		link.setId(entity.getUrl());
+		link.setUrl(entity.getUrl());
+		link.setBlogId(entity.getBlogId());
+		link.setComment(entity.getComment());
 		link.setBlogPostLinkType(BlogPostLinkType.getByType("pic"));
 		return link;
 	}

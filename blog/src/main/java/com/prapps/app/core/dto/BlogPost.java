@@ -15,6 +15,8 @@ public class BlogPost implements Serializable {
 	private String coverLink;
 	private String content;
 	private Collection<BlogComment> comments;
+	private Boolean hasLinks;
+	
 	private String createdBy;
 	private String updatedBy;
 	private Calendar created;
@@ -67,6 +69,12 @@ public class BlogPost implements Serializable {
 	}
 	public void setComments(Collection<BlogComment> comments) {
 		this.comments = comments;
+	}
+	public Boolean getHasLinks() {
+		return hasLinks;
+	}
+	public void setHasLinks(Boolean hasLinks) {
+		this.hasLinks = hasLinks;
 	}
 	public Calendar getCreated() {
 		return created;

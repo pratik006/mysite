@@ -92,6 +92,7 @@ public class BlogService {
 		BlogPostEntity entity = blogRepository.findOne(id);
 		BeanUtils.copyProperties(entity, blogPost);
 		blogPost.setComments(blogMapper.mapComments(entity.getComments()));
+		blogPost.setHasLinks(!entity.getBlogPostLinkEntities().isEmpty());
 		return blogPost;
 	}
 	

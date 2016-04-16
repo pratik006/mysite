@@ -164,13 +164,13 @@ var CreatePostView = Backbone.View.extend({
 var BlogPostAlbumView = Backbone.View.extend({
     el: '#viewport',
     render: function(blogId) {
-        console.log('blog-id: '+blogId);
+        console.log('before fetching BlogPostLinks for blog-id: '+blogId);
         var that = this;
-        var blogLinks = new BlogPostLinks();
-        blogLinks.fetch({data: {blogId: blogId},
+        var blogPostLinks = new BlogPostLinks();
+        blogPostLinks.fetch({data: {blogId: blogId},
             success: function(blogPostLinks) {
-                console.log('title -> '+blogPostLinks);
-                var html = render('blog-post-album-template', {links: blogPostLinks});
+                console.log(blogPostLinks);
+                var html = render('blog-post-album-template', {blogPostLinks: blogPostLinks.models});
                 that.$el.html(html);
             }
         });                
