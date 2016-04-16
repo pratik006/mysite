@@ -7,7 +7,10 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.prapps.app.core.dto.BlogComment;
+import com.prapps.app.core.dto.BlogPostLink;
+import com.prapps.app.core.dto.BlogPostLinkType;
 import com.prapps.app.core.persistence.BlogCommentEntity;
+import com.prapps.app.core.persistence.BlogPostLinkEntity;
 
 @Component
 public class BlogMapper {
@@ -52,5 +55,20 @@ public class BlogMapper {
 		}
 		blogComment.setChildComments(children);
 		return blogComment;
+	}
+	
+	public BlogPostLink mapBlogPostLink(BlogPostLinkEntity entity) {
+		BlogPostLink link = new BlogPostLink();
+		link.setId(entity.getId());
+		link.setId(entity.getUrl());
+		link.setBlogPostLinkType(BlogPostLinkType.getByType("pic"));
+		return link;
+	}
+	
+	public BlogPostLinkEntity mapBlogPostLink(BlogPostLink dto) {
+		BlogPostLinkEntity entity = new BlogPostLinkEntity();
+		entity.setId(dto.getId());
+		entity.setUrl(dto.getUrl());
+		return entity;
 	}
 }

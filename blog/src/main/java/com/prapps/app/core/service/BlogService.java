@@ -1,6 +1,8 @@
 package com.prapps.app.core.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.LockModeType;
@@ -14,11 +16,13 @@ import com.prapps.app.core.dataaccess.BlogCommentRepository;
 import com.prapps.app.core.dataaccess.BlogRepository;
 import com.prapps.app.core.dto.BlogComment;
 import com.prapps.app.core.dto.BlogPost;
+import com.prapps.app.core.dto.BlogPostLink;
 import com.prapps.app.core.dto.User;
 import com.prapps.app.core.exception.BlogServiceException;
 import com.prapps.app.core.mapper.BlogMapper;
 import com.prapps.app.core.persistence.BlogCommentEntity;
 import com.prapps.app.core.persistence.BlogPostEntity;
+import com.prapps.app.core.persistence.BlogPostLinkEntity;
 import com.prapps.app.core.util.CollectionUtil;
 import com.prapps.app.core.util.PrincipalHelper;
 import com.prapps.app.core.util.time.TimeUtil;
@@ -84,6 +88,11 @@ public class BlogService {
 		BlogPostEntity entity = blogRepository.findOne(id);
 		BeanUtils.copyProperties(entity, blogPost);
 		blogPost.setComments(blogMapper.mapComments(entity.getComments()));
+		List<BlogPostLink> links = new ArrayList<BlogPostLink>(entity.getBlogPostLinkEntities().size());
+		for(BlogPostLinkEntity link : entity.getBlogPostLinkEntities()) {
+			links.add(blogMapper.mapBlogPostLink(link));
+		}
+		blogPost.setBlogPostLinks(links);
 		return blogPost;
 	}
 	
