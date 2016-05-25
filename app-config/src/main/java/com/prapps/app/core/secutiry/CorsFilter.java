@@ -88,7 +88,7 @@ public class CorsFilter implements Filter {
 		//handling for old urls
 		for (Entry<String, String> entry : staticSiteRoutings.entrySet()) {
 			if (uri.contains(entry.getKey())) {
-				request.getRequestDispatcher(entry.getValue()).forward(request, response);
+				response.sendRedirect(entry.getValue());
 				return;
 			}
 		}
