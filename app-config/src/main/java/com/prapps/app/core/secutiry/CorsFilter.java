@@ -84,6 +84,10 @@ public class CorsFilter implements Filter {
 			response.getOutputStream().close();
 			return;
 		}
+		if ("/".equals(uri)) {
+			response.sendRedirect("/blog/index.html");
+			return;
+		}
 		
 		//handling for old urls
 		for (Entry<String, String> entry : staticSiteRoutings.entrySet()) {
