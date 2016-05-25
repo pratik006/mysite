@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -37,6 +40,13 @@ public class CorsFilter implements Filter {
 	@Value("${chess.server.uri}")
 	private String chessServerUri;
 	
+	private static Map<String, String> staticSiteRoutings = new HashMap<String, String>();
+	static {
+		staticSiteRoutings.put("mulpokhri.html", "/blog/index.html#blogPost/14/mulpokhri");
+		staticSiteRoutings.put("google-guice-jpa.html", "/blog/index.html#blogPost/13");
+		staticSiteRoutings.put("google-guice.html", "/blog/index.html#blogPost/12");
+	}
+	
 	@Inject
 	public CorsFilter(TrafficService trafficService) {
 		this.trafficService = trafficService;
@@ -66,7 +76,6 @@ public class CorsFilter implements Filter {
 			log.trace("Request Uri: "+uri);
 		}
 		
-		
 		if (uri.contains(chessServerUri)) {
 			log.debug("Chess server: "+uri+"\t"+remoteAddr);
 			String resp = handleChessServerRequest(request, response);
@@ -74,10 +83,14 @@ public class CorsFilter implements Filter {
 			response.setContentLength(resp.getBytes().length);
 			response.getOutputStream().close();
 			return;
-		}else if (uri.contains("mulpokhri.html")) {
-			request.getRequestDispatcher("/rest/blog/14/mulpokhri")
-				.forward(request, response);
-			return;
+		}
+		
+		//handling for old urls
+		for (Entry<String, String> entry : staticSiteRoutings.entrySet()) {
+			if (uri.contains(entry.getKey())) {
+				request.getRequestDispatcher(entry.getValue()).forward(request, response);
+				return;
+			}
 		}
 		
 		if (loggableUrlSet.contains(uri)) {
