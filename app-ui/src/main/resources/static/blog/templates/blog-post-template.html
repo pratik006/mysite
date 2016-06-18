@@ -60,7 +60,7 @@
 
 $('#content').find(".blog-link").each(function() {
     var text = $(this).text();
-    var that = this
+    var that = this;
     $.get(text, null,function(text) {
     	$(that).text(text);
     });
