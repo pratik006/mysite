@@ -36,6 +36,8 @@
 
 	</script>
 	<!-- Google Analytics End -->
+	
+	<link type="text/css" rel="stylesheet" href="../resources/syntaxhighlighter/styles/shCoreDefault.css"/>
 
 </head>
 
@@ -116,7 +118,9 @@
     <script src="model/Blog.js"></script>
     <script src="view/BlogView.js"></script>
     <script src="router/Router.js"></script>
-
+	<script type="text/javascript" src="../resources/syntaxhighlighter/scripts/shCore.js"></script>
+	<script type="text/javascript" src="../resources/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+	
     <script type="text/javascript">
        
         $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
@@ -140,8 +144,10 @@
           if (parts.length == 2) return parts.pop().split(";").shift();
         }
         
+        SyntaxHighlighter.config.bloggerMode = true;
+    	SyntaxHighlighter.all();
     </script>
-
+   
 </body>
 
 

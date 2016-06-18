@@ -24,7 +24,7 @@ var LoginView = Backbone.View.extend({
                   $('.navbar-collapse ul').append('<li id="mnuCreate"><a href="#create">Create</a></li>');
                   $(' <div id="success-alert" class="alert alert-success fade in">'
                 		  +'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'
-                	      +'<strong>Success!</strong> This alert box could indicate a successful or positive action.'
+                	      +'<strong>Success!</strong> Successfully Logged in.'
                 	      +'</div>'
                 	      ).insertAfter('nav');
                   $("#success-alert").fadeTo(5000, 500).slideUp(500, function(){

@@ -24,7 +24,7 @@
 <% if (blog.get('hasLinks')) { %>
 <a href="#album/<%=blog.get('id')%>"><img id="coverImage" class="img-responsive" src=<%=blog.get("coverLink")%> /> </a>
 <% } else { %>
-<img id="coverImage" class="img-responsive" src=<%=blog.get("coverLink")%> />
+
 <% } %>
 
 <!-- Post Content -->
@@ -56,3 +56,15 @@
 
 
 </div>
+<script type="text/javascript">
+
+$('#content').find(".blog-link").each(function() {
+    var text = $(this).text();
+    var that = this
+    $.get(text, null,function(text) {
+    	$(that).text(text);
+    });
+     
+});
+
+</script>

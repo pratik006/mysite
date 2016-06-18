@@ -15,3 +15,11 @@ footer {
 img {
 	max-width: 100%;
 }
+
+.blog-link {
+    white-space: pre-line;
+    style= border:none;
+    background-color: #eff0f1;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
