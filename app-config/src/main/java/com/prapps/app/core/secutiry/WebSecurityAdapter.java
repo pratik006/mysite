@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.prapps.app.core.handler.HttpAuthenticationEntryPoint;
 import com.prapps.app.core.handler.RESTAuthenticationSuccessHandler;
@@ -35,7 +36,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 				.antMatchers("/rest/blogs/*").permitAll()
 				.antMatchers("/**").permitAll()
 				//.antMatchers("/**").hasRole("admin")
-				.	anyRequest().authenticated()
+				.anyRequest().authenticated()
 			.and()
 				.formLogin().permitAll()//.loginPage("/Login.html")
 				.loginProcessingUrl("/rest/blog/login")
@@ -43,7 +44,9 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 				//.defaultSuccessUrl("/rest/userinfo", false)
 				.usernameParameter("username")
 				.passwordParameter("password")
-			.and().logout().logoutUrl("/form/logout").invalidateHttpSession(true).logoutSuccessUrl("/");
+			.and()
+				.logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/rest/blog/logout")).logoutSuccessUrl("/login");
 	}
 	
 	@Override

@@ -1,4 +1,5 @@
 var loginView = new LoginView();
+var logoutView = new LogoutView();
 var footerView = new FooterView();
 var blogView = new BlogView();
 var blogPostView = new BlogPostView();
@@ -8,6 +9,7 @@ var createPostView = new CreatePostView();
  var Router = Backbone.Router.extend({
     routes: {
         '': 'home',
+        'loginComplete': 'loginComplete',
         'blogPost/:id/:code': 'blogPost',
         'blogPost/:id': 'blogPost',
         'create': 'create',
@@ -21,8 +23,13 @@ var router = new Router();
 
 router.on('route:home', function() {
     blogView.render();
-    loginView.render();
+    if (!user) {
+        loginView.render();
+    }
     footerView.render();
+});
+router.on('route:loginComplete', function() {
+    logoutView.render();
 });
 router.on('route:blogPost', function(id) {
     blogPostView.render(id);

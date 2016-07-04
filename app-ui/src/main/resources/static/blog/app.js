@@ -5,6 +5,7 @@ var CONTEXT_ROOT = window.location.pathname.substring(0, window.location.pathnam
 var REST_PATH = "/rest/blog";
 var ACTION_PATHS = [];
 ACTION_PATHS['login'] = REST_PATH + "/login";
+ACTION_PATHS['logout'] = REST_PATH + "/logout";
 ACTION_PATHS['userinfo'] = "/rest/userinfo";
 ACTION_PATHS['create'] = REST_PATH + "/create";
 ACTION_PATHS['allBlogs'] = REST_PATH + "/blogs";

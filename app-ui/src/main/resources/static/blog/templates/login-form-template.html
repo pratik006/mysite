@@ -1,31 +1,36 @@
-<a type="button" id="dropdownMenu1" data-toggle="dropdown" class="dropdown-toggle">Sign in<span class="caret"></span></a>
+<a type="button" id="signInDropdownMenu" data-toggle="dropdown" class="dropdown-toggle">Sign in<span class="caret"></span></a>
  <ul class="dropdown-menu">
-    <li>                        
-      <form id="navbar-form" class="navbar-form form" role="form">
-      <!--div class="form-group"-->
-          <input id="j_username" name="username" placeholder="username" class="form-control" type="email">   
-      <!--/div-->
-      <div class="form-group">
-          <input id="j_password" name="password" placeholder="password" class="form-control" type="password">
-      </div>
-      <!-- could need these designations later
-      <div id="signInInput" data-toggle="buttons" class="btn-group btn-group-xs btn-group-justified form-group">
-        <label class="btn btn-default">
-            <input type="radio">Admin
-        </label>
-        <label class="btn btn-default">
-            <input type="radio">Fellow
-        </label>
-        <label class="btn btn-default">
-            <input type="radio">Coordinator
-        </label>
-      </div>-->
+    <li> 
+      <div>                       
+        <form id="navbar-form" class="navbar-form form" role="form">
+        <div class="form-group" style="margin-bottom: 3px;">
+            <input id="j_username" name="username" placeholder="username" class="form-control" type="email" value="pratik006@gmail.com">   
+        </div>
+        <div class="form-group" style="margin-bottom: 3px;">
+            <input id="j_password" name="password" placeholder="password" class="form-control" type="password" value="chinat0wn">
+        </div>
+        <!-- could need these designations later
+        <div id="signInInput" data-toggle="buttons" class="btn-group btn-group-xs btn-group-justified form-group">
+          <label class="btn btn-default">
+              <input type="radio">Admin
+          </label>
+          <label class="btn btn-default">
+              <input type="radio">Fellow
+          </label>
+          <label class="btn btn-default">
+              <input type="radio">Coordinator
+          </label>
+        </div>-->
+        
+        <div class="form-group">  
+          <span class="pull-right"><a href="#">Need help?</a></span>
+        </div>
+        
+      </form>
       <div class="form-group">
         <button id="btnSignIn" type="button" class="btn btn-primary form-control">Sign In</button>
       </div>
-      <div class="form-group">  
-        <span class="pull-right"><a href="#">Need help?</a></span>
-      </div>
-    </form>
+      
+  </div>
   </li>                        
 </ul>

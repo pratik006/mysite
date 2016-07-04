@@ -20,8 +20,12 @@ var LoginView = Backbone.View.extend({
         	  try {
         		  user = JSON.parse(result);
         		  loggedUser = user;
-                  that.$el.hide();
-                  $('.navbar-collapse ul').append('<li id="mnuCreate"><a href="#create">Create</a></li>');
+                  //that.$el.toggle();
+                  //$("#signInDropdownMenu").text("Sign Out");
+                  if ($('#mnuCreate').length == 0) {
+                    $('.navbar-collapse ul').append('<li id="mnuCreate"><a href="#create">Create</a></li>');
+                  }
+                  
                   $(' <div id="success-alert" class="alert alert-success fade in">'
                 		  +'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'
                 	      +'<strong>Success!</strong> Successfully Logged in.'
@@ -30,12 +34,43 @@ var LoginView = Backbone.View.extend({
                   $("#success-alert").fadeTo(5000, 500).slideUp(500, function(){
                 	  $("#success-alert").alert('close');
                   });
+                  //router.navigate('loginComplete', {trigger: true});
+                  logoutView.render();
         	  }catch(error) {
         		  console.log('error occurred while logging in');
         	  }
           }
         });
-        router.navigate('', {trigger: false});      
+        
+        
+    },
+});
+var LogoutView = Backbone.View.extend({
+    el: '.dropdown',
+    render: function() {
+        var that = this;        
+        var html = render('logout-form-template');
+        that.$el.html(html);                
+    },
+
+    events: {
+        "click #logout": "logout"
+    },
+
+    logout: function () {
+        var that = this;
+        $.ajax({
+          type: "POST",
+          url: ACTION_PATHS['logout'],
+          success: function(result) {
+              console.log('logged out.');
+              user = null;
+              
+              router.navigate('', {trigger: true});      
+              $("#mnuCreate").remove();
+          }
+        });
+        
         
     },
 });

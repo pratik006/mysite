@@ -60,20 +60,20 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="../#about">About</a>
+                        <a href="/index.html#about">About</a>
                     </li>
                     <li>
-                        <a href="../#services">Services</a>
+                        <a href="/index.html#services">Services</a>
                     </li>
                     <li>
-                        <a href="../#contact">Contact</a>
+                        <a href="/index.html#contact">Contact</a>
                     </li>
                     <!--li id="mnuCreate">
                         <a href="#create">Create</a>
                     </li-->
                     <li class="dropdown">
                       
-                  </li>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -85,11 +85,13 @@
    <!-- Page Content -->
     <div id="pageContent" class="container">
         <div class="row">
-            <div class="col-md-12">                
+            <div class="col-md-11">                
                 <div id="viewport"></div>
             </div>
-            <div class="col-md-4">
-            
+            <div class="col-md-1">
+                <div id="recentPosts" class="col-lg-3 col-md-4 col-xs-6 thumb"><a class="thumbnail" href="#">
+                    <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                </a></div>
             </div>
         </div>   
 
@@ -114,6 +116,7 @@
     <script src="../bootstrap/js/bootstrap.min.js"></script>
     <script src="/bootstrap/js/Underscore.js"></script>
     <script src="/bootstrap/js/Backbone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.1.16/backbone.localStorage-min.js"</script>
     <script src="app.js"></script>
     <script src="model/Blog.js"></script>
     <script src="view/BlogView.js"></script>
