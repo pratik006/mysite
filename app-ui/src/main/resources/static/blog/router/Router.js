@@ -10,6 +10,7 @@ var createPostView = new CreatePostView();
     routes: {
         '': 'home',
         'loginComplete': 'loginComplete',
+        'logoutComplete': 'logoutComplete',
         'blogPost/:id/:code': 'blogPost',
         'blogPost/:id': 'blogPost',
         'create': 'create',
@@ -27,6 +28,9 @@ router.on('route:home', function() {
         loginView.render();
     }
     footerView.render();
+});
+router.on('route:logoutComplete', function() {
+    loginView.render();
 });
 router.on('route:loginComplete', function() {
     logoutView.render();

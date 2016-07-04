@@ -34,7 +34,7 @@ var LoginView = Backbone.View.extend({
                   $("#success-alert").fadeTo(5000, 500).slideUp(500, function(){
                 	  $("#success-alert").alert('close');
                   });
-                  //router.navigate('loginComplete', {trigger: true});
+                  router.navigate('loginComplete', {trigger: true});
                   logoutView.render();
         	  }catch(error) {
         		  console.log('error occurred while logging in');
@@ -65,9 +65,8 @@ var LogoutView = Backbone.View.extend({
           success: function(result) {
               console.log('logged out.');
               user = null;
-              
-              router.navigate('', {trigger: true});      
               $("#mnuCreate").remove();
+              router.navigate('logoutComplete', {trigger: true});
           }
         });
         
