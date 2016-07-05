@@ -217,8 +217,20 @@ var RecentPostsView = Backbone.View.extend({
     render: function() {
         var that = this;
         var blogs = App.Context.getValue("blogs");
-        var html = render('recent-posts-template', {blogs: blogs});
-        that.$el.html(html);     
+        if (!blogs) {
+            blogs = new Blogs();
+            blogs.fetch({
+                success: function(blogs) {
+                    App.Context.setValue("blogs", blogs.models);
+                    var html = render('recent-posts-template', {blogs: blogs.models});
+                    that.$el.html(html);     
+                }
+            });
+            blogs = blogs.models;
+        } else {
+            var html = render('recent-posts-template', {blogs: blogs});
+            that.$el.html(html);
+        }
     }
 });
 
