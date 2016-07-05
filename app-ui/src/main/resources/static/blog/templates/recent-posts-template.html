@@ -1,0 +1,12 @@
+<h1>Recent Posts</h1>
+<hr style="clear left">
+
+<% blogs.sort(function(a,b) { return b.get("created") - a.get("created"); }); %>
+
+ <div>
+ 	<ul>
+		<% _.each(blogs, function(blog) { %>
+		<li><a href="#blogPost/<%=blog.get("id")%>/<%=blog.get("blogCode")%>"><%=blog.get("title")%></a></li>
+		<%}) %>
+	</ul>
+ </div>

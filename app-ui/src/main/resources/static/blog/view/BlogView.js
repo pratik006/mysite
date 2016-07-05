@@ -90,6 +90,7 @@ var BlogView = Backbone.View.extend({
         var blogs = new Blogs();
         blogs.fetch({
             success: function(blogs) {
+                App.Context.setValue("blogs", blogs.models);
                 //var template = _.template($('#blog-list-template').html());
                 var html = render('blog-list-template', {blogs: blogs.models, formatDate: formatDate});
                 that.$el.html(html);        
@@ -105,7 +106,7 @@ var BlogPostView = Backbone.View.extend({
 
     el: '#viewport',
     render: function(id) {
-        var that = this;
+        var that = this;        
         var blogPost = new BlogPost({id: id});
         blogPost.fetch({
             success: function(blog) {
@@ -208,6 +209,16 @@ var BlogPostAlbumView = Backbone.View.extend({
                 that.$el.html(html);
             }
         });                
+    }
+});
+
+var RecentPostsView = Backbone.View.extend({
+    el: '#sidewall',
+    render: function() {
+        var that = this;
+        var blogs = App.Context.getValue("blogs");
+        var html = render('recent-posts-template', {blogs: blogs});
+        that.$el.html(html);     
     }
 });
 

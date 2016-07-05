@@ -12,6 +12,15 @@ ACTION_PATHS['allBlogs'] = REST_PATH + "/blogs";
 ACTION_PATHS['getBlog'] = REST_PATH + "/";
 ACTION_PATHS['successfulCreateBlog'] = "index.html";
 
+App = {Context: ''};
+App.Context = {
+	getValue: function(key) {
+    	return this[key];
+	},
+	setValue: function(key, value) {
+    	this[key] = value;
+	}	
+}
 
 console.log(CONTEXT_ROOT);
 
