@@ -14,8 +14,9 @@
 				} %>
 				<a href="<%= href %>"> <%= blog.get("title") %> </a>
 				<% if(blog.get('coverLink')) { %>
-					<img src="<%= blog.get('coverLink') %>" class="img-thumbnail" alt="<%= blog.get('title') %>"></img>
+					<a href="<%= href %>"><img src="<%= blog.get('coverLink') %>" class="img-thumbnail" alt="<%= blog.get('title') %>"></img></a>
 				<% } %>
+				<hr class="small">
 			</div>
 		</li>
 		<%}) %>
