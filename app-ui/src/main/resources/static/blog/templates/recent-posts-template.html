@@ -8,7 +8,11 @@
 		<% _.each(blogs, function(blog) { %>
 		<li>
 			<div>
-				<a href="#blogPost/<%=blog.get('id')%>/<%= blog.get('blogCode') %>"> <%= blog.get("title") %> </a>
+				<% var href = "#blogPost/"+blog.get('id'); 
+				if (blog.get('blogCode')) { 
+ 					href = href + "/" + blog.get('blogCode');
+				} %>
+				<a href="<%= href %>"> <%= blog.get("title") %> </a>
 				<% if(blog.get('coverLink')) { %>
 					<img src="<%= blog.get('coverLink') %>" class="img-thumbnail" alt="<%= blog.get('title') %>"></img>
 				<% } %>
