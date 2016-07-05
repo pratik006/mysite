@@ -21,10 +21,3 @@ function formatDate(date) {date = new Date(date);
 	var min = date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes();
 	return MONTHS[date.getMonth()] +' '+date.getDate()+', '+date.getFullYear()+' '+hour+':'+min+' '+AM_PM[parseInt(date.getHours()/12)];
 }
-
-function BlogEntry(id, title, author, time) {
-	this.id = id;
-	this.title = title;
-	this.author = author;
-	this.time = time;
-}
