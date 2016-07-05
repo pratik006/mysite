@@ -1,6 +1,7 @@
 var Blogs = Backbone.Collection.extend({
     url: '/rest/blog'
 });
+
 var BlogComments = Backbone.Collection.extend({
     url: '/rest/blog/comment'
 });
