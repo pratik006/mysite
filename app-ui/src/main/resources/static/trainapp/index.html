@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="icon" href="../../favicon.ico"-->
+
+    <title>Hyderabad MMTS</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  </head>
+
+
+<body>
+
+    <div class="container">
+	    <div class="col-md-6">
+	    	<h2>Hyderabad MMTS</h2>
+	    	<div class="search">
+	    		<form>
+			        <hr>
+			        <div class="form-group" >
+			        	<label for="from" class="sr-only">From Station</label>
+			        	<input type="text" id="from" class="form-control" placeholder="From Station" required="" autofocus="">
+			        </div>
+			        <div class="form-group">
+				        <label for="to" class="sr-only">To Station</label>
+				        <input type="text" id="to" class="form-control" placeholder="To Station" required="">
+			        </div>
+			        <div class="form-group">
+			        	<div class='input-group date' id='datetimepicker1'>
+		                    <input type='text' class="form-control" />
+		                    <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+		                </div>
+			        </div>	
+
+			        <div class="form-group">
+
+			        </div>
+			        <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+			    </form>
+	    	</div>
+	    	<div class="timetable">
+	    	<table>
+	    	<tbody>
+	    		<tr><td></td></tr>
+	    	</tbody>
+	    	</table>
+	    	</div>
+	    </div>
+    </div>
+
+<script src="../bootstrap/js/jquery.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+</script>
+
+
+</body>
+
+</html>
