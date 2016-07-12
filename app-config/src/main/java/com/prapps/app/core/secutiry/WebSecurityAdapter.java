@@ -33,6 +33,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.DELETE, "/rest/blog/*").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.OPTIONS, "/rest/blog/*").permitAll()
 				.antMatchers(HttpMethod.GET, "/rest/blog/*").permitAll()
+				.antMatchers(HttpMethod.GET, "/rest/train/*").permitAll()
 				.antMatchers("/rest/blogs/*").permitAll()
 				.antMatchers("/**").permitAll()
 				//.antMatchers("/**").hasRole("admin")

@@ -12,58 +12,413 @@
 
     <!-- Bootstrap core CSS -->
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="../bootstrap/css/bootstrap-datetime.css" rel="stylesheet">
+    <link href="../bootstrap/css/typeahead-bundle.css" rel="stylesheet">
+    <link href="../bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
   </head>
-
 
 <body>
 
     <div class="container">
 	    <div class="col-md-6">
-	    	<h2>Hyderabad MMTS</h2>
+	    	<h2>Hyderabad MMTS Timings</h2>
+	    	<span class="label-warning">updated on 13-Oct-2015</span>
+
 	    	<div class="search">
 	    		<form>
 			        <hr>
-			        <div class="form-group" >
-			        	<label for="from" class="sr-only">From Station</label>
-			        	<input type="text" id="from" class="form-control" placeholder="From Station" required="" autofocus="">
+			        <div class="row">
+			        	<div class="col-md-6">
+					        <div class="form-group" >
+					        	<label for="from" class="sr-only">From Station</label>
+					        	<input type="text" id="from" class="form-control typeahead" placeholder="From Station" required="" autofocus="" tabindex="0">
+					        </div>
+					        <div class="form-group">
+						        <label for="to" class="sr-only">To Station</label>
+						        <input type="text" id="to" class="form-control typeahead" placeholder="To Station" required="" tabindex="1">
+					        </div>
+				        </div>
 			        </div>
-			        <div class="form-group">
-				        <label for="to" class="sr-only">To Station</label>
-				        <input type="text" id="to" class="form-control" placeholder="To Station" required="">
-			        </div>
-			        <div class="form-group">
-			        	<div class='input-group date' id='datetimepicker1'>
-		                    <input type='text' class="form-control" />
-		                    <span class="input-group-addon">
-		                        <span class="glyphicon glyphicon-calendar"></span>
-		                    </span>
-		                </div>
-			        </div>	
 
-			        <div class="form-group">
-
+			        <div class="row">
+			        	<div class="col-md-6">
+				        	<div class="form-group">
+				                <div class='input-group date' id='txtDate'>
+				                    <input type='text' class="form-control" />
+				                    <span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+				                </div>
+		            		</div>
+	            		</div>
+	            	</div>
+	            	<div class="row">
+	            		<div class="col-md-3 time">
+				        	<div class="form-group">
+								  <label for="fromTime">from time:</label>
+								  <select class="form-control" id="fromTime"></select>
+					        </div>
+					    </div>
+					    <div class="col-md-3 time">
+					        <div class="form-group">
+								  <label for="toTime">to time:</label>
+								  <select class="form-control" id="toTime"></select>
+					        </div>
+				        </div>
 			        </div>
-			        <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+
+			        
+			        <button class="btn btn-lg btn-primary btn-block" type="button" id="search">Search</button>
 			    </form>
 	    	</div>
 	    	<div class="timetable">
-	    	<table>
-	    	<tbody>
-	    		<tr><td></td></tr>
-	    	</tbody>
-	    	</table>
+	    		<table class="table table-striped">
+				    <thead>
+				      <tr>
+				        <th>Train Number</th>
+				        <th>Arrival</th>
+				        <th>Departure</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				      
+				    </tbody>
+				  </table>
 	    	</div>
 	    </div>
     </div>
+<input type="button" id="reload" />
+<div id="test"></div>
+
 
 <script src="../bootstrap/js/jquery.js"></script>
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker1').datetimepicker();
-    });
-</script>
+<script src="../bootstrap/js/bootstrap3-typeahead.min.js"></script>
+<script src="../bootstrap/js/bootstrap-dropdown.js"></script>
+<script src="../bootstrap/js/transition.js"></script>
+<script src="../bootstrap/js/moment-with-locales.js"></script>
+<script src="../bootstrap/js/bootstrap-datetimepicker.js"></script>
+<script src="../bootstrap/js/bootstrap-datepicker.js"></script>
+<script src="../bootstrap/js/typeahead.bundle.js"></script>
 
+ <script type="text/javascript">
+ 	App = {};
+ 	App.Context = {};
+            $(function () {
+            	
+            	var dateObj = new Date();
+            	selIndex = dateObj.getHours()*2 + Math.round(dateObj.getMinutes()/30);
+				var times = new Array();
+				for (i=0;i<24;i++) {
+					times[2*i] = ("0"+i).slice(-2)+":00";
+					times[2*i+1] = ("0"+i).slice(-2)+":30";
+					$('.time > div > select').append($('<option>', {
+					    value: 2*i,
+					    text: times[2*i]
+					}));
+					$('.time > div > select').append($('<option>', {
+					    value: 2*i+1,
+					    text: times[2*i+1]
+					}));
+				}
+				$('#fromTime').prop('selectedIndex', selIndex);
+				$('#toTime').prop('selectedIndex', selIndex+4);
+			    
+			    //console.log(("0" + (Math.round(dateObj.getMinutes()/30)*60%60)).slice(-2));
+				$('#txtDate').datepicker({autoclose: true});
+				$('#txtDate').datepicker('update', new Date());
+				$('#search').click(function() {
+					
+					from = $('#from').val();
+					to = $('#to').val();
+					searchRequest = {}; 
+					searchRequest.from = from;
+					searchRequest.to = to;
+
+
+					$.ajax({
+					    headers: { 
+					        'Accept': 'application/json',
+					        'Content-Type': 'application/json' 
+					    },
+					    'type': 'POST',
+					    'url': "/rest/train/search",
+					    'data': JSON.stringify(searchRequest), 
+					    'dataType': 'json',
+					    'success': function( result ) {
+									  console.log("result: "+result);
+									}
+					    });
+
+
+					/*var fromTrains, toTrains;
+					stations.forEach(function(item, index) {
+						if (from == item.name) {
+							fromTrains = item.trains;
+						}
+						if (to == item.name) {
+							toTrains = item.trains;
+						}
+					});
+					var validTrains = new Array();
+					toTrains.forEach(function(item, index) {
+						if (fromTrains.indexOf(item) != -1) {
+							validTrains.push(item);
+						}
+					});
+					validTrains.forEach(function(item, index) {
+						if (trains[item]) {
+							train = trains[item];
+							var str = '<tr><td>'+train.id+'</td>';
+							train.route.forEach(function(item, index) {
+								if (from == item.station) {
+									str += '<td>'+item.time+'</td>'; 
+								}
+							});
+							$('.timetable > table > tbody').append(str+'</tr>');
+						}
+					});*/
+				});
+				$('#from').blur(function(evt) {
+					console.log($(this).val());
+				});
+				$('#to').blur(function(evt) {
+					console.log($(this).val());
+				});
+
+				$('.typeahead').typeahead({
+				  hint: true,
+				  highlight: true,
+				  minLength: 1
+				},
+				{
+				  name: 'name',
+				  //source: substringMatcher(stationsNames)
+				  source: stationsSource.ttAdapter()
+				});
+
+				//for testing only
+				$('#reload').click(reload2);
+				$('#test').load('./erail.html');
+            });
+
+            var stationsSource = new Bloodhound({
+			    datumTokenizer: function (datum) {
+			        return Bloodhound.tokenizers.whitespace(datum.value);
+			    },
+			    queryTokenizer: Bloodhound.tokenizers.whitespace,
+			    remote: {
+				        url: '/rest/train/stations?query=%QUERY',
+				        //url: 'http://yourhost_ip/foo_autocomplete?query=%QUERY',
+				        wildcard: '%QUERY',
+				        filter: function (stations) {
+				            // Map the remote source JSON array to a JavaScript array
+				            return $.map(stations, function (station) {
+				                return station.name;
+				            });
+				        }
+				}
+			});
+			stationsSource.initialize();
+
+
+            var substringMatcher = function(strs) {
+			  return function findMatches(q, cb) {
+			    var matches, substringRegex;
+
+			    // an array that will be populated with substring matches
+			    matches = [];
+
+			    // regex used to determine if a string contains the substring `q`
+			    substrRegex = new RegExp(q, 'i');
+
+			    // iterate through the pool of strings and for any string that
+			    // contains the substring `q`, add it to the `matches` array
+			    $.each(strs, function(i, str) {
+			      if (substrRegex.test(str)) {
+			        matches.push(str);
+			      }
+			    });
+
+			    cb(matches);
+			  };
+
+
+			};
+
+			var stationsNames = ['Lingampalli',
+					'Chandanagar',
+					'Hafizpeta',
+					'Hitec City',
+					'Borabanda',
+					'Bharatnagar',
+					'Fatehnagar',
+					'Nature Cure Hospital',
+					'Begumpet',
+					'SanjeevaiahPark',
+					'James Street',
+					'Secunderabad',
+					'Sitafalmandi',
+					'Arts College',
+					'Jamai Osmania',
+					'Vidyanagar',
+					'Kacheguda',
+					'Malakpet',
+					'Dabirpura',
+					'Yakutpura',
+					'Huppuguda',
+					'Falaknuma'
+			];
+
+			
+
+
+	function reload() {
+		trainStations = new Array();
+		var regExp = /\(([^)]+)\)/;
+
+		stationsNames.forEach(function(item) {
+			$.get('/rest/train/stations', {query: item}, function(stations) {
+				if (stations[0]) {
+					url = 'https://www.cleartrip.com/trains/stations/'+stations[0].code;
+					$.get(url, function(data) {
+						$('.stFixBody > table > tbody > tr', $(data)).each(function() {
+							trainStation = {};
+							var matches = regExp.exec($(this).find('td').first().text());
+							train = {};
+							train.id = matches[0].substring(1,matches[0].length-1);
+							train.name = $(this).find('td > a').text();
+							station = {};
+							station.code = stations[0].code;
+							station.name = stations[0].name;
+							trainStation.train = train;
+							trainStation.station = station;
+
+							trainStation.arrival = $(this).find('td:nth-child(2)').text();
+							trainStation.departure = $(this).find('td:nth-child(3)').text();
+							trainStation.stoptime=$(this).find('td:nth-child(4)').text();
+							trainStation.mon=$(this).find('td:nth-child(5)').text();
+							trainStation.tue=$(this).find('td:nth-child(6)').text();
+							trainStation.wed=$(this).find('td:nth-child(7)').text();
+							trainStation.thu=$(this).find('td:nth-child(8)').text();
+							trainStation.fri=$(this).find('td:nth-child(9)').text();
+							trainStation.sat=$(this).find('td:nth-child(10)').text();
+							trainStation.sun=$(this).find('td:nth-child(11)').text();
+							trainStations.push(trainStation);
+
+							$.ajax({
+							    headers: { 
+							        'Accept': 'application/json',
+							        'Content-Type': 'application/json' 
+							    },
+							    'type': 'POST',
+							    'url': "/rest/train/update",
+							    'data': JSON.stringify(trainStation), 
+							    'dataType': 'json',
+							    'success': function( result ) {
+											  console.log("result: "+result);
+											}
+							    });
+						});
+					});
+					
+				}
+			});
+
+		});
+	}
+
+	function reload2() {
+		trainStations = new Array();
+		var regExp = /\(([^)]+)\)/;
+
+		stationsNames.forEach(function(item) {
+			$.get('/rest/train/stations', {query: item}, function(stations) {
+				if (stations[0]) {
+					/*url = 'http://erail.in/'+stations[0].name+'-railway-station/';
+					$.get(url, function(data) {
+						flag = false;
+						$('#test > table > tbody > tr', $(data)).each(function() {
+							if (!flag) {
+								flag = true;
+							} else {
+								updateServer(this);
+							}
+							
+						});
+					});*/
+					var flag;
+					$('#test > table > tbody > tr').each(function() {
+						if (!flag) {
+							flag = true;
+						} else {
+							updateServer(this, stations);
+						}
+						
+					});
+					
+				}
+			});
+
+		});
+	}
+
+	function updateServer(obj, stations) {
+		console.log(obj);
+		trainStation = {};
+		//var matches = regExp.exec($(obj).find('td').first().text());
+		train = {};
+		train.id = $(obj).find('td:nth-child(3) > a').text();
+		train.name = $(obj).find('.trainName').text();
+		station = {};
+		station.code = stations[0].code;
+		station.name = stations[0].name;
+		trainStation.train = train;
+		trainStation.station = station;
+
+		trainStation.arrival = $(obj).find('td:nth-child(7)').text();
+		trainStation.departure = $(obj).find('td:nth-child(8)').text();
+		trainStation.type = $(obj).find('td:nth-child(6)').text();
+		trainStation.classes = $(obj).find('td:nth-child(11)').text();
+
+		trainStation.stoptime=$(obj).find('td:nth-child(4)').text();
+
+		temp = $(obj).find('td:nth-child(12)').text();
+		if (temp == "Daily") {
+			trainStation.mon='Y';
+			trainStation.tue='Y';
+			trainStation.wed='Y';
+			trainStation.thu='Y';
+			trainStation.fri='Y';
+			trainStation.sat='Y';
+			trainStation.sun='Y';
+		}
+		/*trainStation.mon=$(obj).find('td:nth-child(5)').text();
+		trainStation.tue=$(obj).find('td:nth-child(6)').text();
+		trainStation.wed=$(obj).find('td:nth-child(7)').text();
+		trainStation.thu=$(obj).find('td:nth-child(8)').text();
+		trainStation.fri=$(obj).find('td:nth-child(9)').text();
+		trainStation.sat=$(obj).find('td:nth-child(10)').text();
+		trainStation.sun=$(obj).find('td:nth-child(11)').text();*/
+		//trainStations.push(trainStation);
+		console.log(trainStation);return;
+		/*$.ajax({
+		    headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    },
+		    'type': 'POST',
+		    'url': "/rest/train/update",
+		    'data': JSON.stringify(trainStation), 
+		    'dataType': 'json',
+		    'success': function( result ) {
+						  console.log("result: "+result);
+						}
+		    });*/
+	}
+
+	
+
+</script>
 
 </body>
 
