@@ -33,9 +33,7 @@
 		<module>app-core</module>
 		<module>app-api</module>
 		<module>framework-util</module>
-    	<module>app-ui</module>
-    	<module>blog</module>
-    	<module>train-app</module>
+		<module>app-ui</module>
 		<module>blog</module>
 		<module>train-app</module>
 	</modules>
@@ -78,25 +76,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-		    <groupId>commons-lang</groupId>
-		    <artifactId>commons-lang</artifactId>
-		    <version>2.6</version>
-		</dependency>
-		<dependency>
-		    <groupId>javax.inject</groupId>
-		    <artifactId>javax.inject</artifactId>
-		    <version>1</version>
-		</dependency>
-				
-		
-				
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-
+		</dependency>				
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
