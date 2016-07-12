@@ -18,6 +18,7 @@ import com.prapps.app.core.dataaccess.BlogRepository;
 import com.prapps.app.core.dto.BlogComment;
 import com.prapps.app.core.dto.BlogPost;
 import com.prapps.app.core.dto.BlogPostLink;
+import com.prapps.app.core.dto.BlogPostStatus;
 import com.prapps.app.core.dto.User;
 import com.prapps.app.core.exception.BlogServiceException;
 import com.prapps.app.core.mapper.BlogMapper;
@@ -78,8 +79,9 @@ public class BlogService {
 	}
 	
 	public Collection<BlogPost> findAll() throws BlogServiceException {
+		String status = BlogPostStatus.COMPLETE.getCode();
 		try {
-			return CollectionUtil.copyProperties(blogRepository.findAll(new Sort(Sort.Direction.DESC, "created")), BlogPost.class);
+			return CollectionUtil.copyProperties(blogRepository.findByStatusOrderByCreatedDesc(status), BlogPost.class);
 		} catch (InstantiationException e) {
 			throw new BlogServiceException(e);
 		} catch (IllegalAccessException e) {
