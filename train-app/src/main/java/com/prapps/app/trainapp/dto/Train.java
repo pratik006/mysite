@@ -1,6 +1,7 @@
 package com.prapps.app.trainapp.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Train implements Serializable {
 
@@ -8,6 +9,7 @@ public class Train implements Serializable {
 
 	private Long id;
 	private String name;
+	private List<TrainStation> routes;
 	
 	public Long getId() {
 		return id;
@@ -23,5 +25,13 @@ public class Train implements Serializable {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<TrainStation> getRoutes() {
+		return routes;
+	}
+
+	public void setRoutes(List<TrainStation> routes) {
+		this.routes = routes;
 	}
 }

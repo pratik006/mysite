@@ -66,7 +66,7 @@ public class TrainService {
 			.add(Restrictions.eq("station.name", request.getTo()))
 			.add(Restrictions.in("routes.id.trainId", entities)).list();
 		
-		return trainMapper.mapTrains(trainEntities);
+		return trainMapper.mapTrains(trainEntities, true);
 	}
 	
 	public void updateTrainRoute(TrainStation trainStation) {

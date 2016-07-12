@@ -28,7 +28,7 @@
 	    		<form>
 			        <hr>
 			        <div class="row">
-			        	<div class="col-md-6">
+			        	<div class="col-md-4">
 					        <div class="form-group" >
 					        	<label for="from" class="sr-only">From Station</label>
 					        	<input type="text" id="from" class="form-control typeahead" placeholder="From Station" required="" autofocus="" tabindex="0">
@@ -76,6 +76,8 @@
 				    <thead>
 				      <tr>
 				        <th>Train Number</th>
+				        <th>Name</th>
+				        <th>Type</th>
 				        <th>Arrival</th>
 				        <th>Departure</th>
 				      </tr>
@@ -87,8 +89,9 @@
 	    	</div>
 	    </div>
     </div>
-<input type="button" id="reload" />
-<div id="test"></div>
+
+<!-- <input type="button" id="reload" value="reload" />
+<div id="test"></div> -->
 
 
 <script src="../bootstrap/js/jquery.js"></script>
@@ -144,8 +147,23 @@
 					    'url': "/rest/train/search",
 					    'data': JSON.stringify(searchRequest), 
 					    'dataType': 'json',
-					    'success': function( result ) {
-									  console.log("result: "+result);
+					    'success': function( trains ) {
+									  console.log("result: "+trains);
+									  trains.forEach(function(train, index) {
+									  	var row = '<tr><td>'+train.id+'</td>';
+									  	row += '<td>'+train.name+'</td>';
+									  	if (train.type) {
+									  		row += '<td>'+train.type+'</td>';
+									  	}else {
+									  		row += '<td></td>';
+									  	}
+									  	
+									  	train.routes.forEach(function(route, index) {
+									  	if (from == route.station.name) {
+									  		row += '<td>'+route.arrival+'</td><td>'+route.departure+'</td>';
+									  	}});
+									  	$('.timetable > table > tbody').append(row+'</tr>');
+									  });
 									}
 					    });
 

@@ -16,17 +16,20 @@ import com.prapps.app.trainapp.persistence.TrainRouteEntity;
 @Component
 public class TrainMapper {
 
-	public Train map(TrainEntity entity) {
+	public Train map(TrainEntity entity, boolean mapRoute) {
 		Train train = new Train();
 		train.setId(entity.getId());
 		train.setName(entity.getName());
+		if (mapRoute) {
+			train.setRoutes(mapTrainRoutes(entity.getRoutes(), true));
+		}
 		return train;
 	}
 	
-	public List<Train> mapTrains(Collection<TrainEntity> entities) {
+	public List<Train> mapTrains(Collection<TrainEntity> entities, boolean mapRoute) {
 		List<Train> trains = new ArrayList<Train>();
 		for (TrainEntity entity : entities) {
-			trains.add(map(entity));
+			trains.add(map(entity, mapRoute));
 		}
 		
 		return trains;
@@ -97,25 +100,28 @@ public class TrainMapper {
 		return entity;
 	}
 	
-	public TrainStation map(TrainRouteEntity trainStation) {
-		TrainStation entity = new TrainStation();
-		entity.setArrival(trainStation.getArrival());
-		entity.setDeparture(trainStation.getDeparture());
-		entity.setStoptime(trainStation.getStoptime());
-		entity.setMon(trainStation.getMon());
-		entity.setTue(trainStation.getTue());
-		entity.setWed(trainStation.getWed());
-		entity.setThu(trainStation.getThu());
-		entity.setFri(trainStation.getFri());
-		entity.setSat(trainStation.getSat());
-		entity.setSun(trainStation.getSun());
-		return entity;
+	public TrainStation map(TrainRouteEntity entity, boolean mapStation) {
+		TrainStation route = new TrainStation();
+		route.setArrival(entity.getArrival());
+		route.setDeparture(entity.getDeparture());
+		route.setStoptime(entity.getStoptime());
+		route.setMon(entity.getMon());
+		route.setTue(entity.getTue());
+		route.setWed(entity.getWed());
+		route.setThu(entity.getThu());
+		route.setFri(entity.getFri());
+		route.setSat(entity.getSat());
+		route.setSun(entity.getSun());
+		if (mapStation) {
+			route.setStation(map(entity.getStation()));
+		}
+		return route;
 	}
 	
-	public List<TrainStation> mapTrainRoutes(Collection<TrainRouteEntity> entities) {
+	public List<TrainStation> mapTrainRoutes(Collection<TrainRouteEntity> entities, boolean mapStation) {
 		List<TrainStation> list = new ArrayList<TrainStation>();
 		for (TrainRouteEntity entity : entities) {
-			list.add(map(entity));
+			list.add(map(entity, mapStation));
 		}
 		return list;
 	}
