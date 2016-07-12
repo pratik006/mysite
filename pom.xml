@@ -31,9 +31,10 @@
 		<module>app-config</module>
 		<module>app-core</module>
 		<module>app-api</module>
-		<module>blog</module>
 		<module>framework-util</module>
     	<module>app-ui</module>
+    	<module>blog</module>
+    	<module>train-app</module>
   </modules>
 
 	<repositories>
@@ -63,9 +64,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.2-1003-jdbc4</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -76,6 +76,19 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+		    <groupId>commons-lang</groupId>
+		    <artifactId>commons-lang</artifactId>
+		    <version>2.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>javax.inject</groupId>
+		    <artifactId>javax.inject</artifactId>
+		    <version>1</version>
+		</dependency>
+				
+		
+				
 	</dependencies>
 	<profiles>
 		<profile>
