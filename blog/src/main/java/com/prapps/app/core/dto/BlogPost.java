@@ -14,6 +14,7 @@ public class BlogPost implements Serializable {
 	private String lead;
 	private String coverLink;
 	private String content;
+	private String status;
 	private Collection<BlogComment> comments;
 	private Boolean hasLinks;
 	
@@ -63,6 +64,12 @@ public class BlogPost implements Serializable {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public Collection<BlogComment> getComments() {
 		return comments;

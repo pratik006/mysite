@@ -179,11 +179,14 @@ var CreatePostView = Backbone.View.extend({
         }
     },
     events: {
-        'submit .edit-post-form': 'savePost'
+        'submit .edit-post-form': 'savePost',
+        'click #btnDraft' : 'saveDraft'
     },
     savePost: function(ev) {
+        console.log('save');
         var postDetail = $(ev.currentTarget).serializeObject();
         postDetail.content = $("#rtContent").Editor("getText");
+        postDetail.status = 'COMPLETE';
         blogPost = new BlogPost();
         blogPost.save(postDetail, {
             success: function(post) {
@@ -193,7 +196,20 @@ var CreatePostView = Backbone.View.extend({
         });
         return false;
     },
-
+    saveDraft: function(ev) {
+        console.log('draft');
+        var postDetail = $(ev.currentTarget).closest('form').serializeObject();
+        postDetail.content = $("#rtContent").Editor("getText");
+        postDetail.status = 'DRAFT';
+        blogPost = new BlogPost();
+        blogPost.save(postDetail, {
+            success: function(post) {
+                blogPost.id = post.id;
+                router.navigate('', {trigger: true});
+            }
+        });
+        return false;
+    }
 });
 
 var BlogPostAlbumView = Backbone.View.extend({

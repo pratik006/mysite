@@ -43,6 +43,9 @@ public class BlogPostEntity implements Serializable {
 	@Column(name="CONTENT")
 	private String content;
 	
+	@Column(name="STATUS")
+	private String status;
+	
 	@Column(name="CREATED_BY")
 	private String createdBy;
 	
@@ -106,6 +109,12 @@ public class BlogPostEntity implements Serializable {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public List<BlogCommentEntity> getComments() {
 		return comments;
