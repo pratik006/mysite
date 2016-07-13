@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.prapps.app.trainapp.dto.Station;
 import com.prapps.app.trainapp.dto.Train;
 import com.prapps.app.trainapp.dto.TrainStation;
+import com.prapps.app.trainapp.persistence.ClassEntity;
 import com.prapps.app.trainapp.persistence.StationEntity;
 import com.prapps.app.trainapp.persistence.TrainEntity;
 import com.prapps.app.trainapp.persistence.TrainRouteEntity;
@@ -20,6 +21,8 @@ public class TrainMapper {
 		Train train = new Train();
 		train.setId(entity.getId());
 		train.setName(entity.getName());
+		train.setClasses(mapReservationClass(entity.getClasses()));
+		
 		if (mapRoute) {
 			train.setRoutes(mapTrainRoutes(entity.getRoutes(), true));
 		}
@@ -33,6 +36,16 @@ public class TrainMapper {
 		}
 		
 		return trains;
+	}
+	
+	public List<String> mapReservationClass(List<ClassEntity> entities) {
+		List<String> list = new ArrayList<String>();
+		
+		for (ClassEntity entity : entities) {
+			list.add(entity.getType());
+		}
+		
+		return list;
 	}
 	
 	public Station map(StationEntity entity) {

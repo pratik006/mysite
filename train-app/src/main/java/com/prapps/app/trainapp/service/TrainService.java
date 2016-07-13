@@ -1,10 +1,13 @@
 package com.prapps.app.trainapp.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
@@ -12,6 +15,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
+import com.prapps.app.trainapp.dataaccess.ClassRepository;
 import com.prapps.app.trainapp.dataaccess.StationRepository;
 import com.prapps.app.trainapp.dataaccess.TrainRepository;
 import com.prapps.app.trainapp.dataaccess.TrainRouteRepository;
@@ -20,6 +24,7 @@ import com.prapps.app.trainapp.dto.Station;
 import com.prapps.app.trainapp.dto.Train;
 import com.prapps.app.trainapp.dto.TrainStation;
 import com.prapps.app.trainapp.mapper.TrainMapper;
+import com.prapps.app.trainapp.persistence.ClassEntity;
 import com.prapps.app.trainapp.persistence.StationEntity;
 import com.prapps.app.trainapp.persistence.TrainEntity;
 import com.prapps.app.trainapp.persistence.TrainRouteEntity;
@@ -32,6 +37,9 @@ public class TrainService {
 	private TrainRouteRepository trainRouteRepository;
 	private TrainRepository trainRepository;
 	private TrainMapper trainMapper;
+	
+	private Map<String, Long> classesMap;
+	
 	@PersistenceContext
 	 private EntityManager em;
 	
@@ -41,11 +49,17 @@ public class TrainService {
 	
 	@Inject
 	public TrainService(StationRepository stationRepository, TrainRouteRepository trainRouteRepository, 
-			TrainRepository trainRepository, TrainMapper trainMapper) {
+			TrainRepository trainRepository, TrainMapper trainMapper, ClassRepository classRepository) {
 		this.stationRepository = stationRepository;
 		this.trainRouteRepository = trainRouteRepository;
 		this.trainRepository = trainRepository;
 		this.trainMapper = trainMapper;
+		
+		classesMap = new HashMap<String, Long>();
+		List<ClassEntity> classes = classRepository.findAll();
+		for (ClassEntity entity : classes) {
+			classesMap.put(entity.getType(), entity.getId());
+		}
 	}
 
 	public List<Station> getMatchingStations(String match) {
@@ -69,10 +83,20 @@ public class TrainService {
 		return trainMapper.mapTrains(trainEntities, true);
 	}
 	
+	@Transactional
 	public void updateTrainRoute(TrainStation trainStation) {
 		TrainEntity train = null;
 		if (trainRepository.exists(trainStation.getTrain().getId())) {
 			train = trainRepository.findById(trainStation.getTrain().getId());
+			if (train.getClasses().isEmpty()) {
+				for (String clazz : trainStation.getTrain().getClasses()) {
+					if (classesMap.containsKey(clazz)) {
+						train.getClasses().add(new ClassEntity(classesMap.get(clazz), clazz));
+					}
+				}
+			}
+			train.setType(trainStation.getTrain().getType());
+			//trainRepository.save(train);
 		} else {
 			train = new TrainEntity();
 			train.setId(trainStation.getTrain().getId());

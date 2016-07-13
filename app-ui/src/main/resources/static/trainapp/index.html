@@ -28,10 +28,10 @@
 	    		<form>
 			        <hr>
 			        <div class="row">
-			        	<div class="col-md-4">
+			        	<div class="col-md-12">
 					        <div class="form-group" >
 					        	<label for="from" class="sr-only">From Station</label>
-					        	<input type="text" id="from" class="form-control typeahead" placeholder="From Station" required="" autofocus="" tabindex="0">
+					        	<input type="text" id="from" class="form-control typeahead input-lg1" placeholder="From Station" required="" autofocus="" tabindex="0">
 					        </div>
 					        <div class="form-group">
 						        <label for="to" class="sr-only">To Station</label>
@@ -90,8 +90,8 @@
 	    </div>
     </div>
 
-<!-- <input type="button" id="reload" value="reload" />
-<div id="test"></div> -->
+<input type="button" id="reload" value="reload" />
+<div id="test"></div>
 
 
 <script src="../bootstrap/js/jquery.js"></script>
@@ -167,34 +167,6 @@
 									}
 					    });
 
-
-					/*var fromTrains, toTrains;
-					stations.forEach(function(item, index) {
-						if (from == item.name) {
-							fromTrains = item.trains;
-						}
-						if (to == item.name) {
-							toTrains = item.trains;
-						}
-					});
-					var validTrains = new Array();
-					toTrains.forEach(function(item, index) {
-						if (fromTrains.indexOf(item) != -1) {
-							validTrains.push(item);
-						}
-					});
-					validTrains.forEach(function(item, index) {
-						if (trains[item]) {
-							train = trains[item];
-							var str = '<tr><td>'+train.id+'</td>';
-							train.route.forEach(function(item, index) {
-								if (from == item.station) {
-									str += '<td>'+item.time+'</td>'; 
-								}
-							});
-							$('.timetable > table > tbody').append(str+'</tr>');
-						}
-					});*/
 				});
 				$('#from').blur(function(evt) {
 					console.log($(this).val());
@@ -352,6 +324,7 @@
 		stationsNames.forEach(function(item) {
 			$.get('/rest/train/stations', {query: item}, function(stations) {
 				if (stations[0]) {
+					var flag;
 					/*url = 'http://erail.in/'+stations[0].name+'-railway-station/';
 					$.get(url, function(data) {
 						flag = false;
@@ -364,7 +337,7 @@
 							
 						});
 					});*/
-					var flag;
+					
 					$('#test > table > tbody > tr').each(function() {
 						if (!flag) {
 							flag = true;
@@ -381,12 +354,14 @@
 	}
 
 	function updateServer(obj, stations) {
-		console.log(obj);
 		trainStation = {};
 		//var matches = regExp.exec($(obj).find('td').first().text());
 		train = {};
 		train.id = $(obj).find('td:nth-child(3) > a').text();
 		train.name = $(obj).find('.trainName').text();
+		train.type = $(obj).find('td:nth-child(5)').text();
+		train.classes = $(obj).find('td:nth-child(11)').text().split(' ');
+		
 		station = {};
 		station.code = stations[0].code;
 		station.name = stations[0].name;
@@ -396,7 +371,7 @@
 		trainStation.arrival = $(obj).find('td:nth-child(7)').text();
 		trainStation.departure = $(obj).find('td:nth-child(8)').text();
 		trainStation.type = $(obj).find('td:nth-child(6)').text();
-		trainStation.classes = $(obj).find('td:nth-child(11)').text();
+		
 
 		trainStation.stoptime=$(obj).find('td:nth-child(4)').text();
 
@@ -409,17 +384,33 @@
 			trainStation.fri='Y';
 			trainStation.sat='Y';
 			trainStation.sun='Y';
+		} else {
+			if (temp.includes("M")) {
+				trainStation.mon='Y';
+			}
+			if (temp.includes("Tu")) {
+				trainStation.tue='Y';
+			}
+			if (temp.includes("W")) {
+				trainStation.wed='Y';
+			}
+			if (temp.includes("Th")) {
+				trainStation.thu='Y';
+			}
+			if (temp.includes("F")) {
+				trainStation.fri='Y';
+			}
+			if (temp.includes("Sa")) {
+				trainStation.sat='Y';
+			}
+			if (temp.includes("Su")) {
+				trainStation.sun='Y';
+			}
 		}
-		/*trainStation.mon=$(obj).find('td:nth-child(5)').text();
-		trainStation.tue=$(obj).find('td:nth-child(6)').text();
-		trainStation.wed=$(obj).find('td:nth-child(7)').text();
-		trainStation.thu=$(obj).find('td:nth-child(8)').text();
-		trainStation.fri=$(obj).find('td:nth-child(9)').text();
-		trainStation.sat=$(obj).find('td:nth-child(10)').text();
-		trainStation.sun=$(obj).find('td:nth-child(11)').text();*/
-		//trainStations.push(trainStation);
-		console.log(trainStation);return;
-		/*$.ajax({
+
+
+		//console.log(trainStation);return;
+		$.ajax({
 		    headers: { 
 		        'Accept': 'application/json',
 		        'Content-Type': 'application/json' 
@@ -431,7 +422,7 @@
 		    'success': function( result ) {
 						  console.log("result: "+result);
 						}
-		    });*/
+		    });
 	}
 
 	
