@@ -2,6 +2,8 @@ package com.prapps.app.trainapp.dto;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 
 public class SearchRequest implements Serializable {
 
@@ -12,6 +14,7 @@ public class SearchRequest implements Serializable {
 	private Calendar date;
 	private String fromTime;
 	private String toTime;
+	private Collection<String> types;
 	
 	public String getFrom() {
 		return from;
@@ -42,6 +45,22 @@ public class SearchRequest implements Serializable {
 	}
 	public void setToTime(String toTime) {
 		this.toTime = toTime;
+	}
+	public Collection<String> getTypes() {
+		if (types == null) {
+			types = Collections.emptyList();
+		}
+		
+		return types;
+	}
+	public void setTypes(Collection<String> types) {
+		this.types = types;
+	}
+	
+	@Override
+	public String toString() {
+		return "SearchRequest [from=" + from + ", to=" + to + ", date=" + date + ", fromTime=" + fromTime + ", toTime="
+				+ toTime + ", types=" + types + "]";
 	}
 
 }

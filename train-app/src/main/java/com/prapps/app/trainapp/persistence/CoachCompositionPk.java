@@ -7,22 +7,22 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class TrainRoutePk implements Serializable {
+public class CoachCompositionPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "train_id")
 	private Long trainId;
-	@Column(name = "station_id")
-	private Long stationId;
+	@Column(name = "coach_seq_no")
+	private Integer coachSeqNo;
 
-	public TrainRoutePk() {
+	public CoachCompositionPk() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public TrainRoutePk(Long trainId, Long stationId) {
+	public CoachCompositionPk(Long trainId, Integer coachSeqNo) {
 		this.trainId = trainId;
-		this.stationId = stationId;
+		this.coachSeqNo = coachSeqNo;
 	}
 
 	public Long getTrainId() {
@@ -33,26 +33,27 @@ public class TrainRoutePk implements Serializable {
 		this.trainId = trainId;
 	}
 
-	public Long getStationId() {
-		return stationId;
+	public Integer getCoachSeqNo() {
+		return coachSeqNo;
 	}
 
-	public void setStationId(Long stationId) {
-		this.stationId = stationId;
+	public void setCoachSeqNo(Integer coachSeqNo) {
+		this.coachSeqNo = coachSeqNo;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(trainId, stationId);
+		return Objects.hash(trainId, coachSeqNo);
 	}
 	
 	@Override
 	public boolean equals(Object otherObj) {
-		if (otherObj instanceof TrainRoutePk) {
-			TrainRoutePk other = (TrainRoutePk) otherObj;
-			return trainId == other.getTrainId() && stationId == other.getStationId();
+		if (otherObj instanceof CoachCompositionPk) {
+			CoachCompositionPk other = (CoachCompositionPk) otherObj;
+			return trainId == other.getTrainId() && coachSeqNo == other.getCoachSeqNo();
 		}
 		
 		return false;
 	}
+	
 }

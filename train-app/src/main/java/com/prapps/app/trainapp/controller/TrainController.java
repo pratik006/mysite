@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.prapps.app.trainapp.dto.SearchRequest;
 import com.prapps.app.trainapp.dto.Station;
 import com.prapps.app.trainapp.dto.Train;
-import com.prapps.app.trainapp.dto.TrainStation;
 import com.prapps.app.trainapp.service.TrainService;
 
 @Controller
@@ -42,14 +41,28 @@ public class TrainController {
 		return trainService.getMatchingStations(match);
 	}
 	
+	@RequestMapping(value = "/stationsList", method = RequestMethod.GET)
+	public @ResponseBody Collection<Station> getStations() {
+		return trainService.getMatchingStations(null);
+	}
+	
 	@RequestMapping(value = "/search", method = {RequestMethod.GET, RequestMethod.POST})
 	public @ResponseBody Collection<Train> searchTrains(@RequestBody SearchRequest request) {
-		return trainService.searchTrains(request);
+		if (StringUtils.isNotBlank(request.getFrom()) && StringUtils.isNotBlank(request.getTo())) {
+			return trainService.searchTrains(request);
+		}
+		
+		return Collections.emptyList();
 	}
 	
 	@RequestMapping(value = "/update", method = {RequestMethod.GET, RequestMethod.POST}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-	public @ResponseBody String updateRoute(@RequestBody TrainStation trainStation) {
-		trainService.updateTrainRoute(trainStation);
+	public @ResponseBody String updateRoute(@RequestBody Train train) {
+		trainService.updateTrainRoute(train);
 		return "success";
+	}
+	
+	@RequestMapping(value = "/uri", method=RequestMethod.GET)
+	public @ResponseBody String getUri(@RequestParam("stationName") String stationName,@RequestParam("type") String type) {
+		return trainService.getHtml(stationName, type);
 	}
 }

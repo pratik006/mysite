@@ -41,7 +41,7 @@
 			        </div>
 
 			        <div class="row">
-			        	<div class="col-md-6">
+			        	<div class="col-md-9">
 				        	<div class="form-group">
 				                <div class='input-group date' id='txtDate'>
 				                    <input type='text' class="form-control" />
@@ -63,7 +63,18 @@
 					        <div class="form-group">
 								  <label for="toTime">to time:</label>
 								  <select class="form-control" id="toTime"></select>
+								  
 					        </div>
+				        </div>
+				        <div class="col-md-3 time">				        	
+				        	<div class="form-group">
+				        	<div class="button-group">
+							        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> Train Types<span class="caret"></span></button>
+							<ul class="dropdown-menu">
+							  
+							</ul>
+							 </div>
+							 </div>
 				        </div>
 			        </div>
 
@@ -91,7 +102,7 @@
     </div>
 
 <input type="button" id="reload" value="reload" />
-<div id="test"></div>
+<div id="test" style="display: none;"></div>
 
 
 <script src="../bootstrap/js/jquery.js"></script>
@@ -136,6 +147,8 @@
 					searchRequest = {}; 
 					searchRequest.from = from;
 					searchRequest.to = to;
+					searchRequest.types = [];
+					searchRequest.types = trainTypeOptions;
 
 
 					$.ajax({
@@ -149,6 +162,8 @@
 					    'dataType': 'json',
 					    'success': function( trains ) {
 									  console.log("result: "+trains);
+									  $('.timetable > table > tbody').remove();
+									  $('.timetable > table').append('<tbody></tbody');
 									  trains.forEach(function(train, index) {
 									  	var row = '<tr><td>'+train.id+'</td>';
 									  	row += '<td>'+train.name+'</td>';
@@ -173,6 +188,32 @@
 				});
 				$('#to').blur(function(evt) {
 					console.log($(this).val());
+				});
+
+				var trainTypes = ['MMTS','MEMU','Passenger','Intercity Express','Mail & Express','Garib Rath','Special'];
+				trainTypes.forEach(function(item) {
+					$( '.dropdown-menu' ).append('<li><a href="#" class="small" data-value="'+item+'" tabIndex="-1"><input type="checkbox"/>&nbsp;'+item+'</a></li>');
+				}); 
+				var trainTypeOptions = [];
+				$( '.dropdown-menu a' ).on( 'click', function( event ) {
+
+				   var $target = $( event.currentTarget ),
+				       val = $target.attr( 'data-value' ),
+				       $inp = $target.find( 'input' ),
+				       idx;
+
+				   if ( ( idx = trainTypeOptions.indexOf( val ) ) > -1 ) {
+				      trainTypeOptions.splice( idx, 1 );
+				      setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
+				   } else {
+				      trainTypeOptions.push( val );
+				      setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
+				   }
+
+				   $( event.target ).blur();
+				      
+				   console.log( trainTypeOptions );
+				   return false;
 				});
 
 				$('.typeahead').typeahead({
@@ -235,7 +276,19 @@
 
 			};
 
-			var stationsNames = ['Lingampalli',
+			/*var stationsNames = [];
+			$.ajax({
+				url: '/rest/train/stationsList',
+				method: 'GET',
+				async: false,
+				'success': function(stations) {
+					stations.forEach(function(item) {
+						stationsNames.push(item.name);	
+					});
+				}
+			});*/
+			//console.log(stationsNames);
+			var stationsNames = [/*'Lingampalli',
 					'Chandanagar',
 					'Hafizpeta',
 					'Hitec City',
@@ -256,7 +309,12 @@
 					'Dabirpura',
 					'Yakutpura',
 					'Huppuguda',
-					'Falaknuma'
+					'Falaknuma',*/
+					'Howrah Jn',
+					'New-Delhi',
+					'Mumbai CST',
+					'chennai-central',
+					'jammu-tawi-railway'
 			];
 
 			
@@ -305,7 +363,7 @@
 							    'data': JSON.stringify(trainStation), 
 							    'dataType': 'json',
 							    'success': function( result ) {
-											  console.log("result: "+result);
+											  //console.log("result: "+result);
 											}
 							    });
 						});
@@ -321,92 +379,159 @@
 		trainStations = new Array();
 		var regExp = /\(([^)]+)\)/;
 
-		stationsNames.forEach(function(item) {
-			$.get('/rest/train/stations', {query: item}, function(stations) {
-				if (stations[0]) {
-					var flag;
-					/*url = 'http://erail.in/'+stations[0].name+'-railway-station/';
-					$.get(url, function(data) {
-						flag = false;
-						$('#test > table > tbody > tr', $(data)).each(function() {
-							if (!flag) {
-								flag = true;
-							} else {
-								updateServer(this);
-							}
-							
-						});
-					});*/
-					
-					$('#test > table > tbody > tr').each(function() {
-						if (!flag) {
+		stationsNames.forEach(function(stationName) {
+			var flag;
+			//console.log('stationName: '+stationName);
+			$.ajax({
+			    url: '/rest/train/uri',
+			    data: {'stationName': stationName, type: 'station'},
+			    method: "GET",
+			    success: function(data) {
+			    	stationCode = $(data).find('.page-header > h1').text().split('(')[1];
+			    	stationCode = stationCode.substring(0, stationCode.length-1);
+
+			    	$(data).find('.TrainsListPassing > tbody > tr').each(function() {
+			    		if (!flag) {
 							flag = true;
 						} else {
-							updateServer(this, stations);
-						}
-						
-					});
-					
-				}
+							var link = $(this).find('td:nth-child(3) > a').attr('href');
+				    		link = link.substring(1, link.length);
+				    		$.ajax({
+								url: '/rest/train/uri',
+								'type': 'GET',
+								'data': {'stationName': link, 'type': 'route'},
+								'async': false,
+								success: function(obj) {
+									temp = $(obj).find('.page-header > h1 > a').text();
+									temp = temp.split(',');
+
+									train = {};
+									train.id = temp[0];
+									train.name = temp[1];
+
+									tbody = $(obj).find('.col-sm-6 > div:nth-child(1) > table > tbody');
+									train.rundays = getTd(tbody, "Rundays");
+									train.classes = getTd(tbody, "Classes").split(' ');
+									train.pantry = getTd(tbody, "Pantry");
+									train.inclFoodCost = getTd(tbody, "Food cost");
+									train.totalTravelTime = toMins(getTd(tbody, "Total Travel Time"));
+									train.avgSpeed = getTd(tbody, "Speed").split(' ')[0];
+									train.advanceReservationPeriod = getTd(tbody, "ARP").split(' ')[0];
+									train.owner = getTd(tbody, "Own");
+									train.rakeShare = getTd(tbody, "Rake Share");
+									train.fareType = getTd(tbody, "Fare Type");
+									train.type = getTd(tbody, "Train Type");
+									train.pairTrainId = getTd(tbody, "Pair Train");
+									if (train.pairTrainId) {
+										train.pairTrainId = train.pairTrainId.split(',')[0];
+									}
+									train.gauge = getTd(tbody, "Gauge");
+									train.routes = new Array();
+									
+									var flag2 = false;
+									$(obj).find('.RouteList > tbody > tr').each(function() {
+					    				if (!flag2) {
+											flag2 = true;
+										} else {
+											trainStation = new Object();
+											//trainStation.train = train;
+											trainStation.station = {
+												'code': $(this).find('td:nth-child(3)').text(), 
+												'stationName': $(this).find('td:nth-child(4)').text()
+											};
+
+											trainStation.haltNo = $(this).find('td:nth-child(1)').text();
+											trainStation.arrival = $(this).find('td:nth-child(6)').text();
+											trainStation.departure = $(this).find('td:nth-child(7)').text();
+											trainStation.stoptime = $(this).find('td:nth-child(8)').text();
+											trainStation.distance = $(this).find('td:nth-child(9)').text();
+											trainStation.day = $(this).find('td:nth-child(10)').text();
+
+											//console.log(trainStation);
+											train.routes.push(trainStation);
+										}					
+						    		});	
+
+						    		$.ajax({
+						    			headers: { 
+									        'Accept': 'application/json',
+									        'Content-Type': 'application/json' 
+									    },
+									    'type': 'POST',
+									    'url': "/rest/train/update",
+									    'data': JSON.stringify(train), 
+									    'dataType': 'json',
+									    'success': function( result ) {
+										  //console.log("result: "+result);
+										}
+						    		});	
+								}
+							});
+						}	
+			    	});
+			    }
 			});
 
 		});
 	}
 
-	function updateServer(obj, stations) {
+	function updateServer(obj, trainNumber, trainName, stationCode, stationName) {
 		trainStation = {};
-		//var matches = regExp.exec($(obj).find('td').first().text());
 		train = {};
 		train.id = $(obj).find('td:nth-child(3) > a').text();
 		train.name = $(obj).find('.trainName').text();
 		train.type = $(obj).find('td:nth-child(5)').text();
+		train.rundays = $(obj).find('td:nth-child(5)').text();
 		train.classes = $(obj).find('td:nth-child(11)').text().split(' ');
-		
-		station = {};
-		station.code = stations[0].code;
-		station.name = stations[0].name;
-		trainStation.train = train;
-		trainStation.station = station;
-
-		trainStation.arrival = $(obj).find('td:nth-child(7)').text();
-		trainStation.departure = $(obj).find('td:nth-child(8)').text();
-		trainStation.type = $(obj).find('td:nth-child(6)').text();
-		
-
-		trainStation.stoptime=$(obj).find('td:nth-child(4)').text();
-
 		temp = $(obj).find('td:nth-child(12)').text();
 		if (temp == "Daily") {
-			trainStation.mon='Y';
-			trainStation.tue='Y';
-			trainStation.wed='Y';
-			trainStation.thu='Y';
-			trainStation.fri='Y';
-			trainStation.sat='Y';
-			trainStation.sun='Y';
+			train.mon='Y';
+			train.tue='Y';
+			train.wed='Y';
+			train.thu='Y';
+			train.fri='Y';
+			train.sat='Y';
+			train.sun='Y';
 		} else {
 			if (temp.includes("M")) {
-				trainStation.mon='Y';
+				train.mon='Y';
 			}
 			if (temp.includes("Tu")) {
-				trainStation.tue='Y';
+				train.tue='Y';
 			}
 			if (temp.includes("W")) {
-				trainStation.wed='Y';
+				train.wed='Y';
 			}
 			if (temp.includes("Th")) {
-				trainStation.thu='Y';
+				train.thu='Y';
 			}
 			if (temp.includes("F")) {
-				trainStation.fri='Y';
+				train.fri='Y';
 			}
 			if (temp.includes("Sa")) {
-				trainStation.sat='Y';
+				train.sat='Y';
 			}
 			if (temp.includes("Su")) {
-				trainStation.sun='Y';
+				train.sun='Y';
 			}
 		}
+		
+		trainStation.train = train;
+		trainStation.station = {'code': stationCode, 'stationName': stationName};
+
+		trainStation.haltNo = $(obj).find('td:nth-child(1)').text();
+		trainStation.arrival = $(obj).find('td:nth-child(6)').text();
+		trainStation.departure = $(obj).find('td:nth-child(7)').text();
+		trainStation.stoptime = $(obj).find('td:nth-child(8)').text();
+		trainStation.distance = $(obj).find('td:nth-child(9)').text();
+		trainStation.day = $(obj).find('td:nth-child(10)').text();
+
+		
+		
+
+		//trainStation.stoptime=$(obj).find('td:nth-child(4)').text();
+
+		
 
 
 		//console.log(trainStation);return;
@@ -420,12 +545,36 @@
 		    'data': JSON.stringify(trainStation), 
 		    'dataType': 'json',
 		    'success': function( result ) {
-						  console.log("result: "+result);
+						  //console.log("result: "+result);
 						}
 		    });
 	}
 
-	
+	function toMins(strTime) {
+		temp = strTime.split(',');
+		var time;
+		if (temp[0].split(' ')[1] == "hr") {
+			time = temp[0].split(' ')[0]*60;
+			if (temp[1]) {
+				time = time + temp[1].split(' ')[0];		
+			}
+		} else  if (temp[0].split(' ')[1] == "min") {
+			time = temp[0].split(' ')[0];
+		}
+		
+		return time;
+	}
+
+	function trim(str) {
+		if(str) {
+			return str.trim();
+		}
+		return str;
+	}
+
+	function getTd(tbody, code) {
+		return trim($(tbody).find('tr > td:contains('+code+')').find('b').text());
+	}
 
 </script>
 

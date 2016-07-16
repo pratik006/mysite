@@ -9,13 +9,11 @@ public class TrainStation implements Serializable {
 	private String arrival;
 	private String departure;
 	private String stoptime;
-	private String mon;
-	private String tue;
-	private String wed;
-	private String thu;
-	private String fri;
-	private String sat;
-	private String sun;
+	private Integer haltNo;
+	private Double distance;
+	private Integer day;
+	private Integer haltNumber;
+	
 	private Train train;
 	private Station station;
 	
@@ -37,47 +35,29 @@ public class TrainStation implements Serializable {
 	public void setStoptime(String stoptime) {
 		this.stoptime = stoptime;
 	}
-	public String getMon() {
-		return mon;
+	public Integer getHaltNo() {
+		return haltNo;
 	}
-	public void setMon(String mon) {
-		this.mon = mon;
+	public void setHaltNo(Integer haltNo) {
+		this.haltNo = haltNo;
 	}
-	public String getTue() {
-		return tue;
+	public Double getDistance() {
+		return distance;
 	}
-	public void setTue(String tue) {
-		this.tue = tue;
+	public void setDistance(Double distance) {
+		this.distance = distance;
 	}
-	public String getWed() {
-		return wed;
+	public Integer getDay() {
+		return day;
 	}
-	public void setWed(String wed) {
-		this.wed = wed;
+	public void setDay(Integer day) {
+		this.day = day;
 	}
-	public String getThu() {
-		return thu;
+	public Integer getHaltNumber() {
+		return haltNumber;
 	}
-	public void setThu(String thu) {
-		this.thu = thu;
-	}
-	public String getFri() {
-		return fri;
-	}
-	public void setFri(String fri) {
-		this.fri = fri;
-	}
-	public String getSat() {
-		return sat;
-	}
-	public void setSat(String sat) {
-		this.sat = sat;
-	}
-	public String getSun() {
-		return sun;
-	}
-	public void setSun(String sun) {
-		this.sun = sun;
+	public void setHaltNumber(Integer haltNumber) {
+		this.haltNumber = haltNumber;
 	}
 	public Train getTrain() {
 		return train;

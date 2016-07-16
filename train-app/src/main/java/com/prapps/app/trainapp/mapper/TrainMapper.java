@@ -4,27 +4,51 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Component;
 
-import com.prapps.app.trainapp.dto.Station;
 import com.prapps.app.trainapp.dto.Train;
-import com.prapps.app.trainapp.dto.TrainStation;
 import com.prapps.app.trainapp.persistence.ClassEntity;
-import com.prapps.app.trainapp.persistence.StationEntity;
 import com.prapps.app.trainapp.persistence.TrainEntity;
-import com.prapps.app.trainapp.persistence.TrainRouteEntity;
+import com.prapps.app.trainapp.service.CachedContext;
 
 @Component
 public class TrainMapper {
 
+	@Inject private TrainStationMapper trainStationMapper;
+	@Inject private CachedContext cachedCtx;
+	
 	public Train map(TrainEntity entity, boolean mapRoute) {
 		Train train = new Train();
 		train.setId(entity.getId());
 		train.setName(entity.getName());
+		train.setType(entity.getType());
+		train.setAdvanceReservationPeriod(entity.getAdvanceReservationPeriod());
+		train.setAvgSpeed(entity.getAvgSpeed());
+		train.setFareType(entity.getFareType());
+		train.setGauge(entity.getGauge());
+		train.setInclFoodCost(entity.getInclFoodCost());
+		train.setOwner(entity.getOwner());
+		train.setPairTrain(entity.getPairTrain());
+		train.setPantry(entity.getPantry());
+		train.setRakeShare(entity.getRakeShare());
+		train.setTotalTravelTime(entity.getTotalTravelTime());
+		train.setRundays(entity.getRundays());
+		train.setPairTrainId(entity.getPairTrainId());
+		
+		train.setMon(entity.getMon());
+		train.setTue(entity.getTue());
+		train.setWed(entity.getWed());
+		train.setThu(entity.getThu());
+		train.setFri(entity.getFri());
+		train.setSat(entity.getSat());
+		train.setSun(entity.getSun());
+		
 		train.setClasses(mapReservationClass(entity.getClasses()));
 		
 		if (mapRoute) {
-			train.setRoutes(mapTrainRoutes(entity.getRoutes(), true));
+			train.setRoutes(trainStationMapper.mapTrainStations(entity.getRoutes(), true));
 		}
 		return train;
 	}
@@ -48,28 +72,43 @@ public class TrainMapper {
 		return list;
 	}
 	
-	public Station map(StationEntity entity) {
-		Station station = new Station();
-		station.setId(entity.getId());
-		station.setCode(entity.getCode());
-		station.setName(entity.getName());
-		return station;
-	}
-	
-	public List<Station> mapStations(Collection<StationEntity> entities) {
-		List<Station> trains = new ArrayList<Station>();
-		for (StationEntity entity : entities) {
-			trains.add(map(entity));
+	public List<ClassEntity> mapClasses(List<String> classes) {
+		List<ClassEntity> list = new ArrayList<ClassEntity>(classes.size());
+		for (String type : classes) {
+			list.add(cachedCtx.getClassIdByType(type));
 		}
-		
-		return trains;
+		return list;
 	}
 	
-	public TrainEntity map(Train dto) {
-		TrainEntity train = new TrainEntity();
-		train.setId(dto.getId());
-		train.setName(dto.getName());
-		return train;
+	public TrainEntity map(Train train) {
+		TrainEntity entity = new TrainEntity();
+		entity.setId(train.getId());
+		entity.setName(train.getName());
+		entity.setType(train.getType());
+		entity.setAdvanceReservationPeriod(train.getAdvanceReservationPeriod());
+		entity.setAvgSpeed(train.getAvgSpeed());
+		entity.setFareType(train.getFareType());
+		entity.setGauge(train.getGauge());
+		entity.setInclFoodCost(train.getInclFoodCost());
+		entity.setOwner(train.getOwner());
+		entity.setPairTrain(train.getPairTrain());
+		entity.setPantry(train.getPantry());
+		entity.setRakeShare(train.getRakeShare());
+		entity.setTotalTravelTime(train.getTotalTravelTime());
+		entity.setRundays(train.getRundays());
+		entity.setPairTrainId(train.getPairTrainId());
+		
+		entity.setMon(train.getMon());
+		entity.setTue(train.getTue());
+		entity.setWed(train.getWed());
+		entity.setThu(train.getThu());
+		entity.setFri(train.getFri());
+		entity.setSat(train.getSat());
+		entity.setSun(train.getSun());
+		
+		entity.setClasses(mapClasses(train.getClasses()));
+		entity.setRoutes(trainStationMapper.mapTrainRoutes(train.getRoutes(), train.getId()));
+		return entity;
 	}
 	
 	public List<TrainEntity> mapTrainDtos(Collection<Train> dtos) {
@@ -81,61 +120,4 @@ public class TrainMapper {
 		return trains;
 	}
 	
-	public StationEntity map(Station dto) {
-		StationEntity station = new StationEntity();
-		station.setId(dto.getId());
-		station.setCode(dto.getCode());
-		station.setName(dto.getName());
-		return station;
-	}
-	
-	public List<StationEntity> mapStationDtos(Collection<Station> dtos) {
-		List<StationEntity> trains = new ArrayList<StationEntity>();
-		for (Station dto : dtos) {
-			trains.add(map(dto));
-		}
-		
-		return trains;
-	}
-	
-	public TrainRouteEntity map(TrainStation trainStation) {
-		TrainRouteEntity entity = new TrainRouteEntity();
-		entity.setArrival(trainStation.getArrival());
-		entity.setDeparture(trainStation.getDeparture());
-		entity.setStoptime(trainStation.getStoptime());
-		entity.setMon(trainStation.getMon());
-		entity.setTue(trainStation.getTue());
-		entity.setWed(trainStation.getWed());
-		entity.setThu(trainStation.getThu());
-		entity.setFri(trainStation.getFri());
-		entity.setSat(trainStation.getSat());
-		entity.setSun(trainStation.getSun());
-		return entity;
-	}
-	
-	public TrainStation map(TrainRouteEntity entity, boolean mapStation) {
-		TrainStation route = new TrainStation();
-		route.setArrival(entity.getArrival());
-		route.setDeparture(entity.getDeparture());
-		route.setStoptime(entity.getStoptime());
-		route.setMon(entity.getMon());
-		route.setTue(entity.getTue());
-		route.setWed(entity.getWed());
-		route.setThu(entity.getThu());
-		route.setFri(entity.getFri());
-		route.setSat(entity.getSat());
-		route.setSun(entity.getSun());
-		if (mapStation) {
-			route.setStation(map(entity.getStation()));
-		}
-		return route;
-	}
-	
-	public List<TrainStation> mapTrainRoutes(Collection<TrainRouteEntity> entities, boolean mapStation) {
-		List<TrainStation> list = new ArrayList<TrainStation>();
-		for (TrainRouteEntity entity : entities) {
-			list.add(map(entity, mapStation));
-		}
-		return list;
-	}
 }
