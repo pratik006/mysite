@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, FormControl, AbstractControl} from '@angular/forms';
 import {Validators} from '@angular/forms';
-import {SearchRequest} from './search';
+import {SearchRequest} from './search-request';
+import {SearchResponse} from './search-response';
+import {SearchService} from './search.service';
 
 import { MdCard } from '@angular2-material/card';
 import { MdInput } from '@angular2-material/input';
@@ -21,7 +23,8 @@ import { MdSpinner, MdProgressCircle } from '@angular2-material/progress-circle'
 	MdSpinner,
 	MdProgressCircle,
 	MdCard,
-	MdInput]
+	MdInput],
+	providers: [SearchService]
 })
 export class SearchComponent implements OnInit {
 	fb: FormBuilder;
@@ -33,8 +36,11 @@ export class SearchComponent implements OnInit {
 	passengerTrains: FormControl;
 
 	searchRequest:SearchRequest = new SearchRequest('Sec', 'Hwh');
+	searchReponse:SearchResponse;
+	service: SearchService;
 
-	constructor(fb: FormBuilder) {
+	constructor(fb: FormBuilder, service: SearchService) {
+		this.service = service;
 		this.fb = fb;
 		this.from = new FormControl("", Validators.required);
 		this.to = new FormControl("", Validators.required);
@@ -58,6 +64,8 @@ export class SearchComponent implements OnInit {
 		this.searchRequest.filters["passengerTrains"] = this.passengerTrains.value;
 		console.log("submited.."+this.from.value+' - '+this.to.value+' '+this.suburbanTrains.value+' '+this.passengerTrains.value);
 		console.log(this.diagnostic);
+		this.searchReponse = this.service.search(this.searchRequest);
+		console.log(this.searchReponse);
 	}	
 
 	get diagnostic() { return JSON.stringify(this.searchRequest); }

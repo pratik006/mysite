@@ -1,10 +1,10 @@
 <md-toolbar>
   <i class="material-icons demo-toolbar-icon">menu</i>
   <span>Train Timetable</span> &nbsp;
-  <div>
+  <!-- <div>
     <a [routerLink]="['/']">Todo</a> |
     <a [routerLink]="['/about', 'Hello world']">About</a>
-  </div>
+  </div> -->
 
   <span class="demo-fill-remaining"></span>
 
@@ -15,9 +15,10 @@
   </div>  
 </md-toolbar>
 
+
 <div class="container">
-  <router-outlet></router-outlet>
+  <search></search>
 </div>
 <div class="container">
-<search></search>
+  <router-outlet></router-outlet>
 </div>

@@ -14,7 +14,8 @@ import { MdSpinner, MdProgressCircle } from '@angular2-material/progress-circle'
 @Component({
   selector: 'todo',
   viewProviders: [FormBuilder],
-  templateUrl: './app/components/todo/todo.html',
+  //templateUrl: './app/components/todo/todo.html',
+  template: '',
   directives: [
     FORM_DIRECTIVES,
     REACTIVE_FORM_DIRECTIVES,
