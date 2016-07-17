@@ -64,8 +64,8 @@ export class SearchComponent implements OnInit {
 		this.searchRequest.filters["passengerTrains"] = this.passengerTrains.value;
 		console.log("submited.."+this.from.value+' - '+this.to.value+' '+this.suburbanTrains.value+' '+this.passengerTrains.value);
 		console.log(this.diagnostic);
-		this.searchReponse = this.service.search(this.searchRequest);
-		console.log(this.searchReponse);
+		this.service.search(this.searchRequest).subscribe(response => { this.searchReponse = response;});
+		
 	}	
 
 	get diagnostic() { return JSON.stringify(this.searchRequest); }

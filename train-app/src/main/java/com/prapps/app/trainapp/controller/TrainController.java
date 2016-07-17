@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.prapps.app.trainapp.dto.SearchRequest;
+import com.prapps.app.trainapp.dto.SearchResponse;
 import com.prapps.app.trainapp.dto.Station;
 import com.prapps.app.trainapp.dto.Train;
 import com.prapps.app.trainapp.service.TrainService;
@@ -47,12 +48,12 @@ public class TrainController {
 	}
 	
 	@RequestMapping(value = "/search", method = {RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Collection<Train> searchTrains(@RequestBody SearchRequest request) {
+	public @ResponseBody SearchResponse searchTrains(@RequestBody SearchRequest request) {
 		if (StringUtils.isNotBlank(request.getFrom()) && StringUtils.isNotBlank(request.getTo())) {
-			return trainService.searchTrains(request);
+			return new SearchResponse(trainService.searchTrains(request));
 		}
 		
-		return Collections.emptyList();
+		return new SearchResponse();
 	}
 	
 	@RequestMapping(value = "/update", method = {RequestMethod.GET, RequestMethod.POST}, consumes = {MediaType.APPLICATION_JSON_VALUE})
