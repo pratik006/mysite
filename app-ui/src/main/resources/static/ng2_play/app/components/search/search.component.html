@@ -1,0 +1,28 @@
+<md-card>
+  <md-card-content>
+
+    <form [formGroup]="searchForm" (submit)="onSubmit()">
+      <div>
+        <md-input required placeholder="From Station"  [formControl]="from" name="from" ></md-input>
+      </div>
+      <div>
+        <md-input required placeholder="To Station" [formControl]="to" ></md-input>
+      </div>
+      <div>
+      <md-checkbox [formControl]="suburbanTrains">
+          Suburnab Trains
+      </md-checkbox>
+      <md-checkbox [formControl]="passengerTrains">
+          Passenger Trains
+      </md-checkbox>
+      </div>
+
+      <div>
+        <button md-raised-button color="primary" type="submit">Find Trains</button>
+      </div>
+    </form>
+
+   
+
+  </md-card-content>
+</md-card>
