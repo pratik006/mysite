@@ -34,6 +34,7 @@
 		<module>blog</module>
 		<module>framework-util</module>
     	<module>app-ui</module>
+    	<module>chat</module>
   </modules>
 
 	<repositories>

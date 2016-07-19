@@ -1,4 +1,4 @@
-package com.prapps.app.core;
+package com.prapps.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
