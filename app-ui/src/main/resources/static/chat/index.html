@@ -8,56 +8,37 @@
 </head>
 <body>
   <div class="viewport">
-<div id="login">
-  <hgroup>
-    <h1>Login Form</h1>
-    <h3></h3>
-  </hgroup>
-  <form id="loginForm">
-    <div class="group">
-      <input id="j_username" name="username" type="email"><span class="highlight"></span><span class="bar"></span>
-      <label>Username</label>
+    <div id="login">
+      <hgroup>
+        <h1>Login Form</h1>
+        <h3></h3>
+      </hgroup>
+      <form id="loginForm">
+        <div class="group">
+          <input id="j_username" name="username" type="email" value="pratik006@gmail.com"><span class="highlight"></span><span class="bar"></span>
+          <label>Username</label>
+        </div>
+        <div class="group">
+          <input id="j_password" name="password" type="password" value="password123"><span class="highlight"></span><span class="bar"></span>
+          <label>Password</label>
+        </div>
+        <button id="login" type="button" class="button buttonBlue">Login
+          <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+        </button>
+      </form>
     </div>
-    <div class="group">
-      <input id="j_password" name="password" type="password"><span class="highlight"></span><span class="bar"></span>
-      <label>Password</label>
-    </div>
-    <button id="login" type="button" class="button buttonBlue">Login
-      <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-    </button>
-  </form>
-  <div>
   </div>
 
 
-
-
-  <script src="../bootstrap/js/jquery.js"></script>
-  <script type="text/javascript" src="login.js"></script>
-
-  <script type="text/javascript">
-    user = {};
-    $(document).ready(function() {
-      $('#login').click(function() {
-        var data = $('#loginForm').serialize();
-        console.log(data);
-        $.ajax({
-          url: '/rest/blog/login',
-          data: data,
-          dataType: "json",
-          type: "POST",
-          success: function(result) {
-            console.log(result);
-            user = result;
-            $('.viewport').load('./chat-template.html');
-          }
-        });
-
-      });
-
-    });
-  </script>
+<div>
+<script src="../bootstrap/js/jquery.js"></script>
+<script type="text/javascript" src="login.js"></script>
+<script type="text/javascript" src="app.js"></script>
+</div>      
+      
 </body>
+
+
 <footer><a href="http://www.polymer-project.org/" target="_blank"><img src="https://www.polymer-project.org/images/logos/p-logo.svg"></a>
   <p>You Gotta Love <a href="http://www.polymer-project.org/" target="_blank">Google</a></p>
 </footer>
