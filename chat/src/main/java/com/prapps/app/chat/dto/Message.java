@@ -1,6 +1,7 @@
 package com.prapps.app.chat.dto;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 public class Message implements Serializable {
 
@@ -17,6 +18,7 @@ public class Message implements Serializable {
 	
 	private int id;
 	private String msg;
+	private Calendar time;
 	
 	public int getId() {
 		return id;
@@ -29,5 +31,13 @@ public class Message implements Serializable {
 	}
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+
+	public Calendar getTime() {
+		return time;
+	}
+
+	public void setTime(Calendar time) {
+		this.time = time;
 	}
 }
