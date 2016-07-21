@@ -13,9 +13,11 @@
 	</div>
 </div>
 
-<ul class="collection">
-    
-</ul>
+<div id="msgDiv" style="width: 1000px; height: 600px; overflow: scroll;">
+	<ul class="collection">
+
+	</ul>
+</div>
 
 <script type="text/javascript">
 	var lastIndex = -1;
@@ -53,6 +55,7 @@
 		    msgResponse.messages.forEach(function(message, index) {
 		    	$(temp).find('p').text("hello");
 		    	$('.collection').append($(temp).html().replace('<p>','<p>'+message.msg));
+		    	$("#msgDiv").animate({ scrollTop: $('#msgDiv').prop("scrollHeight")}, 1000);
 		    });
 		});
 
