@@ -1,6 +1,8 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="login.css">
+  <link rel="stylesheet" type="text/css" href="css/app.css">
+
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="../materialize/css/materialize.min.css"  media="screen,projection"/>
   <link type="text/css" rel="stylesheet" href="../materialize/css/material-icons.css"  media="screen,projection"/>
@@ -12,12 +14,15 @@
   <div id="left-nav" class="col s3">
       <!-- <div id="sidebar" class="side-nav fixed" style="overflow: auto; overflow: auto; transform: translateX(0%);"> -->
 
-      <!-- </div> -->
+      <!-- </div> --> 
 
     </div>
+    <div>
     <div class="col s9">
-
-
+      <div id="chatView"></div>
+    </div>
+    <div class="col s9">
+      <div id="chatInputView"></div>
     </div>
   </div>
 
@@ -56,8 +61,11 @@
   <script src='./jquery.playSound.js'></script>
 
   <script src="js/model/ChatModel.js"></script>
+  <script src="js/view/ChatView.js"></script>
+  <script src="js/view/ChatInputView.js"></script>
   <script src="js/view/LeftNavView.js"></script>
   <script src="js/router/Router.js"></script>
+  <script src="app.js"></script>
 
   <!-- <script type="text/javascript">
     user = {};
