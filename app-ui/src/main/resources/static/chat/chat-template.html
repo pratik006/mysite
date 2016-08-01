@@ -13,62 +13,74 @@
 	</div>
 </div>
 
-<ul class="collection">
-    
-</ul>
+<div id="msgDiv" style="width: 1000px; height: 600px; overflow: scroll;">
+	<ul class="collection">
+
+	</ul>
+</div>
 
 <script type="text/javascript">
-	
-	$('#send').click(function() {
-      console.log('clicked');
-      $.get('/chat/add',
-        {'msg': $('#msg').val(), 'lastIndex': lastIndex},
-        function(result) {
-          updateMessages(result);
-        }
-        );
-    });
-    $('#refresh').click(function() {
-      $.get(
-        '/chat/get',
-        {'lastIndex': lastIndex},
-        function(result) {
-          updateMessages(result);
-        }
-      );  
-    });
+	var lastIndex = -1;
+	refreshTime = 10000;
 
-    function updateMessages(msgResponse) {
-      lastIndex = msgResponse.lastIndex;
-      
-      $.get('msg-template.html', function(template){
-          var temp = template;
-          msgResponse.messages.forEach(function(message, index) {
-            $(temp).find('span').text(new Date(message.time).toLocaleTimeString());
-            console.log(message);
-            $('.collection').append($(temp).html().replace('<p>','<p>'+message.msg));
-          });
-      });
+	$(document).ready(function() {
+		$('#send').click(function() {
+			console.log($('#msg').val());
+			$.get('/chat/add',
+				{'msg': $('#msg').val(), 'lastIndex': lastIndex},
+				function(result) {
+					updateMessages(result);
+				}
+				);
+			$('#msg').val('')
+		});
+		$('#refresh').click(function() {
+			$.get(
+				'/chat/get',
+				{'lastIndex': lastIndex},
+				function(result) {
+					updateMessages(result);
+				}
+			);	
+		});
 
-      
-    }
+		$('#refresh').click();
+	});
 
-    function myLoop () {
-      setTimeout(function () {  
-        $.get(
-          '/chat/get',
-          {'lastIndex': lastIndex},
-          function(result) {
-            updateMessages(result);
-          }
-        );
-        if (refreshTime <= 60000) {
-          refreshTime += refreshTime; 
-        }
-        
-        myLoop();
-      }, refreshTime)
-    }
+	function updateMessages(msgResponse) {
+		lastIndex = msgResponse.lastIndex;
+		
+		$.get('msg-template.html', function(template){
+		    var temp = template;
+		    msgResponse.messages.forEach(function(message, index) {
+		    	$(temp).find('p').text("hello");
+		    	$('.collection').append($(temp).html().replace('<p>','<p>'+message.msg));
+		    	$("#msgDiv").animate({ scrollTop: $('#msgDiv').prop("scrollHeight")}, 1000);
+		    	$.playSound('./sounds/CoolNotification0');
+		    });
+		});
 
-    myLoop(); 
+		
+	}
+
+
+function myLoop () {           //  create a loop function
+	setTimeout(function () {  
+		$.get(
+			'/chat/get',
+			{'lastIndex': lastIndex},
+			function(result) {
+				updateMessages(result);
+			}
+			);
+		if (refreshTime <= 60000) {
+			refreshTime += refreshTime;	
+		}
+		
+		myLoop();
+	}, refreshTime)
+}
+
+myLoop(); 
+
 </script>

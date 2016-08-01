@@ -1,0 +1,15 @@
+<div> 
+  <ul class="collection valign">
+
+    <% _.each(messages, function(msg) { %>    
+    <div>
+      <li class="collection-item avatar">
+        <img src="http://materializecss.com/images/yuna.jpg" alt="" class="circle">
+        <p><%=msg.get("msg")%> </p>
+        <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+      </li>
+    </div>
+
+    <% }) %>
+  </ul>
+</div>
