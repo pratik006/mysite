@@ -14,6 +14,7 @@ var ChatInputView = Backbone.View.extend({
     	var msgDetail = new Object();
     	msgDetail.message = $('#msg').val();
     	msgDetail.lastIndex = -1;
+    	msgDetail.threadId=1;
     	$('#msg').val("");
     	var msg = new Message();
     	msg.save(msgDetail, {
