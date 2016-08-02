@@ -23,10 +23,11 @@ public class ChatController {
 	
 	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.POST})
 	public @ResponseBody MessageResponse addMessage(@RequestBody MessageRequest request) {
-		User user = helper.getUserDetails();
-		/*User user = new User();
+		//User user = helper.getUserDetails();
+		User user = new User();
 		user.setUserId(1L);
-		user.setAppCode("chat");*/
+		user.setAppCode("chat");
+		user.setUserName("barsha");
 		if (!"chat".equals(user.getAppCode())) {
 			return new MessageResponse();
 		}
@@ -38,16 +39,19 @@ public class ChatController {
 		if (msg.length() >= 150) {
 			msg = msg.substring(0, 150);	
 		}
-		chatService.addHttpMessage(request.getThreadId(), msg, user);
-		return getMessages(request.getThreadId(), request.getLastIndex());
+		int curIndex = chatService.addHttpMessage(request.getThreadId(), msg, user);
+		MessageResponse response = new MessageResponse();
+		response.setCurIndex(curIndex);
+		return response;
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody MessageResponse getMessages(@RequestParam("threadId") Long threadId, @RequestParam("lastIndex") int lastIndex) {
-		User user = helper.getUserDetails();
-		/*User user = new User();
+		//User user = helper.getUserDetails();
+		User user = new User();
 		user.setUserId(1L);
-		user.setAppCode("chat");*/
-		return chatService.getMessages(threadId, lastIndex + 1, user);
+		user.setAppCode("chat");
+		user.setUserName("barsha");
+		return chatService.getMessages(threadId, lastIndex, user);
 	}
 }

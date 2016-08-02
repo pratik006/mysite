@@ -23,7 +23,7 @@ public class ChatService {
 		messageThreadMap.put(1L, new HashMap<Long, MessageThread>());
 	}
 	
-	public void addHttpMessage(Long threadId, String msg, User user) {
+	public int addHttpMessage(Long threadId, String msg, User user) {
 		Map<Long, MessageThread> threads = messageThreadMap.get(user.getUserId());
 		if (threads == null) {
 			threads = new HashMap<Long, MessageThread>();
@@ -36,8 +36,10 @@ public class ChatService {
 		
 		MessageThread thread = threads.get(threadId);
 		Message message = new Message(thread.getCurrentIndex() + 1, msg);
+		message.setUsername(user.getUserName());
 		thread.addMessage(message);
 		message.setTime(timeUtil.getCurrentTime());
+		return thread.getCurrentIndex();
 	}
 	
 	public MessageResponse getMessages(Long threadId, int lastIndex, User user) {
@@ -48,6 +50,6 @@ public class ChatService {
 		
 		MessageThread thread = threads.get(threadId); 
 		int currentIndex = thread.getCurrentIndex();
-		return new MessageResponse(currentIndex, thread.getMessages().subList(lastIndex, currentIndex));
+		return new MessageResponse(currentIndex, thread.getMessages().subList(lastIndex, currentIndex + 1));
 	}
 }

@@ -1,11 +1,18 @@
 var Messages = Backbone.Collection.extend({
     url: 'http://localhost:8080/rest/chat',
+    idAttribute: 'id',
     parse: function(data) {
     	return data.messages;
   	}
 });
 
-var Message = Backbone.Model.extend({
+var messages = new Messages();
+
+/*var Message = Backbone.Model.extend({
     urlRoot: 'http://localhost:8080/rest/chat',
-    idAttribute: 'id'
+    idAttribute: 'id',
+    parse: function(data) {
+    	return data.messages;
+  	}
 });
+*/

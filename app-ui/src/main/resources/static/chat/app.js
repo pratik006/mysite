@@ -1,5 +1,3 @@
-Backbone.history.start();
-
 App = {Context: ''};
 App.Context = {
   getValue: function(key) {
@@ -9,6 +7,8 @@ App.Context = {
       this[key] = value;
   } 
 }
+
+App.Context.setValue(1, 0);
 
 function render(tmpl_name, tmpl_data) {
     if ( !render.tmpl_cache ) { 
@@ -49,31 +49,3 @@ $.fn.serializeObject = function()
     });
     return o;
 }
-
-function getAttribute(blog, id) {
-    if(typeof blog != 'undefined')
-        return blog.get(id);
-}
-
-/*user = {};
-var lastIndex = -1;
-refreshTime = 10000;
-$(document).ready(function() {
-  $('#login').click(function() {
-    var data = $('#loginForm').serialize();
-    console.log(data);
-    $.ajax({
-      url: '/rest/blog/login',
-      data: data,
-      dataType: "json",
-      type: "POST",
-      success: function(result) {
-        console.log(result);
-        user = result;
-        $('.viewport').load('./chat-template.html');
-        $('#refresh').click();
-        
-      }
-    });
-  });
-});*/

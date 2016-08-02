@@ -5,16 +5,16 @@
 
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="../materialize/css/materialize.min.css"  media="screen,projection"/>
-  <link type="text/css" rel="stylesheet" href="../materialize/css/material-icons.css"  media="screen,projection"/>
+  <!-- <link type="text/css" rel="stylesheet" href="../materialize/css/material-icons.css"  media="screen,projection"/> -->
 </head>
 <body>
   <!-- Navbar goes here -->
   <div class="row">
 
-  <div id="left-nav" class="col s3">
-      <!-- <div id="sidebar" class="side-nav fixed" style="overflow: auto; overflow: auto; transform: translateX(0%);"> -->
+    <div id="left-nav" class="col s3">
+        <!-- <div id="sidebar" class="side-nav fixed" style="overflow: auto; overflow: auto; transform: translateX(0%);"> -->
 
-      <!-- </div> --> 
+        <!-- </div> --> 
 
     </div>
     <div>
@@ -60,12 +60,14 @@
   <script type="text/javascript" src="login.js"></script>
   <script src='./jquery.playSound.js'></script>
 
+
+  <script src="app.js"></script>
   <script src="js/model/ChatModel.js"></script>
   <script src="js/view/ChatView.js"></script>
   <script src="js/view/ChatInputView.js"></script>
   <script src="js/view/LeftNavView.js"></script>
-  <script src="js/router/Router.js"></script>
-  <script src="app.js"></script>
+  <script src="js/router/router.js"></script>
+  <script type="text/javascript">Backbone.history.start();</script>
 
   <!-- <script type="text/javascript">
     user = {};

@@ -7,6 +7,7 @@ var chatInputView = new ChatInputView();
     routes: {
         'index': 'home',
         '': 'home',
+        'home': 'home',
         'loginComplete': 'loginComplete'
     }
 });

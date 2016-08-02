@@ -19,6 +19,7 @@ public class Message implements Serializable {
 	private int id;
 	private String msg;
 	private Calendar time;
+	private String username;
 	
 	public int getId() {
 		return id;
@@ -39,5 +40,13 @@ public class Message implements Serializable {
 
 	public void setTime(Calendar time) {
 		this.time = time;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }
