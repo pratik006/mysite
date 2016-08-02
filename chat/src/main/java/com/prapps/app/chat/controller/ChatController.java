@@ -23,12 +23,12 @@ public class ChatController {
 	
 	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.POST})
 	public @ResponseBody MessageResponse addMessage(@RequestBody MessageRequest request) {
-		//User user = helper.getUserDetails();
-		User user = new User();
+		User user = helper.getUserDetails();
+		/*User user = new User();
 		user.setUserId(1L);
 		user.setAppCode("chat");
-		user.setUserName("barsha");
-		if (!"chat".equals(user.getAppCode())) {
+		user.setUserName("barsha");*/
+		if (!"1".equals(user.getAppCode())) {
 			return new MessageResponse();
 		}
 		if (request.getMessage() == null) {
@@ -47,11 +47,14 @@ public class ChatController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody MessageResponse getMessages(@RequestParam("threadId") Long threadId, @RequestParam("lastIndex") int lastIndex) {
-		//User user = helper.getUserDetails();
-		User user = new User();
+		User user = helper.getUserDetails();
+		/*User user = new User();
 		user.setUserId(1L);
 		user.setAppCode("chat");
-		user.setUserName("barsha");
+		user.setUserName("barsha");*/
+		if (!"1".equals(user.getAppCode())) {
+			return new MessageResponse();
+		}
 		return chatService.getMessages(threadId, lastIndex, user);
 	}
 }

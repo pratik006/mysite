@@ -26,7 +26,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/", "/index.html", "/bootstrap/**", "/blog/css/**", "/blog/index.html", "/blog/app.js", "/chat/**").permitAll()
+				.antMatchers("/", "/index.html", "/bootstrap/**", "/blog/css/**", "/blog/index.html", "/blog/app.js", "/chat/login.html", "/chat/js/**", "/chat/css/**", "/chat/sounds/**", "/chat/app.js").permitAll()
 				.antMatchers(HttpMethod.POST, "/rest/blog/comment").permitAll()
 				.antMatchers(HttpMethod.PUT, "/rest/blog/*").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.POST, "/rest/blog/*").hasAnyRole("user", "admin")
@@ -35,6 +35,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.DELETE, "/rest/blog/*").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.GET, "/rest/blog/*").permitAll()
 				.antMatchers(HttpMethod.GET, "/rest/chat/*").permitAll()
+				.antMatchers(HttpMethod.GET, "/chat/**").hasAnyRole("user", "admin")
 				.antMatchers("/rest/blogs/*").permitAll()
 				.antMatchers("/**").permitAll()
 				//.antMatchers("/**").hasRole("admin")
