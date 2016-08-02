@@ -1,6 +1,7 @@
 package com.prapps.app.chat.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageThread implements Serializable {
@@ -12,6 +13,10 @@ public class MessageThread implements Serializable {
 	private int currentIndex = -1;
 
 	public List<Message> getMessages() {
+		if (messages == null) {
+			messages = new ArrayList<Message>();
+		}
+		
 		return messages;
 	}
 
@@ -19,8 +24,8 @@ public class MessageThread implements Serializable {
 		this.messages = messages;
 	}
 
-	public void addMessages(Message message) {
-		this.messages.add((++currentIndex)%MSG_BUF_SIZE, message);
+	public void addMessage(Message message) {
+		this.getMessages().add((++currentIndex)%MSG_BUF_SIZE, message);
 	}
 
 	public int getCurrentIndex() {

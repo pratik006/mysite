@@ -17,6 +17,7 @@ public class ChatService {
 
 	@Autowired TimeUtil timeUtil;
 	private Map<Long, Map<Long, MessageThread>> messageThreadMap = new HashMap<Long, Map<Long, MessageThread>>();
+	int threadCount = 0;
 	
 	public ChatService() {
 		messageThreadMap.put(1L, new HashMap<Long, MessageThread>());
@@ -28,9 +29,14 @@ public class ChatService {
 			threads = new HashMap<Long, MessageThread>();
 		}
 		
+		if (threadId == null || !threads.containsKey(threadId)) {
+			threadId = (long) (++threadCount);
+			threads.put(threadId, new MessageThread());
+		}
+		
 		MessageThread thread = threads.get(threadId);
-		Message message = new Message(thread.getCurrentIndex(), msg);
-		thread.getMessages().add(message);
+		Message message = new Message(thread.getCurrentIndex() + 1, msg);
+		thread.addMessage(message);
 		message.setTime(timeUtil.getCurrentTime());
 	}
 	
