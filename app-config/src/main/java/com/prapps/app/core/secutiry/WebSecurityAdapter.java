@@ -26,7 +26,8 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/", "/index.html", "/bootstrap/**", "/blog/css/**", "/blog/index.html", "/blog/app.js", "/chat/index.html", "/chat/js/**", "/chat/css/**", "/chat/sounds/**", "/chat/app.js").permitAll()
+				.antMatchers("/", "/index.html", "/bootstrap/**", "/blog/css/**", "/blog/index.html", "/blog/app.js", 
+						"/chat/index.html", "/chat/js/**", "/chat/css/**", "/chat/sounds/**", "/chat/app.js").permitAll()
 				.antMatchers(HttpMethod.POST, "/rest/blog/comment").permitAll()
 				.antMatchers(HttpMethod.PUT, "/rest/blog/*").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.POST, "/rest/blog/*").hasAnyRole("user", "admin")
