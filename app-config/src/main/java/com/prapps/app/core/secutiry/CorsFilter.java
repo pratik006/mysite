@@ -72,7 +72,7 @@ public class CorsFilter implements Filter {
 		
 		String remoteAddr = servletRequest.getRemoteAddr();
 		String uri = request.getRequestURI();
-		if (log.isDebugEnabled()) {
+		if (log.isTraceEnabled()) {
 			log.trace("Request Uri: "+uri);
 		}
 		
