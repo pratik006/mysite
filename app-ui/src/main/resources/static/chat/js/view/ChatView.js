@@ -29,9 +29,7 @@ var ChatView = Backbone.View.extend({
             messages.fetch({data: {lastIndex: this.lastIndex, threadId: this.threadId},
                 success: function(messages) {}
             });
-            $.get('./sounds/notification-sound', function(result) {
-                $.playSound(result);
-            });
+            $.playSound('./sounds/notification-sound');
         }
     },
 
