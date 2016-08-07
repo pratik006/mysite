@@ -1,0 +1,18 @@
+<!-- <div> 
+  <ul class="collection valign"> -->
+    <% _.each(messages, function(msg) { 
+      var user = $.grep(contacts, function(e){ return e.username == msg.get("userName"); })[0];
+    %>    
+    
+    <div>
+      <li class="collection-item avatar">
+        <img src=<%= user.avatarUrl %> alt="" class="circle">
+        <p style="color: #999">~<%=user.username%> </p>
+        <p><%=msg.get("msg")%> </p>
+        <!-- <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a> -->
+      </li>
+    </div>
+
+    <% }) %>
+  <!-- </ul>
+</div> -->

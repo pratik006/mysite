@@ -16,6 +16,7 @@ public class User implements Serializable {
 	private Boolean credentialExpired;
 	private Boolean locked;
 	private Boolean expired;
+	private String avatarUrl;
 	
 	//private transient String roleStr;
 	
@@ -108,6 +109,12 @@ public class User implements Serializable {
 	}
 	public void setCredentialExpired(Boolean credentialExpired) {
 		this.credentialExpired = credentialExpired;
+	}
+	public String getAvatarUrl() {
+		return avatarUrl;
+	}
+	public void setAvatarUrl(String avatarUrl) {
+		this.avatarUrl = avatarUrl;
 	}
 	@Override
 	public String toString() {

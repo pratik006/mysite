@@ -1,0 +1,16 @@
+.flex-container-column {
+	flex-direction: column;
+}
+
+.flex-grow-item-sm {
+	flex-grow: 3;
+}
+
+div#chatView {
+	height: 60%;
+	overflow-y: auto;
+}
+
+div#left-nav {
+	height: 97%;
+}

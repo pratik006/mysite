@@ -10,9 +10,14 @@ public class MessageResponse implements Serializable {
 	
 	private List<Message> messages;
 	private int lastIndex;
+	private int curIndex;
 	
 	public MessageResponse() {
 		
+	}
+	
+	public MessageResponse(int lastIndex) {
+		this.lastIndex = lastIndex;
 	}
 	
 	public MessageResponse(int lastIndex, List<Message> messages) {
@@ -38,5 +43,13 @@ public class MessageResponse implements Serializable {
 
 	public void setLastIndex(int lastIndex) {
 		this.lastIndex = lastIndex;
+	}
+
+	public int getCurIndex() {
+		return curIndex;
+	}
+
+	public void setCurIndex(int curIndex) {
+		this.curIndex = curIndex;
 	}
 }

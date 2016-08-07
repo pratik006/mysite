@@ -44,6 +44,8 @@ public class UserEntity implements Serializable {
 	private Boolean locked;
 	@Column(name="EXPIPRED")
 	private Boolean expired;
+	@Column(name="AVATAR_URL")
+	private String avatarUrl;
 	
 	@OneToMany
 	@JoinColumn(name="USER_ID")
@@ -148,6 +150,12 @@ public class UserEntity implements Serializable {
 	}
 	public void setCredentialExpired(Boolean credentialExpired) {
 		this.credentialExpired = credentialExpired;
+	}
+	public String getAvatarUrl() {
+		return avatarUrl;
+	}
+	public void setAvatarUrl(String avatarUrl) {
+		this.avatarUrl = avatarUrl;
 	}
 	@Override
 	public String toString() {
