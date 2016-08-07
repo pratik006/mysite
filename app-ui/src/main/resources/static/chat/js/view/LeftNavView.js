@@ -1,9 +1,8 @@
 var LeftNavView = Backbone.View.extend({
     el: '#left-nav',
-    render: function() {
-        var that = this;
-        var html = render('left-nav-template');
-        that.$el.html(html);
+    render: function(user) {
+        var html = render('left-nav-template', {user: user});
+        this.$el.html(html);
         /*var blogs = new Blogs();
         blogs.fetch({
             success: function(blogs) {

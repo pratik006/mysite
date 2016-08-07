@@ -19,14 +19,11 @@ public class ChatService {
 	private Map<Long, Map<Long, MessageThread>> messageThreadMap = new HashMap<Long, Map<Long, MessageThread>>();
 	int threadCount = 0;
 	
-	public ChatService() {
-		messageThreadMap.put(1L, new HashMap<Long, MessageThread>());
-	}
-	
 	public int addHttpMessage(Long threadId, String msg, User user) {
 		Map<Long, MessageThread> threads = messageThreadMap.get(user.getUserId());
 		if (threads == null) {
 			threads = new HashMap<Long, MessageThread>();
+			messageThreadMap.put(user.getUserId(), threads);
 		}
 		
 		if (threadId == null || !threads.containsKey(threadId)) {
@@ -36,7 +33,7 @@ public class ChatService {
 		
 		MessageThread thread = threads.get(threadId);
 		Message message = new Message(thread.getCurrentIndex() + 1, msg);
-		message.setUsername(user.getUserName());
+		message.setUserName(user.getUserName());
 		thread.addMessage(message);
 		message.setTime(timeUtil.getCurrentTime());
 		return thread.getCurrentIndex();
@@ -50,6 +47,6 @@ public class ChatService {
 		
 		MessageThread thread = threads.get(threadId); 
 		int currentIndex = thread.getCurrentIndex();
-		return new MessageResponse(currentIndex, thread.getMessages().subList(lastIndex, currentIndex + 1));
+		return new MessageResponse(currentIndex, thread.getMessages().subList(lastIndex + 1, currentIndex + 1));
 	}
 }

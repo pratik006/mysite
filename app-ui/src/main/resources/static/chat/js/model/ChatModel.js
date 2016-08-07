@@ -2,6 +2,7 @@ var Messages = Backbone.Collection.extend({
     url: 'http://localhost:8080/rest/chat',
     idAttribute: 'id',
     parse: function(data) {
+        App.Context.setLastIndex(data.lastIndex);
     	return data.messages;
   	}
 });

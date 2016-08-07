@@ -10,12 +10,7 @@
 <body>
   <!-- Navbar goes here -->
   <div class="row">
-
     <div id="left-nav" class="col s3">
-        <!-- <div id="sidebar" class="side-nav fixed" style="overflow: auto; overflow: auto; transform: translateX(0%);"> -->
-
-        <!-- </div> --> 
-
     </div>
     <div>
     <div class="col s9">
@@ -36,33 +31,13 @@
 
   <script src="app.js"></script>
   <script src="js/model/ChatModel.js"></script>
+  <script src="js/view/LoginView.js"></script>
+  <script src="js/view/HomeView.js"></script>
   <script src="js/view/ChatView.js"></script>
   <script src="js/view/ChatInputView.js"></script>
   <script src="js/view/LeftNavView.js"></script>
   <script src="js/router/router.js"></script>
   <script type="text/javascript">Backbone.history.start();</script>
-
-  <!-- <script type="text/javascript">
-    user = {};
-    $(document).ready(function() {
-      $('#login').click(function() {
-        var data = $('#loginForm').serialize();
-        console.log(data);
-        $.ajax({
-          url: '/rest/blog/login',
-          data: data,
-          dataType: "json",
-          type: "POST",
-          success: function(result) {
-            console.log(result);
-            user = result;
-            $('.viewport').load('./chat-template.html');
-          }
-        });
-      });
-    });
-
-  </script> -->
 </body>
 
 
