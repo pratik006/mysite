@@ -1,4 +1,4 @@
-package com.prapps.app.core.persistence;
+package com.prapps.app.blog.persistence;
 
 import java.io.Serializable;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package com.prapps.app.core.dto;
+package com.prapps.app.blog.dto;
 
 public enum BlogPostStatus {
 

@@ -1,4 +1,4 @@
-package com.prapps.app.core.service;
+package com.prapps.app.blog.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,19 +12,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 
-import com.prapps.app.core.dataaccess.BlogCommentRepository;
-import com.prapps.app.core.dataaccess.BlogPostLinksRepository;
-import com.prapps.app.core.dataaccess.BlogRepository;
-import com.prapps.app.core.dto.BlogComment;
-import com.prapps.app.core.dto.BlogPost;
-import com.prapps.app.core.dto.BlogPostLink;
-import com.prapps.app.core.dto.BlogPostStatus;
+import com.prapps.app.blog.dataaccess.BlogCommentRepository;
+import com.prapps.app.blog.dataaccess.BlogPostLinksRepository;
+import com.prapps.app.blog.dataaccess.BlogRepository;
+import com.prapps.app.blog.dto.BlogComment;
+import com.prapps.app.blog.dto.BlogPost;
+import com.prapps.app.blog.dto.BlogPostLink;
+import com.prapps.app.blog.dto.BlogPostStatus;
+import com.prapps.app.blog.mapper.BlogMapper;
+import com.prapps.app.blog.persistence.BlogCommentEntity;
+import com.prapps.app.blog.persistence.BlogPostEntity;
+import com.prapps.app.blog.persistence.BlogPostLinkEntity;
 import com.prapps.app.core.dto.User;
 import com.prapps.app.core.exception.BlogServiceException;
-import com.prapps.app.core.mapper.BlogMapper;
-import com.prapps.app.core.persistence.BlogCommentEntity;
-import com.prapps.app.core.persistence.BlogPostEntity;
-import com.prapps.app.core.persistence.BlogPostLinkEntity;
 import com.prapps.app.core.util.CollectionUtil;
 import com.prapps.app.core.util.PrincipalHelper;
 import com.prapps.app.core.util.time.TimeUtil;

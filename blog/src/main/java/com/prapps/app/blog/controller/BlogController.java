@@ -1,4 +1,4 @@
-package com.prapps.app.core.controller;
+package com.prapps.app.blog.controller;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -24,11 +24,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.prapps.app.core.dto.BlogComment;
-import com.prapps.app.core.dto.BlogPost;
-import com.prapps.app.core.dto.BlogPostLink;
+import com.prapps.app.blog.dto.BlogComment;
+import com.prapps.app.blog.dto.BlogPost;
+import com.prapps.app.blog.dto.BlogPostLink;
+import com.prapps.app.blog.service.BlogService;
 import com.prapps.app.core.exception.BlogServiceException;
-import com.prapps.app.core.service.BlogService;
 
 @Controller
 @ControllerAdvice

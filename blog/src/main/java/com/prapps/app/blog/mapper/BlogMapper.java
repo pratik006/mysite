@@ -1,4 +1,4 @@
-package com.prapps.app.core.mapper;
+package com.prapps.app.blog.mapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,11 +6,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.prapps.app.core.dto.BlogComment;
-import com.prapps.app.core.dto.BlogPostLink;
-import com.prapps.app.core.dto.BlogPostLinkType;
-import com.prapps.app.core.persistence.BlogCommentEntity;
-import com.prapps.app.core.persistence.BlogPostLinkEntity;
+import com.prapps.app.blog.dto.BlogComment;
+import com.prapps.app.blog.dto.BlogPostLink;
+import com.prapps.app.blog.dto.BlogPostLinkType;
+import com.prapps.app.blog.persistence.BlogCommentEntity;
+import com.prapps.app.blog.persistence.BlogPostLinkEntity;
 
 @Component
 public class BlogMapper {
