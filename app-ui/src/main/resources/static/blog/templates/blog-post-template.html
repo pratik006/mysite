@@ -57,12 +57,17 @@
 
 </div>
 <script type="text/javascript">
+var re = /(?:\.([^.]+))?$/;
 
 $('#content').find(".blog-link").each(function() {
     var text = $(this).text();
+    var language = "language-"+re.exec(text)[1];
     var that = this;
     $.get(text, null,function(text) {
-    	$(that).text(text);
+        text = text.replace(new RegExp('<', 'g'), '&lt;');
+        text = text.replace(new RegExp('>', 'g'), '&gt;');
+    	$(that).html('<pre><code class='+language+'><div>'+text+'</div></code></pre>');
+        Prism.highlightElement($(that).find('div').get(0));
     });
      
 });
