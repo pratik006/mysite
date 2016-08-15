@@ -30,7 +30,7 @@ public class PrincipalHelper {
 		String username = userDetails.getUsername();
 		User user = null;
 		
-		if (userMap == null) {
+		if (userMap == null || userMap.get() == null) {
 			userMap = new SoftReference<Map<String,User>>(new HashMap<String,User>());
 		}
 		if ((user = userMap.get().get(username)) == null) {
