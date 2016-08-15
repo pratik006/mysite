@@ -105,7 +105,11 @@ $('#content').find(".blog-link").each(function() {
     	$(that).html('<pre><code class='+language+'><div>'+text+'</div></code></pre>');
         Prism.highlightElement($(that).find('div').get(0));
     });
-     
+});
+$('#content').find(".code-block").each(function() {
+    var language = "language-java";
+    $(this).html('<pre><code class='+language+'><div>'+$(this).text()+'</div></code></pre>');
+    Prism.highlightElement($(this).find('div').get(0));
 });
 
 </script>
