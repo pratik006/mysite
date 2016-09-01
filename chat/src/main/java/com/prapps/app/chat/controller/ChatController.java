@@ -16,6 +16,7 @@ import com.prapps.app.chat.dto.MessageResponse;
 public class ChatController {
 
 	private static final int MSG_BUF_SIZE = 1024;
+	private static final int MSG_MAX_LEN = 1024;
 	private Message[] messages = new Message[MSG_BUF_SIZE];
 	private int currentIndex = -1;
 	
@@ -25,8 +26,8 @@ public class ChatController {
 			return new MessageResponse();
 		}
 		
-		if (msg.length() >= 150) {
-			msg = msg.substring(0, 150);	
+		if (msg.length() >= MSG_MAX_LEN) {
+			msg = msg.substring(0, MSG_MAX_LEN);	
 		}
 		messages[++currentIndex % MSG_BUF_SIZE] = new Message(currentIndex, msg);
 		return new MessageResponse(currentIndex, Arrays.asList(Arrays.copyOfRange(messages, lastIndex+1, currentIndex+1)));
