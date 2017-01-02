@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.prapps.app.blog.dto.BlogPost;
 import com.prapps.app.blog.service.BlogService;
+import com.prapps.app.core.util.PrincipalHelper;
 
 @Controller
 @ControllerAdvice
@@ -25,10 +26,12 @@ import com.prapps.app.blog.service.BlogService;
 public class PageController {
 
 	private BlogService blogService;
+	private PrincipalHelper principalHelper;
 
 	@Inject
-	public PageController(BlogService blogService) {
+	public PageController(BlogService blogService, PrincipalHelper principalHelper) {
 		this.blogService = blogService;
+		this.principalHelper = principalHelper;
 	}
 
 	@RequestMapping(value="/{blogId}", method = {RequestMethod.GET})
@@ -38,6 +41,7 @@ public class PageController {
 		Collection<BlogPost> blogs = blogService.findAll();
 		modelMap.put("blog", blog);
 		modelMap.put("recentBlogs", blogs);
+		modelMap.put("authenticated", principalHelper.isAuthenticated());
 		return new ModelAndView("page", modelMap);
 	}
 	
@@ -48,6 +52,7 @@ public class PageController {
 		Collection<BlogPost> blogs = blogService.findAll();
 		modelMap.put("blog", blog);
 		modelMap.put("recentBlogs", blogs);
+		modelMap.put("authenticated", principalHelper.isAuthenticated());
 		return new ModelAndView("page", modelMap);
 	}
 	

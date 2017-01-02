@@ -28,20 +28,25 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/", "/index.html", "/bootstrap/**", "/blog/css/**", "/blog/index.html", "/blog/app.js",
-						"/chat/index.html", "/chat/js/**", "/chat/css/**", "/chat/sounds/**", "/chat/app.js").permitAll()
+				.antMatchers("/", "/index.html", "/bootstrap/**", "/social/**", "/prism/**", "/resources/**",
+						"/chat/index.html", "/chat/js/**", "/chat/css/**", "/chat/sounds/**", "/chat/app.js",
+						"/blog/app.js", "/blog/model/*", "/blog/view/*", "/blog/router/*", "/blog/templates/*", "/blog/css/**", "/blog/index.html"
+						)
+					.permitAll()
 				.antMatchers(HttpMethod.POST, "/rest/blog/comment").permitAll()
+				.antMatchers(HttpMethod.GET, "/rest/blog/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/blog/page/edit/**").hasAnyRole("user", "admin")
+				.antMatchers(HttpMethod.GET, "/blog/page/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/rest/chat/**").permitAll()
+				.antMatchers(HttpMethod.OPTIONS, "/rest/blog/*").permitAll()
+				
 				.antMatchers(HttpMethod.PUT, "/rest/blog/*").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.POST, "/rest/blog/*").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.DELETE, "/rest/blog/*").hasAnyRole("user", "admin")
-				.antMatchers(HttpMethod.OPTIONS, "/rest/blog/*").permitAll()
 				.antMatchers(HttpMethod.DELETE, "/rest/blog/*").hasAnyRole("user", "admin")
-				.antMatchers(HttpMethod.GET, "/rest/blog/*").permitAll()
-				.antMatchers(HttpMethod.GET, "/rest/chat/*").permitAll()
+				
 				.antMatchers(HttpMethod.GET, "/chat/**").hasAnyRole("user", "admin")
 				.antMatchers("/rest/blogs/*").permitAll()
-				//.antMatchers("/**").permitAll()
-				//.antMatchers("/**").hasRole("admin")
 				.anyRequest().authenticated()
 			.and()
 				.formLogin().permitAll().loginPage("/login.html")

@@ -100,7 +100,7 @@
 					            	<span class="glyphicon glyphicon-time"></span> Posted on&nbsp;
 					            	<span id="postTime" th:text="${#calendars.format(blog.created,'MMMM dd, yyyy hh:mm a')}"></span>
 					            </p>
-					            <div th:if="${true}">
+					            <div th:if="${authenticated}">
 					                <p style="vertical-align: middle; " class="pull-right"><a th:href="@{'/blog/page/edit/'+${blog.id}}">Edit</a> </p>
 					            </div>
 					        </div>

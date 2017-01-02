@@ -24,6 +24,11 @@ public class PrincipalHelper {
 		this.service = service;
 	}
 	
+	public boolean isAuthenticated() {
+		return SecurityContextHolder.getContext().getAuthentication().getAuthorities().size() > 0 
+				&& !SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority().equalsIgnoreCase("ROLE_ANONYMOUS");
+	}
+	
 	public User getUserDetails() {
 		UserDetails userDetails =
 				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
