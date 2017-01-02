@@ -17,6 +17,7 @@ public class BlogPost implements Serializable {
 	private String status;
 	private Collection<BlogComment> comments;
 	private Boolean hasLinks;
+	private Boolean draft;
 	
 	private String createdBy;
 	private String updatedBy;
@@ -76,6 +77,12 @@ public class BlogPost implements Serializable {
 	}
 	public void setComments(Collection<BlogComment> comments) {
 		this.comments = comments;
+	}
+	public Boolean isDraft() {
+		return draft;
+	}
+	public void setDraft(Boolean draft) {
+		this.draft = draft;
 	}
 	public Boolean getHasLinks() {
 		return hasLinks;

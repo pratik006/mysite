@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.prapps.app.core.handler.DefaultAuthenticationSuccessHandler;
 import com.prapps.app.core.handler.HttpAuthenticationEntryPoint;
 import com.prapps.app.core.handler.RESTAuthenticationSuccessHandler;
 
@@ -18,15 +19,16 @@ import com.prapps.app.core.handler.RESTAuthenticationSuccessHandler;
 @EnableWebSecurity
 public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 
-	@Inject	private UserDetailsService userDetailsService;
-	@Inject	RESTAuthenticationSuccessHandler authSuccesHandler;
-	@Inject HttpAuthenticationEntryPoint authEntryPoint;
+	@Inject private UserDetailsService userDetailsService;
+	@Inject private RESTAuthenticationSuccessHandler authSuccesHandler;
+	@Inject private DefaultAuthenticationSuccessHandler defaultAuthSuccessHandler;
+	@Inject private HttpAuthenticationEntryPoint authEntryPoint;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/", "/index.html", "/bootstrap/**", "/blog/css/**", "/blog/index.html", "/blog/app.js", 
+				.antMatchers("/", "/index.html", "/bootstrap/**", "/blog/css/**", "/blog/index.html", "/blog/app.js",
 						"/chat/index.html", "/chat/js/**", "/chat/css/**", "/chat/sounds/**", "/chat/app.js").permitAll()
 				.antMatchers(HttpMethod.POST, "/rest/blog/comment").permitAll()
 				.antMatchers(HttpMethod.PUT, "/rest/blog/*").hasAnyRole("user", "admin")
@@ -38,14 +40,20 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/rest/chat/*").permitAll()
 				.antMatchers(HttpMethod.GET, "/chat/**").hasAnyRole("user", "admin")
 				.antMatchers("/rest/blogs/*").permitAll()
-				.antMatchers("/**").permitAll()
+				//.antMatchers("/**").permitAll()
 				//.antMatchers("/**").hasRole("admin")
 				.anyRequest().authenticated()
 			.and()
-				.formLogin().permitAll()//.loginPage("/Login.html")
+				.formLogin().permitAll().loginPage("/login.html")
 				.loginProcessingUrl("/rest/blog/login")
 				.successHandler(authSuccesHandler)
 				//.defaultSuccessUrl("/rest/userinfo", false)
+				.usernameParameter("username")
+				.passwordParameter("password")
+			.and()
+				.formLogin().permitAll().loginPage("/login.html")
+				.loginProcessingUrl("/blog/login")
+				.successHandler(defaultAuthSuccessHandler)
 				.usernameParameter("username")
 				.passwordParameter("password")
 			.and()

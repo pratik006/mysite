@@ -16,6 +16,8 @@
 
     <link href="/prism/css/prism.css" rel="stylesheet" />
     <link href="/social/style.css" rel="stylesheet" />
+    <link href="/resources/lceditor/editor.css" type="text/css" rel="stylesheet"/>
+	<link rel="stylesheet" href="/bootstrap/font-awesome/css/font-awesome.min.css" />
 
     <!-- Custom CSS -->
     <link href="/blog/css/blog-home.css" rel="stylesheet" />
@@ -89,59 +91,42 @@
             <div class="col-md-10">                
                 <div id="viewport">
                 	<div class="col-md-12">
-					    <div class="row">
-					        <div class="col-md-12">
-					            <h1 id="title"><p th:text="${blog.title}"></p></h1>
+					    <h1 class="page-header">
+					        <!--small>Secondary Text</small-->
+					    </h1>
+					
+					    <!-- Third Blog Post -->
+					    <div class="panel panel-primary">
+					        <div class="panel-heading">
+					          <h3 class="panel-title">Editor</h3>
 					        </div>
-					    </div>
-					    <div class="row">
-					        <div class="col-md-10">
-					            <p>by <a href="../#Pratik Sengupta"><span id="postBy" th:text="${blog.createdBy}"></span></a> &nbsp;
-					            	<span class="glyphicon glyphicon-time"></span> Posted on&nbsp;
-					            	<span id="postTime" th:text="${#calendars.format(blog.created,'MMMM dd, yyyy hh:mm a')}"></span>
-					            </p>
-					            <div th:if="${true}">
-					                <p style="vertical-align: middle; " class="pull-right"><a th:href="@{'/blog/page/edit/'+${blog.id}}">Edit</a> </p>
-					            </div>
-					        </div>
-					        <div class="col-md-2 text-right">
+					        <form class="edit-post-form" action="#" th:action="@{/blog/page/save}" th:object="${blog}" method="post" onload="">
+					            <div class="panel-body form-group">
+						            <input type="hidden" name="id" th:value="${blog.id}" />
+						            <input type="hidden" name="draft" id="draft" th:value="${blog.draft}" />
+						            <label for="title">Title:</label>
+						            <input type="text" class="form-control" name="title" th:field="*{title}" th:value="${blog.title}" />
+						            <label for="title">Code:</label>
+						            <input type="text" class="form-control" name="blogCode" th:field="*{blogCode}"  th:value="${blog.blogCode}" />
+						            <label for="coverLink">Preview Link (picture):</label>
+						            <input type="text" class="form-control" name="coverLink" th:field="*{coverLink}" th:value="${blog.coverLink}" />
+						            <div class="media img-responsive">
+						                <img th:attr="src=${blog.coverLink}" class="img-responsive"></img>
+						            </div>
+						            <input name="content" type="hidden" th:field="*{content}" th:value="${blog.content}" />
+						            <textarea id="rtContent" name="rtContent"></textarea> 
+						
+						            <hr/>
+						            <div class="btn-toolbar">
+						                <button id="btnCreate" type="submit" class="btn btn-sm btn-primary pull-right" onclick="return submitForm(this.form, false);">Save</button>
+						                <button id="btnDraft" type="submit" class="btn btn-sm btn-primary pull-right" onclick="return submitForm(this.form, true);">Save as Draft</button>
+						                <button type="reset" class="btn btn-sm btn-warning pull-right ">Cancel</button>
+						            </div>
 					            
-					            
-					        </div>
-					    </div>
-					    <div class="row">
-					        <div class="col-md-12">
-					            <div class="social">
-					                <span class="twitter">
-					                    <a href="http://twitter.com/share" class="twitter-share-button" 
-					                        data-url="http://apps-pratiks.rhcloud.com/blog/index.html#blogPost/18/resteasy-quickstart-wildfly-10"
-					                        data-size="default">Tweet</a>
-					                </span>
-					                <span class="google">
-					                    <g:plusone size="medium" data-annotation="none" href="http://apps-pratiks.rhcloud.com/blog/index.html#blogPost/18/resteasy-quickstart-wildfly-10"></g:plusone>
-					                </span>
-					                <span class="Facebook">
-					                    <div class="fb-like" 
-					                        data-href="http://apps-pratiks.rhcloud.com/blog/index.html#blogPost/18/resteasy-quickstart-wildfly-10" 
-					                        data-layout="button" 
-					                        data-action="like" 
-					                        data-show-faces="false"
-					                        data-size="small"
-					                        data-share="true">
-					                    </div>
-					                </span>
 					            </div>
-					        </div>
-					    </div>
-					    <div class="row">
-					    	<div class="col-md-12">
-					    		<hr/>
-					    		<div id="content" th:utext="${blog.content}">
-					    		
-					    		</div>
-					    	</div>
-					    </div>
-				    </div>
+					        </form>
+					     </div>
+					</div>
                 </div>
                 <div class="col-md-2">                
 	                <div id="sidewall"></div>
@@ -194,15 +179,19 @@
     <!-- Google plys +1 button -->
     <script src="https://apis.google.com/js/platform.js" async="async" defer="defer"></script>
     <script src="/social/script.js" async="async" defer="defer"></script>
-
-	
+    <script src="/resources/lceditor/editor.js"></script>
     <script type="text/javascript">
-         createLinks();
-    </script>
-    
-    
-    
-   
+	    $(document).ready(function(){
+	    	$("#rtContent").Editor();
+	    	$("#rtContent").Editor("setText", $("#content").val());
+	    });
+	    
+	    function submitForm(form, draft) {
+	    	document.getElementById('draft').value=draft;
+	    	document.getElementById('content').value=$("#rtContent").Editor("getText");
+	    	return true;
+	    }
+	</script>
 </body>
 
 
