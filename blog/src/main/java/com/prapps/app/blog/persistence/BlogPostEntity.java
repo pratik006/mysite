@@ -46,6 +46,9 @@ public class BlogPostEntity implements Serializable {
 	@Column(name="STATUS")
 	private String status;
 	
+	@Column(name="KEYWORDS")
+	private String keywords;
+	
 	@Column(name="CREATED_BY")
 	private String createdBy;
 	
@@ -115,6 +118,12 @@ public class BlogPostEntity implements Serializable {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getKeywords() {
+		return keywords;
+	}
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
 	}
 	public List<BlogCommentEntity> getComments() {
 		return comments;

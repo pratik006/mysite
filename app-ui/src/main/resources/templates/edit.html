@@ -106,7 +106,9 @@
 						            <input type="hidden" name="draft" id="draft" th:value="${blog.draft}" />
 						            <label for="title">Title:</label>
 						            <input type="text" class="form-control" name="title" th:field="*{title}" th:value="${blog.title}" />
-						            <label for="title">Code:</label>
+						            <label for="keywords">Title:</label>
+						            <input type="text" class="form-control" name="keywords" th:field="*{keywords}" th:value="${blog.keywords}" />
+						            <label for="Code">Code:</label>
 						            <input type="text" class="form-control" name="blogCode" th:field="*{blogCode}"  th:value="${blog.blogCode}" />
 						            <label for="coverLink">Preview Link (picture):</label>
 						            <input type="text" class="form-control" name="coverLink" th:field="*{coverLink}" th:value="${blog.coverLink}" />

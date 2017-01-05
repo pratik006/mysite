@@ -15,6 +15,7 @@ public class BlogPost implements Serializable {
 	private String coverLink;
 	private String content;
 	private String status;
+	private String keywords;
 	private Collection<BlogComment> comments;
 	private Boolean hasLinks;
 	private Boolean draft;
@@ -71,6 +72,12 @@ public class BlogPost implements Serializable {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getKeywords() {
+		return keywords;
+	}
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
 	}
 	public Collection<BlogComment> getComments() {
 		return comments;

@@ -75,6 +75,8 @@ public class PageController {
 			existing.setContent(blog.getContent());
 			existing.setCoverLink(blog.getCoverLink());
 			existing.setIntro(blog.getIntro());
+			existing.setTitle(blog.getTitle());
+			existing.setKeywords(blog.getKeywords());
 			blog = blogService.update(existing);
 		} else {
 			blog = blogService.create(blog);
