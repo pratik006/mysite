@@ -82,6 +82,8 @@ public class PageController {
 			blog = blogService.create(blog);
 		}
 		modelMap.put("blog", blog);
+		modelMap.put("recentBlogs", blogService.findAll());
+		modelMap.put("authenticated", principalHelper.isAuthenticated());
 		return new ModelAndView("page", modelMap);
 	}
 }

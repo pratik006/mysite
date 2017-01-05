@@ -9,7 +9,7 @@
     <meta name="author" th:content="${blog.createdBy}" />
     <meta name="keywords" th:content="${blog.keywords}" />
 
-    <title>Pratik's Blog</title>
+    <title th:inline="text">Pratik's Blog - [[${blog.title}]]</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
