@@ -158,7 +158,7 @@
 					 			<a th:if="${!#strings.isEmpty(rec.coverLink)}" th:href="@{'/blog/page/'+${rec.id}}">
 					 				<img th:attr="src=${rec.coverLink}, title=${rec.title}"></img>
 					 			</a>
-					 			<a th:text="${rec.title}" th:href="@{'/blog/page/'+${rec.id}}"></a>
+					 			<a th:text="${rec.title}" th:href="@{'/blog/page/'+${rec.id}}/${rec.blogCode}"></a>
 					 			<hr class="small"/>
 					 		</li>					 	
 					 	</ul>
