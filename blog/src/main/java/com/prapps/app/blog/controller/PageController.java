@@ -67,8 +67,7 @@ public class PageController {
 	}
 	
 	@RequestMapping(value="/save", method = {RequestMethod.POST, RequestMethod.PUT})
-	public ModelAndView blogPost(@ModelAttribute("blog") BlogPost blog) {
-		Map<String,Object> modelMap = new HashMap<String, Object>();
+	public String blogPost(@ModelAttribute("blog") BlogPost blog) {
 		BlogPost existing = blogService.getBlog(blog.getId());
 		if (existing != null) {
 			existing.setBlogCode(blog.getBlogCode());
@@ -81,9 +80,7 @@ public class PageController {
 		} else {
 			blog = blogService.create(blog);
 		}
-		modelMap.put("blog", blog);
-		modelMap.put("recentBlogs", blogService.findAll());
-		modelMap.put("authenticated", principalHelper.isAuthenticated());
-		return new ModelAndView("page", modelMap);
+		String forwardUrl = "redirect:/blog/page/" + blog.getId() + "/" + blog.getBlogCode();
+		return forwardUrl;
 	}
 }
