@@ -31,7 +31,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/index.html", "/bootstrap/**", "/social/**", "/prism/**", "/resources/**",
 						"/chat/index.html", "/chat/js/**", "/chat/css/**", "/chat/sounds/**", "/chat/app.js",
 						"/blog/app.js", "/blog/model/*", "/blog/view/*", "/blog/router/*", "/blog/templates/*", "/blog/css/**", "/blog/index.html",
-						"/sitemap.xml", "/robot.txt"
+						"/sitemap.xml", "/robots.txt"
 						)
 					.permitAll()
 				.antMatchers(HttpMethod.POST, "/rest/blog/comment").permitAll()
