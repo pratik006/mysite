@@ -9,8 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @ControllerAdvice
 @CrossOrigin
-//@RequestMapping("/page")
-public class PageController {
+public class RaktimeshController {
 
 	@RequestMapping(value = "/raktimeshphotography")
 	public ModelAndView page() {
