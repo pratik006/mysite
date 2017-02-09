@@ -42,9 +42,9 @@ public class CorsFilter implements Filter {
 	
 	private static Map<String, String> staticSiteRoutings = new HashMap<String, String>();
 	static {
-		staticSiteRoutings.put("mulpokhri.html", "/blog/index.html#blogPost/14/mulpokhri");
-		staticSiteRoutings.put("google-guice-jpa.html", "/blog/index.html#blogPost/13");
-		staticSiteRoutings.put("google-guice.html", "/blog/index.html#blogPost/12");
+		staticSiteRoutings.put("mulpokhri.html", "/blog/14/mulpokhri");
+		staticSiteRoutings.put("google-guice-jpa.html", "/blog/page/13/google-guice-jpa");
+		staticSiteRoutings.put("google-guice.html", "/blog/page/12/google-guice");
 	}
 	
 	@Inject
@@ -72,7 +72,7 @@ public class CorsFilter implements Filter {
 		
 		String remoteAddr = servletRequest.getRemoteAddr();
 		String uri = request.getRequestURI();
-		if (log.isDebugEnabled()) {
+		if (log.isTraceEnabled()) {
 			log.trace("Request Uri: "+uri);
 		}
 		

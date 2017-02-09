@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Pratik's Blog</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="/prism/css/prism.css" rel="stylesheet" />
+    <link href="/social/style.css" rel="stylesheet" />
+    <link href="/resources/lceditor/editor.css" type="text/css" rel="stylesheet"/>
+	<link rel="stylesheet" href="/bootstrap/font-awesome/css/font-awesome.min.css" />
+
+    <!-- Custom CSS -->
+    <link href="/blog/css/blog-home.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<!-- Google Analytics -->
+	<script type="text/javascript">
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-78137649-1', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
+	<!-- Google Analytics End -->
+	
+</head>
+
+<body>
+    <div id="fb-root"></div>
+    <!-- Navigation -->
+     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/blog/index.html">Pratik's Blog</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/index.html#about">About</a>
+                    </li>
+                    <li>
+                        <a href="/index.html#services">Services</a>
+                    </li>
+                    <li>
+                        <a href="/index.html#contact">Contact</a>
+                    </li>
+                    <!--li id="mnuCreate">
+                        <a href="#create">Create</a>
+                    </li-->
+                    <li class="dropdown">
+                      
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+   
+
+   <!-- Page Content -->
+    <div id="pageContent" class="container">
+        <div class="row">
+            <div class="col-md-10">                
+                <div id="viewport">
+                	<div class="col-md-12">
+					    <h1 class="page-header">
+					        <!--small>Secondary Text</small-->
+					    </h1>
+					
+					    <!-- Third Blog Post -->
+					    <div class="panel panel-primary">
+					        <div class="panel-heading">
+					          <h3 class="panel-title">Editor</h3>
+					        </div>
+					        <form class="edit-post-form" action="#" th:action="@{/blog/page/save}" th:object="${blog}" method="post" onload="">
+					            <div class="panel-body form-group">
+						            <input type="hidden" name="id" th:value="${blog.id}" />
+						            <input type="hidden" name="draft" id="draft" th:value="${blog.draft}" />
+						            <label for="title">Title:</label>
+						            <input type="text" class="form-control" name="title" th:field="*{title}" th:value="${blog.title}" />
+						            <label for="keywords">Keywords:</label>
+						            <input type="text" class="form-control" name="keywords" th:field="*{keywords}" th:value="${blog.keywords}" />
+						            <label for="Code">Code:</label>
+						            <input type="text" class="form-control" name="blogCode" th:field="*{blogCode}"  th:value="${blog.blogCode}" />
+						            <label for="coverLink">Preview Link (picture):</label>
+						            <input type="text" class="form-control" name="coverLink" th:field="*{coverLink}" th:value="${blog.coverLink}" />
+						            <div class="media img-responsive">
+						                <img th:attr="src=${blog.coverLink}" class="img-responsive"></img>
+						            </div>
+						            <input name="content" type="hidden" th:field="*{content}" th:value="${blog.content}" />
+						            <textarea id="rtContent" name="rtContent"></textarea> 
+						
+						            <hr/>
+						            <div class="btn-toolbar">
+						                <button id="btnCreate" type="submit" class="btn btn-sm btn-primary pull-right" onclick="return submitForm(this.form, false);">Save</button>
+						                <button id="btnDraft" type="submit" class="btn btn-sm btn-primary pull-right" onclick="return submitForm(this.form, true);">Save as Draft</button>
+						                <button type="reset" class="btn btn-sm btn-warning pull-right ">Cancel</button>
+						            </div>
+					            
+					            </div>
+					        </form>
+					     </div>
+					</div>
+                </div>
+                <div class="col-md-2">                
+	                <div id="sidewall"></div>
+	            </div>    
+            </div>
+            <div class="col-md-2">                
+                <div id="sidewall">
+                	<h3>Recent Posts</h3>
+					<hr style="clear left" />
+					
+					 <div class="pull-right">
+					 	<ul>
+							<li th:each="rec : ${recentBlogs}">
+					 			<a th:if="${!#strings.isEmpty(rec.coverLink)}" th:href="@{'/blog/page/'+${rec.id}}">
+					 				<img th:attr="src=${rec.coverLink}, title=${rec.title}"></img>
+					 			</a>
+					 			<a th:text="${rec.title}" th:href="@{'/blog/page/'+${rec.id}}"></a>
+					 			<hr class="small"/>
+					 		</li>					 	
+					 	</ul>
+					 </div>
+					                	
+                </div>
+            </div>           
+        </div>   
+
+         <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; apps-pratiks.rhcloud.com 2014</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- /.container -->
+        
+
+
+    <!-- jQuery -->
+    <script src="/bootstrap/js/jquery.js"></script>
+    <script src="/blog/app.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/prism/js/prism.js" data-manual="data-manual"></script>
+    <script src="/prism/js/prism-java.js"></script>
+    
+    <!-- Google plys +1 button -->
+    <script src="https://apis.google.com/js/platform.js" async="async" defer="defer"></script>
+    <script src="/social/script.js" async="async" defer="defer"></script>
+    <script src="/resources/lceditor/editor.js"></script>
+    <script type="text/javascript">
+	    $(document).ready(function(){
+	    	$("#rtContent").Editor();
+	    	$("#rtContent").Editor("setText", $("#content").val());
+	    });
+	    
+	    function submitForm(form, draft) {
+	    	document.getElementById('draft').value=draft;
+	    	document.getElementById('content').value=$("#rtContent").Editor("getText");
+	    	return true;
+	    }
+	</script>
+</body>
+
+
+</html>

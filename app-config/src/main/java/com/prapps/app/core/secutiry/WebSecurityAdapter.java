@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.prapps.app.core.handler.DefaultAuthenticationSuccessHandler;
 import com.prapps.app.core.handler.HttpAuthenticationEntryPoint;
 import com.prapps.app.core.handler.RESTAuthenticationSuccessHandler;
 
@@ -18,32 +19,49 @@ import com.prapps.app.core.handler.RESTAuthenticationSuccessHandler;
 @EnableWebSecurity
 public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 
-	@Inject	private UserDetailsService userDetailsService;
-	@Inject	RESTAuthenticationSuccessHandler authSuccesHandler;
-	@Inject HttpAuthenticationEntryPoint authEntryPoint;
+	@Inject private UserDetailsService userDetailsService;
+	@Inject private RESTAuthenticationSuccessHandler authSuccesHandler;
+	@Inject private DefaultAuthenticationSuccessHandler defaultAuthSuccessHandler;
+	@Inject private HttpAuthenticationEntryPoint authEntryPoint;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/", "/index.html", "/bootstrap/**", "/blog/css/**", "/blog/index.html", "/blog/app.js").permitAll()
+				.antMatchers("/", "/index.html", "/bootstrap/**", "/social/**", "/prism/**", "/resources/**",
+						"/chat/index.html", "/chat/js/**", "/chat/css/**", "/chat/sounds/**", "/chat/app.js",
+						"/blog/app.js", "/blog/model/*", "/blog/view/*", "/blog/router/*", "/blog/templates/*", "/blog/css/**", "/blog/index.html",
+						"/sitemap.xml", "/robots.txt"
+						)
+					.permitAll()
 				.antMatchers(HttpMethod.POST, "/rest/blog/comment").permitAll()
+				.antMatchers(HttpMethod.GET, "/rest/blog/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/blog/page/edit/**").hasAnyRole("user", "admin")
+				.antMatchers(HttpMethod.GET, "/blog/page/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/rest/chat/**").permitAll()
+				.antMatchers(HttpMethod.OPTIONS, "/rest/blog/*").permitAll()
+				
 				.antMatchers(HttpMethod.PUT, "/rest/blog/*").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.POST, "/rest/blog/*").hasAnyRole("user", "admin")
+				.antMatchers(HttpMethod.POST, "/blog/page/save").hasAnyRole("user", "admin")
+				.antMatchers(HttpMethod.PUT, "/blog/page/save").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.DELETE, "/rest/blog/*").hasAnyRole("user", "admin")
-				.antMatchers(HttpMethod.OPTIONS, "/rest/blog/*").permitAll()
 				.antMatchers(HttpMethod.DELETE, "/rest/blog/*").hasAnyRole("user", "admin")
-				.antMatchers(HttpMethod.GET, "/rest/blog/*").permitAll()
-				.antMatchers(HttpMethod.GET, "/rest/chat/*").permitAll()
+				
+				.antMatchers(HttpMethod.GET, "/chat/**").hasAnyRole("user", "admin")
 				.antMatchers("/rest/blogs/*").permitAll()
-				.antMatchers("/**").permitAll()
-				//.antMatchers("/**").hasRole("admin")
 				.anyRequest().authenticated()
 			.and()
-				.formLogin().permitAll()//.loginPage("/Login.html")
+				.formLogin().permitAll().loginPage("/login.html")
 				.loginProcessingUrl("/rest/blog/login")
 				.successHandler(authSuccesHandler)
 				//.defaultSuccessUrl("/rest/userinfo", false)
+				.usernameParameter("username")
+				.passwordParameter("password")
+			.and()
+				.formLogin().permitAll().loginPage("/login.html")
+				.loginProcessingUrl("/blog/login")
+				.successHandler(defaultAuthSuccessHandler)
 				.usernameParameter("username")
 				.passwordParameter("password")
 			.and()

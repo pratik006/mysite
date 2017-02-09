@@ -1,11 +1,14 @@
 package com.prapps.app.core.dto;
 
+import java.io.Serializable;
 import java.util.Set;
 
 
-public class Role {
+public class Role implements Serializable {
 
-    private Integer id;  
+	private static final long serialVersionUID = 1L;
+	
+	private Integer id;  
     private String name;
     private String appCode;
 	private Set<Permission> permissions; 

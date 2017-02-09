@@ -1,12 +1,9 @@
 var leftNavView = new LeftNavView();
-var chatView = new ChatView();
-var chatInputView = new ChatInputView();
 
 
  var Router = Backbone.Router.extend({
     routes: {
-        'index': 'home',
-        '': 'home',
+        'route:defaultRoute': 'home',
         'loginComplete': 'loginComplete'
     }
 });
@@ -14,9 +11,8 @@ var chatInputView = new ChatInputView();
 var router = new Router();
 
 router.on('route:home', function() {
+    console.log('in Router');
     leftNavView.render();   
-    chatView.render();   
-    chatInputView.render();
 });
 router.on('route:logoutComplete', function() {console.log('in Router');
     loginView.render();

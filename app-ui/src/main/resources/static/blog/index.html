@@ -14,6 +14,9 @@
     <!-- Bootstrap Core CSS -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+    <link href="../prism/css/prism.css" rel="stylesheet">
+    <link href="../social/style.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="css/blog-home.css" rel="stylesheet">
 
@@ -40,7 +43,7 @@
 </head>
 
 <body>
-
+    <div id="fb-root"></div>
     <!-- Navigation -->
      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -116,6 +119,14 @@
     <script src="model/Blog.js"></script>
     <script src="view/BlogView.js"></script>
     <script src="router/Router.js"></script>
+    
+    <script src="../prism/js/prism.js" data-manual></script>
+    <script src="../prism/js/prism-java.js"></script>
+    
+    <!-- Google plys +1 button -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="../social/script.js" async defer></script>
+
 	
     <script type="text/javascript">
        
@@ -139,6 +150,9 @@
           var parts = value.split("; " + name + "=");
           if (parts.length == 2) return parts.pop().split(";").shift();
         }
+
+        
+        
         
     </script>
    

@@ -24,13 +24,18 @@ public class PrincipalHelper {
 		this.service = service;
 	}
 	
+	public boolean isAuthenticated() {
+		return SecurityContextHolder.getContext().getAuthentication().getAuthorities().size() > 0 
+				&& !SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority().equalsIgnoreCase("ROLE_ANONYMOUS");
+	}
+	
 	public User getUserDetails() {
 		UserDetails userDetails =
 				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userDetails.getUsername();
 		User user = null;
 		
-		if (userMap == null) {
+		if (userMap == null || userMap.get() == null) {
 			userMap = new SoftReference<Map<String,User>>(new HashMap<String,User>());
 		}
 		if ((user = userMap.get().get(username)) == null) {

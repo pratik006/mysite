@@ -1,70 +1,115 @@
-<h1 id="title"><%=blog.get("title")%></h1>
- <div>
-<div style="float: left;">
-    <p class="lead">
-        by <a href="../#<%=blog.get("createdBy")%>"><span id="postBy"><%=blog.get("createdBy")%></span></a>
-    </p>
-</div>
-<% if(user) { %>
-<div style="float: right;">
-    <p style="vertical-align: middle; " class="pull-right"><a href="#edit/<%=blog.get("id")%>/<%=blog.get("blogCode")%>">Edit</a> </p>
-</div>
-<% } %>
-<hr style="clear: left;" />
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 id="title"><%=blog.get("title")%></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <p>by <a href="../#<%=blog.get("createdBy")%>"><span id="postBy"><%=blog.get("createdBy")%></span></a> &nbsp;
+            <% created = blog.get("created") %>
+            <span class="glyphicon glyphicon-time"></span> Posted on <%=formatDate(created)%><span id="postTime"></span></p> 
+        </div>
+        <div class="col-md-2 text-right">
+            
+            <% if(user) { %>
+            <div>
+                <p style="vertical-align: middle; " class="pull-right"><a href="#edit/<%=blog.get("id")%>/<%=blog.get("blogCode")%>">Edit</a> </p>
+            </div>
+            <% } %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="social">
+                <span class="twitter">
+                    <a href="http://twitter.com/share" class="twitter-share-button" 
+                        data-url="http://apps-pratiks.rhcloud.com/blog/index.html#blogPost/18/resteasy-quickstart-wildfly-10"
+                        data-size="default">Tweet</a>
+                </span>
+                <span class="google">
+                    <g:plusone size="medium" data-annotation="none" href="http://apps-pratiks.rhcloud.com/blog/index.html#blogPost/18/resteasy-quickstart-wildfly-10"></g:plusone>
+                </span>
+                <span class="Facebook">
+                    <div class="fb-like" 
+                        data-href="http://apps-pratiks.rhcloud.com/blog/index.html#blogPost/18/resteasy-quickstart-wildfly-10" 
+                        data-layout="button" 
+                        data-action="like" 
+                        data-show-faces="false"
+                        data-size="small"
+                        data-share="true">
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            
+
+            <hr>
+
+            <!-- Preview Image -->
+            <% if (blog.get('hasLinks')) { %>
+            <a href="#album/<%=blog.get('id')%>"><img id="coverImage" class="img-responsive" src=<%=blog.get("coverLink")%> /> </a>
+            <% } else { %>
+
+            <% } %>
+
+            <!-- Post Content -->
+            <div id="content">
+                <%=blog.get("content")%>                    
+            </div>
+
+            <!-- Comments Form -->
+            <div class="well">
+                <h4>Leave a Comment:</h4>
+                <form id="comment-form" role="form">
+                    <div class="form-group">
+                        <input type="hidden" name="blogId" value=<%= blog.id %> />
+                        <div style="width: 40%; float: left;">
+                             Your Name: <input type="text" id="name" name="name" class="form-control" style="width: 90%;" />
+                        </div>
+                        <div class="form-group" style="width: 40%; float: left;">
+                            Your Email: <input type="text" id="email" name="email" class="form-control" style="width: 90%;" />
+                        </div>
+                        
+                        <textarea id="comment" name="comment" class="form-control" rows="3"></textarea>
+                    </div>
+                    <button id="btnAddComment" type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <hr>
+        </div>
+    </div>
 <div>
 
 
-<!-- Date/Time -->
-<% created = blog.get("created") %>
-<p><span class="glyphicon glyphicon-time"></span> Posted on <%=formatDate(created)%><span id="postTime"></span></p>
 
-<hr>
-
-<!-- Preview Image -->
-<% if (blog.get('hasLinks')) { %>
-<a href="#album/<%=blog.get('id')%>"><img id="coverImage" class="img-responsive" src=<%=blog.get("coverLink")%> /> </a>
-<% } else { %>
-
-<% } %>
-
-<!-- Post Content -->
-<div id="content">
-    <%=blog.get("content")%>                    
-</div>
-
-<!-- Comments Form -->
-<div class="well">
-    <h4>Leave a Comment:</h4>
-    <form id="comment-form" role="form">
-        <div class="form-group">
-            <input type="hidden" name="blogId" value=<%= blog.id %> />
-            <div style="width: 40%; float: left;">
-                 Your Name: <input type="text" id="name" name="name" class="form-control" style="width: 90%;" />
-            </div>
-            <div class="form-group" style="width: 40%; float: left;">
-                Your Email: <input type="text" id="email" name="email" class="form-control" style="width: 90%;" />
-            </div>
-            
-            <textarea id="comment" name="comment" class="form-control" rows="3"></textarea>
-        </div>
-        <button id="btnAddComment" type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
-<hr>
 
 <div class="comments">
 
 
 </div>
 <script type="text/javascript">
+var re = /(?:\.([^.]+))?$/;
 
 $('#content').find(".blog-link").each(function() {
     var text = $(this).text();
+    var language = "language-"+re.exec(text)[1];
     var that = this;
     $.get(text, null,function(text) {
-    	$(that).text(text);
+        text = text.replace(new RegExp('<', 'g'), '&lt;');
+        text = text.replace(new RegExp('>', 'g'), '&gt;');
+    	$(that).html('<pre><code class='+language+'><div>'+text+'</div></code></pre>');
+        Prism.highlightElement($(that).find('div').get(0));
     });
-     
+});
+$('#content').find(".code-block").each(function() {
+    var language = "language-java";
+    $(this).html('<pre><code class='+language+'><div>'+$(this).text()+'</div></code></pre>');
+    Prism.highlightElement($(this).find('div').get(0));
 });
 
 </script>

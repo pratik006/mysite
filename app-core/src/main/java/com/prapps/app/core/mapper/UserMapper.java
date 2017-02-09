@@ -24,6 +24,7 @@ public class UserMapper {
 		user.setLocked(userEntity.isLocked());
 		user.setAppCode(userEntity.getAppCode());
 		user.setPassword(userEntity.getPassword());
+		user.setAvatarUrl(userEntity.getAvatarUrl());
 		
 		Set<Role> roles = new HashSet<Role>(userEntity.getRoles().size());
 		for (RoleEntity roleEntity : userEntity.getRoles()) {

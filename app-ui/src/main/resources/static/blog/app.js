@@ -30,3 +30,24 @@ function formatDate(date) {date = new Date(date);
 	var min = date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes();
 	return MONTHS[date.getMonth()] +' '+date.getDate()+', '+date.getFullYear()+' '+hour+':'+min+' '+AM_PM[parseInt(date.getHours()/12)];
 }
+
+function createLinks() {
+	var re = /(?:\.([^.]+))?$/;
+
+	$('#content').find(".blog-link").each(function() {
+	    var text = $(this).text();
+	    var language = "language-"+re.exec(text)[1];
+	    var that = this;
+	    $.get(text, null,function(text) {
+	        text = text.replace(new RegExp('<', 'g'), '&lt;');
+	        text = text.replace(new RegExp('>', 'g'), '&gt;');
+	    	$(that).html('<pre><code class='+language+'><div>'+text+'</div></code></pre>');
+	        Prism.highlightElement($(that).find('div').get(0));
+	    });
+	});
+	$('#content').find(".code-block").each(function() {
+	    var language = "language-java";
+	    $(this).html('<pre><code class='+language+'><div>'+$(this).text()+'</div></code></pre>');
+	    Prism.highlightElement($(this).find('div').get(0));
+	});
+}
