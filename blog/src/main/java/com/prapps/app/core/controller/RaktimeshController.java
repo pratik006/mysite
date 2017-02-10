@@ -13,7 +13,7 @@ public class RaktimeshController {
 
 	@RequestMapping(value = "/raktimeshphotography")
 	public ModelAndView page() {
-		return new ModelAndView("raktimesh.html");
+		return new ModelAndView("raktimesh");
 	}
 	
 }
