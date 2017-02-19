@@ -33,6 +33,7 @@
 		<module>app-core</module>
 		<module>app-api</module>
 		<module>blog</module>
+		<module>rail</module>
 		<module>framework-util</module>
 		<module>app-ui</module>
 		<module>chat</module>
