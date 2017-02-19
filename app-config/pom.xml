@@ -38,6 +38,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.prapps.app</groupId>
+			<artifactId>rail</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.prapps.app</groupId>
 			<artifactId>framework-util</artifactId>
 			<version>${project.version}</version>
 		</dependency>
