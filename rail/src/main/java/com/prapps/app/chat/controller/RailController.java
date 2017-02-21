@@ -33,4 +33,9 @@ public class RailController {
 			@RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name="size", defaultValue="10") int pageSize) {
 		return railService.findTrains(from, to,TrainType.MMTS, page, pageSize);
 	}
+	
+	@RequestMapping(value = "/hyd-mmts/findNearestStations", method = {RequestMethod.GET, RequestMethod.POST})
+	public @ResponseBody Collection<Station> getNearestStation(@RequestParam("lat") float lat, @RequestParam("lon") float lon) {
+		return railService.getNearestStations(lat, lon);
+	}
 }

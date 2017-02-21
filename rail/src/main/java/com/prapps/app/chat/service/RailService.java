@@ -19,6 +19,7 @@ import com.prapps.app.rail.dto.TrainType;
 import com.prapps.app.rail.dto.mapper.StationMapper;
 import com.prapps.app.rail.dto.mapper.TrainMapper;
 import com.prapps.app.rail.entity.RouteEntity;
+import com.prapps.app.rail.entity.StationEntity;
 import com.prapps.app.rail.entity.TrainEntity;
 
 @Service
@@ -62,5 +63,11 @@ public class RailService {
 			entity.setRoutes(routes);
 		}
 		return trainMapper.map(trainEntities);
+	}
+	
+	public List<Station> getNearestStations(float lat, float lon) {
+		Pageable pageable = new PageRequest(0, 3);
+		List<StationEntity> stationEntities = stationRepo.getNearestStations(lat, lon, pageable);
+		return stationMapper.map(stationEntities);
 	}
 }
