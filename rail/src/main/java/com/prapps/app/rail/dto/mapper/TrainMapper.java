@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.prapps.app.chat.type.RunDayType;
 import com.prapps.app.rail.dto.Train;
 import com.prapps.app.rail.entity.TrainEntity;
 
@@ -21,19 +22,25 @@ public class TrainMapper {
 	}
 	
 	public Train map(TrainEntity entity) {
-		Train station = new Train();
-		station.setId(entity.getId());
-		station.setTrainType(entity.getType());
-		station.setRoutes(routeMapper.map(entity.getRoutes()));
-		return station;
+		Train train = new Train();
+		train.setId(entity.getId());
+		train.setTrainType(entity.getType());
+		train.setName(entity.getName());
+		List<RunDayType> runDayTypes = new ArrayList<RunDayType>();
+		for (String runday : entity.getRundays().split(" ")) {
+			runDayTypes.add(RunDayType.getByRunDay(runday));
+		}
+		train.setRunDayType(runDayTypes);
+		train.setRoutes(routeMapper.map(entity.getRoutes()));
+		return train;
 	}
 	
 	public List<Train> map(Collection<TrainEntity> entities) {
-		List<Train> stations = new ArrayList<Train>(entities.size());
+		List<Train> trains = new ArrayList<Train>(entities.size());
 		for (TrainEntity entity : entities) {
-			stations.add(map(entity));
+			trains.add(map(entity));
 		}
 		
-		return stations;
+		return trains;
 	} 
 }

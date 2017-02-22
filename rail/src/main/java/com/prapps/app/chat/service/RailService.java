@@ -1,6 +1,7 @@
 package com.prapps.app.chat.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.prapps.app.chat.repo.StationRepo;
 import com.prapps.app.chat.repo.TrainRepo;
+import com.prapps.app.chat.type.RunDayType;
 import com.prapps.app.rail.dto.SearchType;
 import com.prapps.app.rail.dto.Station;
 import com.prapps.app.rail.dto.Train;
@@ -46,9 +48,11 @@ public class RailService {
 		return null;
 	}
 	
-	public List<Train> findTrains(String from, String to, TrainType trainType, int page, int size) {
+	public List<Train> findTrains(String from, String to, Calendar startTime, TrainType trainType, int page, int size) {
 		Pageable request = new PageRequest(page - 1, size, Sort.Direction.ASC, "departure");
-		List<TrainEntity> trainEntities = trainRepo.findTrains(from, to, trainType, request);
+		String departure = String.format("%02d", startTime.get(Calendar.HOUR_OF_DAY)) + "." + String.format("%02d", startTime.get(Calendar.MINUTE));
+		RunDayType runDayType = RunDayType.getByDayOfWeek(startTime.get(Calendar.DAY_OF_WEEK));
+		List<TrainEntity> trainEntities = trainRepo.findTrains(from, to, departure, runDayType.getRunDay(), trainType, request);
 		for (TrainEntity entity : trainEntities) {
 			List<RouteEntity> routes = new ArrayList<RouteEntity>(2);
 			Iterator<RouteEntity> itr = entity.getRoutes().iterator();

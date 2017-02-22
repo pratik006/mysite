@@ -30,6 +30,9 @@ public class TrainEntity {
 	@Column(name = "type")
 	@Enumerated(EnumType.STRING)
 	private TrainType type;
+	@Column(name = "rundays")
+	private String rundays;
+	
 	@JoinColumn(name = "train_id")
 	@OneToMany
 	@Fetch(FetchMode.JOIN)
@@ -52,6 +55,12 @@ public class TrainEntity {
 	}
 	public void setType(TrainType type) {
 		this.type = type;
+	}
+	public String getRundays() {
+		return rundays;
+	}
+	public void setRundays(String runDays) {
+		this.rundays = runDays;
 	}
 	public List<RouteEntity> getRoutes() {
 		return routes;
