@@ -14,7 +14,7 @@ public interface TrainRepo extends JpaRepository<TrainEntity, Long>{
 	@Query("select r1.id.train from RouteEntity r1, RouteEntity r2"
 			+ " where r1.id.train = r2.id.train and r1.halt < r2.halt and "
 			+ " r1.id.station.code=:from and r2.id.station.code=:to and r1.id.train.type=:type"
-			+ " and r1.departure > :departure and r1.id.train.rundays like %:rundays%")
+			+ " and r1.departure > :departure and (r1.id.train.rundays like %:rundays% or r1.id.train.rundays='Daily')")
 	List<TrainEntity> findTrains(@Param("from") String from, @Param("to") String to, 
 									@Param("departure") String departure, @Param("rundays") String rundays, 
 									@Param("type") TrainType type, 
