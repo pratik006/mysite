@@ -39,7 +39,7 @@ public class RailController {
 			@RequestParam(name="size", defaultValue="10") int pageSize) {
 		
 		if (nextHourCount != null) {
-			Calendar start = timeUtil.getCurrentTime();
+			Calendar start = timeUtil.getCurrentTimeIst();
 			Calendar end = (Calendar) start.clone();
 			end.add(Calendar.HOUR, nextHourCount);
 			return railService.findTrains(from, to, start, end, TrainType.MMTS, page, pageSize);

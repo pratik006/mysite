@@ -1,5 +1,7 @@
 package com.prapps.app;
 
+import java.util.TimeZone;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class AppCoreApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
+    	TimeZone.setDefault(TimeZone.getTimeZone("Etc/UTC"));
         SpringApplication.run(AppCoreApplication.class, args);
     }
 	
