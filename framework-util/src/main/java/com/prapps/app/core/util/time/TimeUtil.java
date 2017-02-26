@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class TimeUtil {
 
 	public Calendar getCurrentTime() {
-		return getCurrentTime();
+		return getCurrentTime(TimeZone.getDefault());
 	}
 	
 	public Calendar getCurrentTime(TimeZone timeZone) {
