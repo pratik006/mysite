@@ -34,16 +34,17 @@ public class RailController {
 	@RequestMapping(value = "/hyd-mmts/findTrains", method = {RequestMethod.GET, RequestMethod.POST})
 	public @ResponseBody Collection<Train> findTrains(@RequestParam("from") String from, 
 			@RequestParam("to") String to,
-			@RequestParam(name = "current", defaultValue = "false") Boolean current,
+			@RequestParam(name = "nextHourCount", required = false) Integer nextHourCount,
 			@RequestParam(name = "page", defaultValue = "1") int page, 
 			@RequestParam(name="size", defaultValue="10") int pageSize) {
-		Calendar start = timeUtil.getCurrentTime();
-		if (!current) {
-			start.set(Calendar.HOUR, 0);
-			start.set(Calendar.MINUTE, 0);
-			start.set(Calendar.SECOND, 0);
+		
+		if (nextHourCount != null) {
+			Calendar start = timeUtil.getCurrentTime();
+			Calendar end = (Calendar) start.clone();
+			end.add(Calendar.HOUR, nextHourCount);
+			return railService.findTrains(from, to, start, end, TrainType.MMTS, page, pageSize);
 		}
-		return railService.findTrains(from, to, start, TrainType.MMTS, page, pageSize);
+		return railService.findTrains(from, to, null, null, TrainType.MMTS, page, pageSize);
 	}
 	
 	@RequestMapping(value = "/hyd-mmts/findNearestStations", method = {RequestMethod.GET, RequestMethod.POST})

@@ -48,11 +48,21 @@ public class RailService {
 		return null;
 	}
 	
-	public List<Train> findTrains(String from, String to, Calendar startTime, TrainType trainType, int page, int size) {
+	public List<Train> findTrains(String from, String to, Calendar startTime, Calendar endTime, TrainType trainType, int page, int size) {
 		Pageable request = new PageRequest(page - 1, size, Sort.Direction.ASC, "departure");
-		String departure = String.format("%02d", startTime.get(Calendar.HOUR_OF_DAY)) + "." + String.format("%02d", startTime.get(Calendar.MINUTE));
-		RunDayType runDayType = RunDayType.getByDayOfWeek(startTime.get(Calendar.DAY_OF_WEEK));
-		List<TrainEntity> trainEntities = trainRepo.findTrains(from, to, departure, runDayType.getRunDay(), trainType, request);
+		
+		List<TrainEntity> trainEntities = null;
+		if (startTime != null && endTime != null) {
+			RunDayType runDayType = RunDayType.getByDayOfWeek(startTime.get(Calendar.DAY_OF_WEEK));
+			String departureStart = String.format("%02d", startTime.get(Calendar.HOUR_OF_DAY)) + "." + String.format("%02d", startTime.get(Calendar.MINUTE));
+			String departureEnd = String.format("%02d", endTime.get(Calendar.HOUR_OF_DAY)) + "." + String.format("%02d", endTime.get(Calendar.MINUTE));
+			trainEntities = trainRepo.findTrains(from, to, departureStart, departureEnd, runDayType.getRunDay(), trainType, request);
+		} else {
+			trainEntities = trainRepo.findTrains(from, to, trainType, request);
+		}
+		
+		
+		
 		for (TrainEntity entity : trainEntities) {
 			List<RouteEntity> routes = new ArrayList<RouteEntity>(2);
 			Iterator<RouteEntity> itr = entity.getRoutes().iterator();
