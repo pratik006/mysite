@@ -1,4 +1,4 @@
-package com.prapps.app.core.secutiry;
+package com.prapps.app.core.security;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
