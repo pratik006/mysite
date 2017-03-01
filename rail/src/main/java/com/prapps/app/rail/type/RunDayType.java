@@ -1,4 +1,4 @@
-package com.prapps.app.chat.type;
+package com.prapps.app.rail.type;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;

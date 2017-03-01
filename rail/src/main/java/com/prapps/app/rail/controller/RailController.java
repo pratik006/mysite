@@ -1,4 +1,4 @@
-package com.prapps.app.chat.controller;
+package com.prapps.app.rail.controller;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.prapps.app.chat.service.RailService;
 import com.prapps.app.core.util.PrincipalHelper;
 import com.prapps.app.core.util.time.TimeUtil;
 import com.prapps.app.rail.dto.SearchType;
 import com.prapps.app.rail.dto.Station;
 import com.prapps.app.rail.dto.Train;
 import com.prapps.app.rail.dto.TrainType;
+import com.prapps.app.rail.service.RailService;
 
 @Controller
 @RequestMapping("/rest/rail")

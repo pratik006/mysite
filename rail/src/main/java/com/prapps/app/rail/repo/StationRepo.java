@@ -1,4 +1,4 @@
-package com.prapps.app.chat.repo;
+package com.prapps.app.rail.repo;
 
 import java.util.List;
 

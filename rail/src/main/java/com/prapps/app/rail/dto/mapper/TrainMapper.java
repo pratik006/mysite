@@ -7,9 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.prapps.app.chat.type.RunDayType;
 import com.prapps.app.rail.dto.Train;
 import com.prapps.app.rail.entity.TrainEntity;
+import com.prapps.app.rail.type.RunDayType;
 
 @Component
 public class TrainMapper {

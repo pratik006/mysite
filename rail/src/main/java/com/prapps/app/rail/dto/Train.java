@@ -2,7 +2,7 @@ package com.prapps.app.rail.dto;
 
 import java.util.List;
 
-import com.prapps.app.chat.type.RunDayType;
+import com.prapps.app.rail.type.RunDayType;
 
 public class Train {
 

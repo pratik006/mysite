@@ -1,4 +1,4 @@
-package com.prapps.app.chat.service;
+package com.prapps.app.rail.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,9 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.prapps.app.chat.repo.StationRepo;
-import com.prapps.app.chat.repo.TrainRepo;
-import com.prapps.app.chat.type.RunDayType;
 import com.prapps.app.rail.dto.SearchType;
 import com.prapps.app.rail.dto.Station;
 import com.prapps.app.rail.dto.Train;
@@ -23,6 +20,9 @@ import com.prapps.app.rail.dto.mapper.TrainMapper;
 import com.prapps.app.rail.entity.RouteEntity;
 import com.prapps.app.rail.entity.StationEntity;
 import com.prapps.app.rail.entity.TrainEntity;
+import com.prapps.app.rail.repo.StationRepo;
+import com.prapps.app.rail.repo.TrainRepo;
+import com.prapps.app.rail.type.RunDayType;
 
 @Service
 public class RailService {
