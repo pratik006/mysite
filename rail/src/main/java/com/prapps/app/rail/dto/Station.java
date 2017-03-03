@@ -6,8 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Station {
-	@JsonIgnore
-	private int id;
+	private long id;
 	private String code;
 	private String name;
 	@JsonIgnore
@@ -15,10 +14,10 @@ public class Station {
 	@JsonIgnore
 	private List<Integer> trains;
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getCode() {

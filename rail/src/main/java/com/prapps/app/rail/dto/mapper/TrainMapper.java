@@ -30,7 +30,7 @@ public class TrainMapper {
 		for (String runday : entity.getRundays().split(" ")) {
 			runDayTypes.add(RunDayType.getByRunDay(runday));
 		}
-		train.setRunDayType(runDayTypes);
+		train.setRunDayTypes(runDayTypes);
 		train.setRoutes(routeMapper.map(entity.getRoutes()));
 		return train;
 	}

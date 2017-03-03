@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.prapps.app.rail.dto.Route;
 import com.prapps.app.rail.entity.RouteEntity;
+import com.prapps.app.rail.entity.RouteIdEntity;
+import com.prapps.app.rail.entity.StationEntity;
+import com.prapps.app.rail.entity.TrainEntity;
 
 @Component
 public class RouteMapper {
@@ -32,6 +35,32 @@ public class RouteMapper {
 		}
 		
 		return stations;
+	}
+	
+	public RouteEntity map(Route route, TrainEntity train) {
+		RouteEntity routeEntity = new RouteEntity();
+		routeEntity.setArrival(route.getArrival());
+		routeEntity.setDay(route.getDay());
+		routeEntity.setDeparture(route.getDeparture());
+		routeEntity.setDist(route.getDist());
+		routeEntity.setHalt(route.getHalt());
+		routeEntity.setStopTime(route.getStopTime());
+		RouteIdEntity id = new RouteIdEntity();
+		StationEntity stationEntity = new StationEntity();
+		stationEntity.setId(route.getStationId());
+		id.setStation(stationEntity);
+		id.setTrain(train);
+		routeEntity.setId(id);
+		return routeEntity;
+	}
+	
+	public List<RouteEntity> mapRoutes(Collection<Route> routes, TrainEntity trainEntity) {
+		List<RouteEntity> entities = new ArrayList<RouteEntity>(routes.size());
+		for (Route route : routes) {
+			entities.add(map(route, trainEntity));
+		}
+		
+		return entities;
 	}
 
 }

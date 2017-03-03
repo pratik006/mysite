@@ -2,6 +2,7 @@ package com.prapps.app.rail.dto;
 
 public enum SearchType {
 	DEFAULT("default"),
+	ALL("all"),
 	HYD_MMTS("hyd-mmts");
 
 	private String type;

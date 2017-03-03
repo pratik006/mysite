@@ -1,5 +1,7 @@
 package com.prapps.app.rail.entity;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -7,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "route", schema = "trainapp")
-public class RouteEntity {
+public class RouteEntity implements Comparable<RouteEntity> {
 
 	@EmbeddedId
 	private RouteIdEntity id;
@@ -65,5 +67,31 @@ public class RouteEntity {
 	}
 	public void setHalt(Integer halt) {
 		this.halt = halt;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RouteEntity other = (RouteEntity) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
+	@Override
+	public int compareTo(RouteEntity other) {
+		return halt - other.getHalt();
 	}
 }

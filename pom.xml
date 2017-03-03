@@ -14,13 +14,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.7.RELEASE</version>
+		<version>1.5.1.RELEASE</version>
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.7</java.version>
-		<spring.version>4.2.2.RELEASE</spring.version>
+		<java.version>1.6</java.version>
 		<start-class>com.prapps.app.core.AppCoreApplication</start-class>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -39,32 +38,11 @@
 		<module>chat</module>
 	</modules>
 
-	<repositories>
-		<repository>
-			<id>eap</id>
-			<url>http://maven.repository.redhat.com/techpreview/all</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>eap</id>
-			<url>http://maven.repository.redhat.com/techpreview/all</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

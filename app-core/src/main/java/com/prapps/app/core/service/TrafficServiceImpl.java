@@ -1,7 +1,6 @@
 package com.prapps.app.core.service;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.prapps.app.core.api.TrafficService;
@@ -15,7 +14,7 @@ public class TrafficServiceImpl implements TrafficService {
 	private TrafficRepository trafficRepository;
 	private TimeUtil timeUtil;
 	
-	@Inject
+	@Autowired
 	public TrafficServiceImpl(TrafficRepository trafficRepository, TimeUtil timeUtil) {
 		this.trafficRepository = trafficRepository;
 		this.timeUtil = timeUtil;

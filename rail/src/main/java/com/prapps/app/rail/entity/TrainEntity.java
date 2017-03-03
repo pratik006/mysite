@@ -1,26 +1,24 @@
 package com.prapps.app.rail.entity;
 
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import com.prapps.app.rail.dto.TrainType;
 
 @Entity
 @Table(name = "train", schema =  "trainapp")
 public class TrainEntity {
-	
+
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
@@ -28,15 +26,14 @@ public class TrainEntity {
 	@Column(name = "name")
 	private String name;
 	@Column(name = "type")
-	@Enumerated(EnumType.STRING)
+	@Convert( converter=TrainTypeConverter.class )
 	private TrainType type;
 	@Column(name = "rundays")
 	private String rundays;
 	
 	@JoinColumn(name = "train_id")
-	@OneToMany
-	@Fetch(FetchMode.JOIN)
-	private List<RouteEntity> routes;
+	@OneToMany(cascade = CascadeType.PERSIST)
+	private Set<RouteEntity> routes;
 	
 	public Long getId() {
 		return id;
@@ -62,10 +59,37 @@ public class TrainEntity {
 	public void setRundays(String runDays) {
 		this.rundays = runDays;
 	}
-	public List<RouteEntity> getRoutes() {
+	public Set<RouteEntity> getRoutes() {
+		if (routes ==  null) {
+			routes = new LinkedHashSet<RouteEntity>();
+		}
+		
 		return routes;
 	}
-	public void setRoutes(List<RouteEntity> routes) {
+	public void setRoutes(Set<RouteEntity> routes) {
 		this.routes = routes;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TrainEntity other = (TrainEntity) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 }

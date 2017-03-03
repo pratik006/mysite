@@ -15,6 +15,7 @@ public class StationMapper {
 		Station station = new Station();
 		station.setCode(entity.getCode());
 		station.setName(entity.getName());
+		station.setId(entity.getId());
 		return station;
 	}
 	
