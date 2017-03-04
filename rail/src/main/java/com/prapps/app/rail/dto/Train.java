@@ -57,4 +57,8 @@ public class Train {
 	public void setTrainClasses(List<String> trainClasses) {
 		this.trainClasses = trainClasses;
 	}
+	@Override
+	public String toString() {
+		return "Train [id=" + id + ", name=" + name + ", trainType=" + trainType + "]";
+	}
 }

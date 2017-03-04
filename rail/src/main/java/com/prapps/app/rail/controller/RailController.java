@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,29 +22,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.prapps.app.core.util.PrincipalHelper;
 import com.prapps.app.core.util.time.TimeUtil;
-import com.prapps.app.rail.dto.SearchType;
+import com.prapps.app.rail.dto.Region;
 import com.prapps.app.rail.dto.Station;
 import com.prapps.app.rail.dto.Train;
 import com.prapps.app.rail.dto.TrainType;
 import com.prapps.app.rail.service.RailService;
+import com.prapps.app.rail.type.SuburbanRegionType;
 
 @Controller
 @RequestMapping("/rest/rail")
 public class RailController {
 	
-	@Autowired PrincipalHelper helper;
 	@Autowired RailService railService;
 	@Autowired TimeUtil timeUtil;
 	
-	@RequestMapping(value = "/hyd-mmts/stations", method = {RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Collection<Station> getStations() {
-		return railService.getStations(SearchType.HYD_MMTS);
+	@RequestMapping(value = "/stations", method = {RequestMethod.GET, RequestMethod.POST})
+	public @ResponseBody Collection<Station> getStations(@RequestParam("region") String region) {
+		SuburbanRegionType type = SuburbanRegionType.getByCode(region);
+		return railService.getStations(type);
 	}
 	
-	@RequestMapping(value = "/hyd-mmts/findTrains", method = {RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Collection<Train> findTrains(@RequestParam("from") String from, 
+	@RequestMapping(value = "/findTrains", method = {RequestMethod.GET, RequestMethod.POST})
+	public @ResponseBody Collection<Train> findTrains(@RequestParam("region") SuburbanRegionType region,
+			@RequestParam("from") String from,
 			@RequestParam("to") String to,
 			@RequestParam(name = "nextHourCount", required = false) Integer nextHourCount,
 			@RequestParam(name = "page", defaultValue = "1") int page, 
@@ -53,19 +55,26 @@ public class RailController {
 			Calendar start = timeUtil.getCurrentTimeIst();
 			Calendar end = (Calendar) start.clone();
 			end.add(Calendar.HOUR, nextHourCount);
-			return railService.findTrains(from, to, start, end, TrainType.MMTS, page, pageSize);
+			return railService.findTrains(from, to, start, end, TrainType.getSuburbanTrainTypes(), page, pageSize);
 		}
-		return railService.findTrains(from, to, null, null, TrainType.MMTS, page, pageSize);
+		return railService.findTrains(from, to, null, null, TrainType.getSuburbanTrainTypes(), page, pageSize);
 	}
 	
-	@RequestMapping(value = "/hyd-mmts/findNearestStations", method = {RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Collection<Station> getNearestStation(@RequestParam("lat") float lat, @RequestParam("lon") float lon) {
-		return railService.getNearestStations(lat, lon);
+	@RequestMapping(value = "/findNearestStations", method = {RequestMethod.GET, RequestMethod.POST})
+	public @ResponseBody Collection<Station> getNearestStation(@RequestParam("region") SuburbanRegionType region, 
+			@RequestParam("lat") double lat, @RequestParam("lon") double lon) {
+		return railService.getNearestStations(region, lat, lon);
+	}
+	
+	@RequestMapping(value = "/findRegion", method = {RequestMethod.GET, RequestMethod.POST})
+	public @ResponseBody Set<Region> getRegion(@RequestParam(name="lat", required=false) Double lat, 
+			@RequestParam(name = "lon", required = false) Double lon) {
+		return lat!=null&&lon!=null?railService.getNearestRegion(lat, lon):railService.getAllRegions();
 	}
 	
 	@RequestMapping(value = "/all-stations", method = {RequestMethod.GET, RequestMethod.POST})
 	public @ResponseBody Collection<Station> getAllStations() {
-		return railService.getStations(SearchType.ALL);
+		return railService.getStations(SuburbanRegionType.ALL);
 	}
 	
 	@RequestMapping(value = "/update", method = {RequestMethod.POST}, consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -74,7 +83,7 @@ public class RailController {
 		return "success";
 	}
 	
-	private static String BASE_LOCAL_URL="/home/pratik/git/openshift/apps/app-ui/src/test/pages/routes/";
+	private static String BASE_LOCAL_URL="/home/pratik/html-pages/routes/";
 	@RequestMapping(value = "/uri", method=RequestMethod.GET)
 	public @ResponseBody String getUri(@RequestParam("path") String path) throws Exception {
 			StringBuilder response = new StringBuilder();

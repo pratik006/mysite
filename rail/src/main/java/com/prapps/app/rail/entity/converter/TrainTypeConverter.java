@@ -1,4 +1,4 @@
-package com.prapps.app.rail.entity;
+package com.prapps.app.rail.entity.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

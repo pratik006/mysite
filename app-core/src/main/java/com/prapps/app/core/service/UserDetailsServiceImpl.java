@@ -1,8 +1,7 @@
 package com.prapps.app.core.service;
 
-import javax.inject.Inject;
-
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,9 +18,9 @@ import com.prapps.app.core.persistence.UserEntity;
 public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
 	private final UserRepository userRepository;
-	@Inject UserMapper userMapper;
+	@Autowired UserMapper userMapper;
 	
-	@Inject
+	@Autowired
 	public UserDetailsServiceImpl(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}

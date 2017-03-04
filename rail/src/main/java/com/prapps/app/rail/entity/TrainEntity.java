@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.prapps.app.rail.dto.TrainType;
+import com.prapps.app.rail.entity.converter.TrainTypeConverter;
 
 @Entity
 @Table(name = "train", schema =  "trainapp")
@@ -32,7 +33,7 @@ public class TrainEntity {
 	private String rundays;
 	
 	@JoinColumn(name = "train_id")
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(cascade = CascadeType.ALL)
 	private Set<RouteEntity> routes;
 	
 	public Long getId() {

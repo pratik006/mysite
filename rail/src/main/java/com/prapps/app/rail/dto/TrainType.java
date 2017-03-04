@@ -1,5 +1,9 @@
 package com.prapps.app.rail.dto;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -23,6 +27,7 @@ public enum TrainType {
 	Passenger("Passenger"),
 	DMU("DMU");
 
+	private static EnumSet<TrainType> SUBURBAN = EnumSet.of(MMTS, EMU, DMU, Passenger);
 	
 	private String type;
 
@@ -48,5 +53,13 @@ public enum TrainType {
 		}
 		
 		return null;
+	}
+	
+	public static List<TrainType> getSuburbanTrainTypes() {
+		List<TrainType> trainTypes = new ArrayList<TrainType>(SUBURBAN.size());
+		for (TrainType type : SUBURBAN) {
+			trainTypes.add(type);
+		}
+		return trainTypes;
 	}
 }

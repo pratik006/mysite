@@ -1,10 +1,14 @@
 package com.prapps.app.rail.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.prapps.app.rail.entity.converter.SuburbanRegionTypeConverter;
+import com.prapps.app.rail.type.SuburbanRegionType;
 
 @Entity
 @Table(name = "station", schema = "trainapp")
@@ -18,11 +22,12 @@ public class StationEntity {
 	@Column(name = "name")
 	private String name;
 	@Column(name = "type")
-	private String type;
+	@Convert(converter = SuburbanRegionTypeConverter.class)
+	private SuburbanRegionType type;
 	@Column(name = "xcood")
-	private Float xcoordinates;
+	private Double xcoordinates;
 	@Column(name = "ycood")
-	private Float ycoordinates;
+	private Double ycoordinates;
 	
 	public Long getId() {
 		return id;
@@ -42,22 +47,22 @@ public class StationEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getType() {
+	public SuburbanRegionType getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(SuburbanRegionType type) {
 		this.type = type;
 	}
-	public Float getXcoordinates() {
+	public Double getXcoordinates() {
 		return xcoordinates;
 	}
-	public void setXcoordinates(Float xcoordinates) {
+	public void setXcoordinates(Double xcoordinates) {
 		this.xcoordinates = xcoordinates;
 	}
-	public Float getYcoordinates() {
+	public Double getYcoordinates() {
 		return ycoordinates;
 	}
-	public void setYcoordinates(Float ycoordinates) {
+	public void setYcoordinates(Double ycoordinates) {
 		this.ycoordinates = ycoordinates;
 	}
 	@Override
