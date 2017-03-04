@@ -71,9 +71,23 @@ public class RailService {
 		List<TrainEntity> trainEntities = null;
 		if (startTime != null && endTime != null) {
 			RunDayType runDayType = RunDayType.getByDayOfWeek(startTime.get(Calendar.DAY_OF_WEEK));
-			String departureStart = String.format("%02d", startTime.get(Calendar.HOUR_OF_DAY)) + "." + String.format("%02d", startTime.get(Calendar.MINUTE));
-			String departureEnd = String.format("%02d", endTime.get(Calendar.HOUR_OF_DAY)) + "." + String.format("%02d", endTime.get(Calendar.MINUTE));
-			trainEntities = trainRepo.findTrains(from, to, departureStart, departureEnd, runDayType.getRunDay(), trainTypes, request);
+			int startHour = startTime.get(Calendar.HOUR_OF_DAY);
+			int endHour = endTime.get(Calendar.HOUR_OF_DAY);
+			if (endHour > startHour) {
+				String departureStart = String.format("%02d", startHour) + "." + String.format("%02d", startTime.get(Calendar.MINUTE));
+				String departureEnd = String.format("%02d", endTime.get(Calendar.HOUR_OF_DAY)) + "." + String.format("%02d", endTime.get(Calendar.MINUTE));
+				trainEntities = trainRepo.findTrains(from, to, departureStart, departureEnd, runDayType.getRunDay(), trainTypes, request);
+			} else {
+				//time goes to next day
+				String departureStart = String.format("%02d", startHour) + "." + String.format("%02d", startTime.get(Calendar.MINUTE));
+				String departureEnd = "23.59";
+				trainEntities = trainRepo.findTrains(from, to, departureStart, departureEnd, runDayType.getRunDay(), trainTypes, request);
+				
+				departureStart = "00.00";
+				departureEnd = String.format("%02d", endTime.get(Calendar.HOUR_OF_DAY)) + "." + String.format("%02d", endTime.get(Calendar.MINUTE));
+				trainEntities.addAll(trainRepo.findTrains(from, to, departureStart, departureEnd, runDayType.getRunDay(), trainTypes, request));
+			}
+			
 		} else {
 			trainEntities = trainRepo.findTrains(from, to, trainTypes, request);
 		}

@@ -1,5 +1,6 @@
 package com.prapps.app.rail;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Assert;
@@ -33,11 +34,16 @@ public class ContextLoadTest {
 	}
 
 	@Test public void testfindTrains() {
-		List<Train> trains= railService.findTrains("SDAH", "BBT", null, null, TrainType.getSuburbanTrainTypes(), 1, 50);
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 23);
+		cal.set(Calendar.MINUTE, 25);
+		Calendar cal2 = (Calendar) cal.clone();
+		cal2.add(Calendar.HOUR, 4);
+		List<Train> trains= railService.findTrains("SDAH", "BBT", cal, cal2, TrainType.getSuburbanTrainTypes(), 1, 10);
 		for (Train train : trains) {
-			LOG.debug("train: "+train+"\t"+train.getRoutes().get(0).getDeparture()+train.getRoutes().get(1).getDeparture());
+			LOG.debug("train: "+train+"\t"+train.getRoutes().get(0).getDeparture()+" "+train.getRoutes().get(1).getDeparture());
 		}
-		Assert.assertEquals(50, trains.size());
+		Assert.assertEquals(2, trains.size());
 	}
 	
 	@Test public void testfindNearestRegion() {
