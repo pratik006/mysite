@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.prapps.app.rail.dto.TrainType;
-import com.prapps.app.rail.entity.TrainEntity;
+import com.prapps.app.rail.persistence.TrainEntity;
 
 public interface TrainRepo extends JpaRepository<TrainEntity, Long>{
 	@Query("select r1.id.train from RouteEntity r1, RouteEntity r2"

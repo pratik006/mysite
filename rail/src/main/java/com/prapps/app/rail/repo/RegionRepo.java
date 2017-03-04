@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.prapps.app.rail.entity.RegionEntity;
+import com.prapps.app.rail.persistence.RegionEntity;
 
 public interface RegionRepo extends JpaRepository<RegionEntity, String>{
 

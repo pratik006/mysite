@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.prapps.app.rail.entity.StationEntity;
+import com.prapps.app.rail.persistence.StationEntity;
 import com.prapps.app.rail.type.SuburbanRegionType;
 
 public interface StationRepo extends JpaRepository<StationEntity, Long>{

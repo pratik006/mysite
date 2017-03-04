@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.prapps.app.rail.dto.Station;
-import com.prapps.app.rail.entity.StationEntity;
+import com.prapps.app.rail.persistence.StationEntity;
 
 @Component
 public class StationMapper {

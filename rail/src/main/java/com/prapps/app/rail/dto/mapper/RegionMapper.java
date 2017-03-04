@@ -7,7 +7,7 @@ import java.util.Set;
 import org.springframework.stereotype.Component;
 
 import com.prapps.app.rail.dto.Region;
-import com.prapps.app.rail.entity.RegionEntity;
+import com.prapps.app.rail.persistence.RegionEntity;
 
 @Component
 public class RegionMapper {

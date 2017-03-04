@@ -1,4 +1,4 @@
-package com.prapps.app.rail.entity;
+package com.prapps.app.rail.persistence;
 
 import java.io.Serializable;
 import java.util.Objects;

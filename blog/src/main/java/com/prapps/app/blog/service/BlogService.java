@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.prapps.app.blog.dataaccess.BlogCommentRepository;
 import com.prapps.app.blog.dataaccess.BlogPostLinksRepository;
@@ -29,7 +30,7 @@ import com.prapps.app.core.util.CollectionUtil;
 import com.prapps.app.core.util.PrincipalHelper;
 import com.prapps.app.core.util.time.TimeUtil;
 
-@Service
+@Service @Transactional(readOnly = true)
 public class BlogService {
 
 	private BlogRepository blogRepository;
@@ -81,7 +82,7 @@ public class BlogService {
 	public Collection<BlogPost> findAll() throws BlogServiceException {
 		String status = BlogPostStatus.COMPLETE.getCode();
 		try {
-			return CollectionUtil.copyProperties(blogRepository.findByStatusOrderByCreatedDesc(status), BlogPost.class);
+			return CollectionUtil.copyProperties(blogRepository.findByStatusOrderByCreatedDesc(status), BlogPost.class, new String[]{"comment", "comments", "blogPostLinkEntities"});
 		} catch (InstantiationException e) {
 			throw new BlogServiceException(e);
 		} catch (IllegalAccessException e) {

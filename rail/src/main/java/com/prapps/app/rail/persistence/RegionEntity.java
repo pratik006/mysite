@@ -1,4 +1,4 @@
-package com.prapps.app.rail.entity;
+package com.prapps.app.rail.persistence;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

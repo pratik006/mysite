@@ -16,4 +16,14 @@ public class CollectionUtil {
 		}
 		return collection;
 	}
+	
+	public static <U,T> Collection<T> copyProperties(Iterable<U> sourceList, Class<T> targetClass, String... ignorables) throws InstantiationException, IllegalAccessException {
+		Collection<T> collection = new ArrayList();
+		for (U source : sourceList) {
+			T target = targetClass.newInstance();
+			BeanUtils.copyProperties(source, target, ignorables);
+			collection.add(target);
+		}
+		return collection;
+	}
 }

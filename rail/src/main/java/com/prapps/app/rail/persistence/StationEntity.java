@@ -1,40 +1,33 @@
-package com.prapps.app.rail.entity;
+package com.prapps.app.rail.persistence;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.prapps.app.rail.dto.TrainType;
-import com.prapps.app.rail.entity.converter.TrainTypeConverter;
+import com.prapps.app.rail.entity.converter.SuburbanRegionTypeConverter;
+import com.prapps.app.rail.type.SuburbanRegionType;
 
 @Entity
-@Table(name = "train", schema =  "trainapp")
-public class TrainEntity {
-
+@Table(name = "station", schema = "trainapp")
+public class StationEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
 	private Long id;
+	@Column(name = "code")
+	private String code;
 	@Column(name = "name")
 	private String name;
 	@Column(name = "type")
-	@Convert( converter=TrainTypeConverter.class )
-	private TrainType type;
-	@Column(name = "rundays")
-	private String rundays;
-	
-	@JoinColumn(name = "train_id")
-	@OneToMany(cascade = CascadeType.ALL)
-	private Set<RouteEntity> routes;
+	@Convert(converter = SuburbanRegionTypeConverter.class)
+	private SuburbanRegionType type;
+	@Column(name = "xcood")
+	private Double xcoordinates;
+	@Column(name = "ycood")
+	private Double ycoordinates;
 	
 	public Long getId() {
 		return id;
@@ -42,33 +35,35 @@ public class TrainEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public TrainType getType() {
+	public SuburbanRegionType getType() {
 		return type;
 	}
-	public void setType(TrainType type) {
+	public void setType(SuburbanRegionType type) {
 		this.type = type;
 	}
-	public String getRundays() {
-		return rundays;
+	public Double getXcoordinates() {
+		return xcoordinates;
 	}
-	public void setRundays(String runDays) {
-		this.rundays = runDays;
+	public void setXcoordinates(Double xcoordinates) {
+		this.xcoordinates = xcoordinates;
 	}
-	public Set<RouteEntity> getRoutes() {
-		if (routes ==  null) {
-			routes = new LinkedHashSet<RouteEntity>();
-		}
-		
-		return routes;
+	public Double getYcoordinates() {
+		return ycoordinates;
 	}
-	public void setRoutes(Set<RouteEntity> routes) {
-		this.routes = routes;
+	public void setYcoordinates(Double ycoordinates) {
+		this.ycoordinates = ycoordinates;
 	}
 	@Override
 	public int hashCode() {
@@ -85,7 +80,7 @@ public class TrainEntity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TrainEntity other = (TrainEntity) obj;
+		StationEntity other = (StationEntity) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

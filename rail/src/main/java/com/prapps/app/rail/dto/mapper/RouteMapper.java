@@ -7,10 +7,10 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.prapps.app.rail.dto.Route;
-import com.prapps.app.rail.entity.RouteEntity;
-import com.prapps.app.rail.entity.RouteIdEntity;
-import com.prapps.app.rail.entity.StationEntity;
-import com.prapps.app.rail.entity.TrainEntity;
+import com.prapps.app.rail.persistence.RouteEntity;
+import com.prapps.app.rail.persistence.RouteIdEntity;
+import com.prapps.app.rail.persistence.StationEntity;
+import com.prapps.app.rail.persistence.TrainEntity;
 
 @Component
 public class RouteMapper {
