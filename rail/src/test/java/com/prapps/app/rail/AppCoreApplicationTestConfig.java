@@ -20,7 +20,7 @@ import com.prapps.app.core.util.time.TimeUtil;
 @ComponentScan(basePackages = {"com.prapps.app.rail"}, basePackageClasses = {TimeUtil.class}, 
 	excludeFilters = {@Filter(classes = {Configuration.class})})
 @EnableJpaRepositories(basePackages = "com.prapps.app.rail.repo")
-@EntityScan(basePackages = "com.prapps.app.rail.entity")
+@EntityScan(basePackages = "com.prapps.app.rail.persistence")
 public class AppCoreApplicationTestConfig extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
