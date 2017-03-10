@@ -355,12 +355,12 @@
             $('#projectTitle').text(portfolio.name);
             $('#myCarousel > ol').html('');
             $('.carousel-inner').html('');
-            portfolio.images.forEach(function(url, index) {
-                if (index == 0) {
-                    $('#myCarousel > ol').append('<li data-target="#myCarousel" data-slide-to='+index+' class="active"></li>');
+            portfolio.images.forEach(function(url, i) {
+                if (i == 0) {
+                    $('#myCarousel > ol').append('<li data-target="#myCarousel" data-slide-to='+i+' class="active"></li>');
                     $('.carousel-inner').append('<div class="item active"><img src="'+url+'" alt="Chania" /></div>');
                 } else {
-                    $('#myCarousel > ol').append('<li data-target="#myCarousel" data-slide-to='+index+'></li>');
+                    $('#myCarousel > ol').append('<li data-target="#myCarousel" data-slide-to='+i+'></li>');
                     $('.carousel-inner').append('<div class="item"><img src="'+url+'" alt="Chania" /></div>');    
                 }
             });

@@ -40,7 +40,6 @@ public class CoreController {
 			keepAlive = true;
 			while(keepAlive) {
 				try {
-					System.out.println(url);
 					new URL(url).openConnection();
 					Thread.sleep(1000*60*60*12);
 				} catch (Exception e) {
