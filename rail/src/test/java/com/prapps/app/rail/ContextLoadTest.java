@@ -48,7 +48,7 @@ public class ContextLoadTest {
 	
 	@Test public void testfindNearestRegion() {
 		Assert.assertEquals(2, railService.getNearestRegion(22.51986383f, 88.37203592f).size());
-		Assert.assertEquals("HWH-SDAH", railService.getNearestRegion(22.51986383f, 88.37203592f).iterator().next().getCode());
+		Assert.assertEquals("er-suburban", railService.getNearestRegion(22.51986383f, 88.37203592f).iterator().next().getCode());
 	}
 	
 }
