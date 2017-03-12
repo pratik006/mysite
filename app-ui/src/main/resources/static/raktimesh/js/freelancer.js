@@ -1,4 +1,24 @@
 // Freelancer Theme JavaScript
+(function(window) {
+    var portfolios=new Array();
+    $.ajax({
+        url: '/raktimesh/data.js',
+        async: false,
+        success: function(resp) {
+            portfolios = JSON.parse(resp);
+        }
+    });
+
+    function getPortfolios() {
+        return portfolios;
+    }
+    function getPortfolio(index) {
+        return portfolios[index];
+    }
+    window.getPortfolios = getPortfolios;
+    window.getPortfolio = getPortfolio;
+})(window);
+
 
 (function($) {
     "use strict"; // Start of use strict
@@ -39,6 +59,42 @@
         }).on("blur", ".floating-label-form-group", function() {
             $(this).removeClass("floating-label-form-group-with-focus");
         });
+
+
+        getPortfolios().forEach(function(item, index) {
+            $.ajax({
+                url: '/raktimesh/portfolio.html',
+                async: false,
+                success: function(html) {
+                    html = html.replace('a.png', item.cover);
+                    html = html.replace("id=\"portfolio\"", "id=\"portfolio"+index+"\"");
+                    //html = html.replace("href=\"#portfolioModal\"", "href=\"#portfolioModal"+index+"\"");
+                    
+                    $('#portfolio').find('.container > :nth-child(2)').append($(html)[0].outerHTML);
+                }
+            });
+        });
+
     });
 
+    
 })(jQuery); // End of use strict
+
+
+function portfolioClick(obj) {
+    var index = obj.id.replace('portfolio', '');
+    var portfolio = getPortfolio(index);
+    //console.log();
+    $('#projectTitle').text(portfolio.name);
+    $('#myCarousel > ol').html('');
+    $('.carousel-inner').html('');
+    portfolio.images.forEach(function(url, i) {
+        if (i == 0) {
+            $('#myCarousel > ol').append("<li data-target=\'#myCarousel\' data-slide-to=" + i + " class='active'></li>");
+            $('.carousel-inner').append("<div class='item active'><img src="+url+" alt='Chania' /></div>");
+        } else {
+            $('#myCarousel > ol').append("<li data-target=\'#myCarousel\' data-slide-to=" +i+ "></li>");
+            $('.carousel-inner').append("<div class='item'><img src="+url+" alt='Chania' /></div>");    
+        }
+    });
+}
