@@ -1,7 +1,12 @@
 package com.prapps.app.core.mvc;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -30,5 +35,15 @@ public class ConverterConfig extends WebMvcConfigurationSupport {
 			registry.addResourceHandler("/**").addResourceLocations(
 					CLASSPATH_RESOURCE_LOCATIONS);
 		}
+	}
+	
+	@Bean
+	@Autowired
+	@Qualifier("daoAuthenticationProvider")
+	public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) throws Exception {
+		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+		daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+		daoAuthenticationProvider.setForcePrincipalAsString(true);
+		return daoAuthenticationProvider;
 	}
 }

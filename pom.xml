@@ -25,6 +25,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
+		
+		<jsonwebtoken.version>0.7.0</jsonwebtoken.version>
 	</properties>
 
 	<modules>
@@ -37,6 +39,17 @@
 		<module>app-ui</module>
 		<module>chat</module>
 	</modules>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+			    <groupId>io.jsonwebtoken</groupId>
+			    <artifactId>jjwt</artifactId>
+			    <version>${jsonwebtoken.version}</version>
+			</dependency>
+						
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
