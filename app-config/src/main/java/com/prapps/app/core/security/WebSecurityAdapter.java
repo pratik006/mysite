@@ -39,7 +39,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/index.html", "/bootstrap/**", "/social/**", "/prism/**", "/resources/**", "/favicon.ico","/rest/login",
 						"/chat/index.html", "/chat/js/**", "/chat/css/**", "/chat/sounds/**", "/chat/app.js",
 						"/blog/app.js", "/blog/model/*", "/blog/view/*", "/blog/router/*", "/blog/templates/*", "/blog/css/**", "/blog/index.html", 
-						"/raktimeshphotography", "/raktimesh/**","/rest/rail/**",
+						"/raktimeshphotography", "/raktimesh/**","/rest/rail/**", "/rail/**",
 						"/sitemap.xml", "/robots.txt"
 						)
 					.permitAll()
