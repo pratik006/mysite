@@ -2,6 +2,8 @@ package com.prapps.app.rail.dto;
 
 public class Route {
 	private Long stationId;
+	private String stationCode;
+	private String stationName;
 	private Long trainId;
 	private String arrival;
 	private String departure;
@@ -15,6 +17,18 @@ public class Route {
 	}
 	public void setStationId(Long stationId) {
 		this.stationId = stationId;
+	}
+	public String getStationCode() {
+		return stationCode;
+	}
+	public void setStationCode(String stationCode) {
+		this.stationCode = stationCode;
+	}
+	public String getStationName() {
+		return stationName;
+	}
+	public void setStationName(String stationName) {
+		this.stationName = stationName;
 	}
 	public Long getTrainId() {
 		return trainId;

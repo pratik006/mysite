@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prapps.app.rail.dto.Region;
+import com.prapps.app.rail.dto.ResponseDetail;
 import com.prapps.app.rail.dto.Station;
 import com.prapps.app.rail.dto.Train;
 import com.prapps.app.rail.dto.TrainType;
+import com.prapps.app.rail.dto.comparator.RouteComparator;
 import com.prapps.app.rail.dto.mapper.RegionMapper;
 import com.prapps.app.rail.dto.mapper.RouteMapper;
 import com.prapps.app.rail.dto.mapper.StationMapper;
@@ -65,7 +68,7 @@ public class RailService {
 		return stationMapper.map(stationRepo.findAll());
 	}
 	
-	public List<Train> findTrains(String from, String to, Calendar startTime, Calendar endTime, List<TrainType> trainTypes, int page, int size) {
+	public List<Train> findTrains(String from, String to, Calendar startTime, Calendar endTime, List<TrainType> trainTypes, int page, int size, ResponseDetail detail) {
 		Pageable request = new PageRequest(page - 1, size, Sort.Direction.ASC, "departure");
 		
 		List<TrainEntity> trainEntities = null;
@@ -93,18 +96,27 @@ public class RailService {
 		}
 		
 		
-		
+		Set<RouteEntity> routes;
 		for (TrainEntity entity : trainEntities) {
-			Set<RouteEntity> routes = new LinkedHashSet<RouteEntity>(2);
 			Iterator<RouteEntity> itr = entity.getRoutes().iterator();
-			while(itr.hasNext()) {
-				RouteEntity en = itr.next();
-				if (from.equals(en.getId().getStation().getCode())) {
-					routes.add(en);
-				} else if (to.equals(en.getId().getStation().getCode())) {
+			if (detail == ResponseDetail.ALL) {
+				routes = new TreeSet<RouteEntity>(RouteComparator.INSTANCE);
+				while(itr.hasNext()) {
+					RouteEntity en = itr.next();
 					routes.add(en);
 				}
+			} else {
+				routes = new LinkedHashSet<RouteEntity>(2);
+				while(itr.hasNext()) {
+					RouteEntity en = itr.next();
+					if (from.equals(en.getId().getStation().getCode())) {
+						routes.add(en);
+					} else if (to.equals(en.getId().getStation().getCode())) {
+						routes.add(en);
+					}
+				}
 			}
+			
 			entity.setRoutes(routes);
 		}
 		return trainMapper.map(trainEntities);

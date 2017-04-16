@@ -14,6 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.prapps.app.rail.dto.ResponseDetail;
 import com.prapps.app.rail.dto.Train;
 import com.prapps.app.rail.dto.TrainType;
 import com.prapps.app.rail.repo.TrainRepo;
@@ -39,7 +40,7 @@ public class ContextLoadTest {
 		cal.set(Calendar.MINUTE, 25);
 		Calendar cal2 = (Calendar) cal.clone();
 		cal2.add(Calendar.HOUR, 4);
-		List<Train> trains= railService.findTrains("SDAH", "BBT", cal, cal2, TrainType.getSuburbanTrainTypes(), 1, 10);
+		List<Train> trains= railService.findTrains("SDAH", "BBT", cal, cal2, TrainType.getSuburbanTrainTypes(), 1, 10, ResponseDetail.ALL);
 		for (Train train : trains) {
 			LOG.debug("train: "+train+"\t"+train.getRoutes().get(0).getDeparture()+" "+train.getRoutes().get(1).getDeparture());
 		}

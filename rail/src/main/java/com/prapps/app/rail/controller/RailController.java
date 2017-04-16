@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.prapps.app.core.util.time.TimeUtil;
 import com.prapps.app.rail.dto.Region;
+import com.prapps.app.rail.dto.ResponseDetail;
 import com.prapps.app.rail.dto.Station;
 import com.prapps.app.rail.dto.Train;
 import com.prapps.app.rail.dto.TrainType;
@@ -55,9 +56,9 @@ public class RailController {
 			Calendar start = timeUtil.getCurrentTimeIst();
 			Calendar end = (Calendar) start.clone();
 			end.add(Calendar.HOUR, nextHourCount);
-			return railService.findTrains(from, to, start, end, TrainType.getSuburbanTrainTypes(), page, pageSize);
+			return railService.findTrains(from, to, start, end, TrainType.getSuburbanTrainTypes(), page, pageSize, ResponseDetail.ALL);
 		}
-		return railService.findTrains(from, to, null, null, TrainType.getSuburbanTrainTypes(), page, pageSize);
+		return railService.findTrains(from, to, null, null, TrainType.getSuburbanTrainTypes(), page, pageSize, ResponseDetail.ALL);
 	}
 	
 	@RequestMapping(value = "/findNearestStations", method = {RequestMethod.GET, RequestMethod.POST})

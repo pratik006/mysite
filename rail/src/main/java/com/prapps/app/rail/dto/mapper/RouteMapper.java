@@ -23,6 +23,8 @@ public class RouteMapper {
 		route.setDist(entity.getDist());
 		route.setHalt(entity.getHalt());
 		route.setStationId(entity.getId().getStation().getId());
+		route.setStationCode(entity.getId().getStation().getCode());
+		route.setStationName(entity.getId().getStation().getName());
 		route.setStopTime(entity.getStopTime());
 		route.setTrainId(entity.getId().getTrain().getId());
 		return route;
