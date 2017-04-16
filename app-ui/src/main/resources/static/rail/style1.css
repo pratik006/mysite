@@ -11,6 +11,94 @@
   left: 0;
 }
 
+.mdl-micron-button {
+	min-width: 32px;
+}
+
 .full-width {
+    width: 100%;
+}
+
+.material-icons-center {
+	margin-left: 20px;
+}
+
+.icon-width{
+	width: 1%;
+}
+
+.no-padding {
+	padding-left: 0px;
+	padding-right: 0px; 
+}
+.minor-padding { padding: 10px; }
+
+.text-center {
+	text-align: center;
+}
+
+.train-number {
+	width: 60px;
+}
+.train-name {
+	width: 120px;
+}
+#route {
+	padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.bordered,.bordered>div {
+	padding: 1px;
+	border-collapse: collapse;
+	box-sizing: border-box;
+	white-space: nowrap;
+	background-color: #fff;
+	border-top-color: rgba(0, 0, 0, 0.117647);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-right-color: rgba(0, 0, 0, 0.117647);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.117647);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgba(0, 0, 0, 0.117647);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    margin: 0px;
+}
+
+/** Accordion styling **/
+/* Style the buttons that are used to open and close the accordion panel */
+tr.accordion {
+    /*background-color: #eee;*/
+    color: #444;
+    cursor: pointer;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    /*width: 100%;*/
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+tr.accordion.active, div.accordion:hover {
+    background-color: #ddd;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+tr.accordion-panel {
+    padding: 0px;
+    display: none;
     width: 100%;
 }
