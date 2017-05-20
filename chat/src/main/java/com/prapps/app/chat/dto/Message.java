@@ -7,20 +7,18 @@ public class Message implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public Message() {
-		// TODO Auto-generated constructor stub
-	}
-	
+	public Message() {}
+
 	public Message(int id, String msg) {
 		this.id = id;
 		this.msg = msg;
 	}
-	
+
 	private int id;
 	private String msg;
 	private Calendar time;
 	private String userName;
-	
+
 	public int getId() {
 		return id;
 	}
