@@ -17,20 +17,18 @@ import com.prapps.app.core.handler.DefaultAuthenticationSuccessHandler;
 import com.prapps.app.core.handler.HttpAuthenticationEntryPoint;
 import com.prapps.app.core.handler.RESTAuthenticationSuccessHandler;
 import com.prapps.app.core.secutiry.jwt.JwtTokenProcessingFilter;
-import com.prapps.app.core.secutiry.rest.RestAuthFilter;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 
 	public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/rest/secured/**";
-	
+
 	@Inject private UserDetailsService userDetailsService;
 	@Inject private RESTAuthenticationSuccessHandler authSuccesHandler;
 	@Inject private DefaultAuthenticationSuccessHandler defaultAuthSuccessHandler;
 	@Inject private HttpAuthenticationEntryPoint authEntryPoint;
 	@Autowired private JwtTokenProcessingFilter jwtTokenProcessingFilter;
-	@Autowired private RestAuthFilter restAuthFilter;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -38,7 +36,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/", "/index.html", "/bootstrap/**", "/social/**", "/prism/**", "/resources/**", "/favicon.ico","/rest/login",
 						"/chat/index.html", "/chat/js/**", "/chat/css/**", "/chat/sounds/**", "/chat/app.js",
-						"/blog/app.js", "/blog/model/*", "/blog/view/*", "/blog/router/*", "/blog/templates/*", "/blog/css/**", "/blog/index.html", 
+						"/blog/app.js", "/blog/model/*", "/blog/view/*", "/blog/router/*", "/blog/templates/*", "/blog/css/**", "/blog/index.html",
 						"/raktimeshphotography", "/raktimesh/**","/rest/rail/**", "/rail/**",
 						"/sitemap.xml", "/robots.txt"
 						)
@@ -49,19 +47,19 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/blog/page/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/rest/chat/**").permitAll()
 				.antMatchers(HttpMethod.OPTIONS, "/rest/blog/*").permitAll()
-				
+
 				.antMatchers(HttpMethod.PUT, "/rest/blog/*").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.POST, "/rest/blog/*").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.POST, "/blog/page/save").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.PUT, "/blog/page/save").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.DELETE, "/rest/blog/*").hasAnyRole("user", "admin")
 				.antMatchers(HttpMethod.DELETE, "/rest/blog/*").hasAnyRole("user", "admin")
-				
-				
+
+
 				.antMatchers(HttpMethod.GET, "/rest/rail/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/rest/rail/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/chat/**").hasAnyRole("user", "admin")
-				
+
 				//.antMatchers(HttpMethod.GET, "/rest/secured/**").hasAnyRole("user", "admin")
 				.antMatchers("/rest/blogs/*").permitAll()
 				.anyRequest().authenticated()
@@ -75,13 +73,13 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 				.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/rest/blog/logout")).logoutSuccessUrl("/login")
 			.and()
-				.addFilterBefore(restAuthFilter, UsernamePasswordAuthenticationFilter.class)
+			/*.addFilterBefore(restAuthFilter, UsernamePasswordAuthenticationFilter.class)*/
 	        .authorizeRequests()
                 .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated() // Protected API End-points
                 	.and()
                 		.addFilterBefore(jwtTokenProcessingFilter, UsernamePasswordAuthenticationFilter.class);
 	}
-	
+
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);

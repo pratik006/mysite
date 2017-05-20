@@ -22,16 +22,19 @@ import org.springframework.stereotype.Component;
 
 import com.prapps.app.core.dto.User;
 import com.prapps.app.core.dto.UserDetailsImpl;
+import com.prapps.app.core.secutiry.rest.RestAuthenticationFailureHandler;
 
 @Component
 public class JwtTokenProcessingFilter extends AbstractAuthenticationProcessingFilter {
 	private final String TOKEN_FILTER_APPLIED = "TOKEN_FILTER_APPLIED";
-	
+
 	@Autowired
-	public JwtTokenProcessingFilter(@Qualifier("restAuthenticationManager") AuthenticationManager authenticationManager) {
+	public JwtTokenProcessingFilter(@Qualifier("restAuthenticationManager") AuthenticationManager authenticationManager,
+			RestAuthenticationFailureHandler restAuthenticationFailureHandler) {
 		super("/rest/secured/**");
 		super.setAuthenticationManager(authenticationManager);
 		setAuthenticationSuccessHandler(new TokenBasedAuthenticationSuccessHandlerImpl());
+		setAuthenticationFailureHandler(restAuthenticationFailureHandler);
 	}
 
 	@Override
@@ -44,14 +47,14 @@ public class JwtTokenProcessingFilter extends AbstractAuthenticationProcessingFi
 			//throw new RuntimeException("No JWT token found in request headers");
 			throw new AuthenticationCredentialsNotFoundException("No JWT token found in request headers");
 		}
-		
+
 		String authToken = header.substring(7);
 		User user = JwtTokenHelper.verifyToken(authToken);
 		UserDetails userDetails = new UserDetailsImpl(user);
-		
+
 		return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
 	}
-	
+
 	/*@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
@@ -62,7 +65,7 @@ public class JwtTokenProcessingFilter extends AbstractAuthenticationProcessingFi
 		// and return the response as if the resource was not secured at all
 		chain.doFilter(request, response);
 	}*/
-	
+
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
 			FilterChain arg2) throws IOException, ServletException {
@@ -75,8 +78,6 @@ public class JwtTokenProcessingFilter extends AbstractAuthenticationProcessingFi
 		} else {
 			super.doFilter(arg0, arg1, arg2);
 		}
-
 	}
-
 
 }
