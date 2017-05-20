@@ -2,8 +2,9 @@ package com.prapps.app.chat.dto;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Objects;
 
-public class Message implements Serializable {
+public class Message implements Serializable, Comparable<Message> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,5 +47,24 @@ public class Message implements Serializable {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Message)) {
+			return false;
+		}
+		Message otherMsg = (Message) other;
+		return id == otherMsg.getId();
+	}
+
+	@Override
+	public int compareTo(Message other) {
+		return (int)(time.getTimeInMillis() - other.getTime().getTimeInMillis());
 	}
 }

@@ -1,7 +1,6 @@
 package com.prapps.app.chat.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prapps.app.chat.dto.Message;
+import com.prapps.app.chat.dto.MessageResponse;
 import com.prapps.app.core.util.PrincipalHelper;
 import com.prapps.app.core.util.time.TimeUtil;
 
@@ -27,10 +27,12 @@ public class ChessController {
 	int index = 0;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Collection<Message> getLatestMessages() {
+	public MessageResponse getLatestMessages() {
 		List<Message> copiedList = new ArrayList<Message>(messages);
 		Collections.reverse(copiedList);
-		return copiedList;
+		MessageResponse response = new MessageResponse();
+		response.setMessages(copiedList);
+		return response;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

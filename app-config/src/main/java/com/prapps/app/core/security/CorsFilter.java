@@ -33,24 +33,24 @@ import com.prapps.app.core.api.TrafficService;
 public class CorsFilter implements Filter {
 
 	private static final Logger log = Logger.getLogger(CorsFilter.class);
-	
+
 	private TrafficService trafficService;
 	private @Value("${urls.to.log}") String loggableUrls;
 	private Set<String> loggableUrlSet = new HashSet<String>();
 	@Value("${chess.server.uri}")
 	private String chessServerUri;
-	
+
 	private static Map<String, String> staticSiteRoutings = new HashMap<String, String>();
 	static {
 		staticSiteRoutings.put("mulpokhri.html", "/blog/14/mulpokhri");
 		staticSiteRoutings.put("google-guice-jpa.html", "/blog/page/13/google-guice-jpa");
 		staticSiteRoutings.put("google-guice.html", "/blog/page/12/google-guice");
 	}
-	
+
 	@Inject
 	public CorsFilter(TrafficService trafficService) {
 		this.trafficService = trafficService;
-		
+
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class CorsFilter implements Filter {
 		if (log.isDebugEnabled()) {
 			log.debug("loggableUrls: " + loggableUrls);
 		}
-		
+
 		for (String url : loggableUrls.split(";")) {
 			loggableUrlSet.add(url);
 		}
@@ -69,13 +69,13 @@ public class CorsFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		
+
 		String remoteAddr = servletRequest.getRemoteAddr();
 		String uri = request.getRequestURI();
 		if (log.isTraceEnabled()) {
 			log.trace("Request Uri: "+uri);
 		}
-		
+
 		if (uri.contains(chessServerUri)) {
 			log.debug("Chess server: "+uri+"\t"+remoteAddr);
 			String resp = handleChessServerRequest(request, response);
@@ -88,7 +88,7 @@ public class CorsFilter implements Filter {
 			response.sendRedirect("/blog/index.html");
 			return;
 		}
-		
+
 		//handling for old urls
 		for (Entry<String, String> entry : staticSiteRoutings.entrySet()) {
 			if (uri.contains(entry.getKey())) {
@@ -96,7 +96,7 @@ public class CorsFilter implements Filter {
 				return;
 			}
 		}
-		
+
 		if (loggableUrlSet.contains(uri)) {
 			 String hash;
 			try {
@@ -106,20 +106,25 @@ public class CorsFilter implements Filter {
 				e.printStackTrace();
 			}
 		}
-		
+
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Allow-Methods", "POST, GET, HEAD, OPTIONS, PUT");
 		response.setHeader("Access-Control-Allow-Headers",
-				"Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-		filterChain.doFilter(servletRequest, servletResponse);
+				"Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
+		response.setHeader("Access-Control-Expose-Headers", "x-authtoken");
+		if ("OPTIONS".equals(request.getMethod())) {
+			response.setStatus(HttpServletResponse.SC_OK);
+		} else {
+			filterChain.doFilter(servletRequest, servletResponse);
+		}
 	}
 
 	@Override
 	public void destroy() {
 
 	}
-	
+
 	 public String makeSHA1Hash(String input)
 	            throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA1");
@@ -134,14 +139,14 @@ public class CorsFilter implements Filter {
         }
         return hexStr;
     }
-	 
+
 	 public String handleChessServerRequest(HttpServletRequest req, HttpServletResponse servletResponse) {
 		 String action = req.getParameter("action");
 		 String ip = req.getParameter("ip");
 		 String localip = req.getParameter("localip");
 		 String port = req.getParameter("port");
 		 String param = req.getParameter("param");
-		 
+
 		if("set".equalsIgnoreCase(action)) {
 			req.getSession().getServletContext().setAttribute("ip", ip);
 			req.getSession().getServletContext().setAttribute("localip", localip);
