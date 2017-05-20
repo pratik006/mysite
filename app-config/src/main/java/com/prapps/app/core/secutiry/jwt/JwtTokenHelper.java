@@ -28,11 +28,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtTokenHelper {
 	private static final Logger LOG = Logger.getLogger(JwtTokenHelper.class);
-	
+
 	private static final String ISSUER = "apps-pratiks application";
 	private static final String SIGNING_KEY = "LongAndHardToGuessValueWithSpecialCharacters";
-	
+
 	private static long durationInDays = 5000000l;
+	//The JWT signature algorithm we will be using to sign the token
+	private static SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
 	/**
 	 * Creates a JSON Web Token which is digitally signed token and contains a
@@ -40,16 +42,13 @@ public class JwtTokenHelper {
 	 * which ensures that the token is authentic and has not been modified.
 	 * Using a JWT eliminates the need to store authentication session
 	 * information in a database.
-	 * 
+	 *
 	 * @param userId
 	 * @param durationInDays
 	 * @return
 	 */
-	
-	public static String createJsonWebToken(Authentication auth) {
-		//The JWT signature algorithm we will be using to sign the token
-	    SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
+	public static String createJsonWebToken(Authentication auth) {
 	    long nowMillis = System.currentTimeMillis();
 	    Date now = new Date(nowMillis);
 
@@ -60,7 +59,7 @@ public class JwtTokenHelper {
 	    Map<String, Object> claims = new HashMap<String, Object>();
 	    claims.put("username", auth.getPrincipal());
 	    claims.put("authorities", auth.getAuthorities());
-	    
+
 	    //Let's set the JWT Claims
 	    JwtBuilder builder = Jwts.builder().setId(UUID.randomUUID().toString())
 	                                .setIssuedAt(now)
@@ -78,9 +77,10 @@ public class JwtTokenHelper {
 	    //Builds the JWT and serializes it to a compact, URL-safe string
 	    return builder.compact();
 	}
-	
+
 	public static User verifyToken(String token) {
-	    Claims claims = Jwts.parser()         
+	    Claims claims = Jwts.parser()
+	    	.setAllowedClockSkewSeconds(100000000)
 	       .setSigningKey(DatatypeConverter.parseBase64Binary(SIGNING_KEY))
 	       .parseClaimsJws(token).getBody();
 	    User user = new User();
@@ -96,7 +96,7 @@ public class JwtTokenHelper {
 	    user.setRoles(roles);
 	    return user;
 	}
-	
+
 	public static void main(String args[]) {
 		GrantedAuthority g = new GrantedAuthority() {
 			@Override
@@ -109,5 +109,5 @@ public class JwtTokenHelper {
 		User user = verifyToken(token);
 		System.out.println(user.getUserName());
 	}
-	
+
 }
