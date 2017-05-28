@@ -16,7 +16,7 @@
 	</parent>
 
 	<properties>
-		<start-class>com.prapps.app.core.AppCoreApplication</start-class>
+		<start-class>com.prapps.app.AppCoreApplication</start-class>
 		<tomcat.version>8.0.28</tomcat.version>
 	</properties>
 
