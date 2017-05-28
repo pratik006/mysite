@@ -40,7 +40,7 @@ public class ContextLoadTest {
 		cal.set(Calendar.MINUTE, 25);
 		Calendar cal2 = (Calendar) cal.clone();
 		cal2.add(Calendar.HOUR, 4);
-		List<Train> trains= railService.findTrains("SDAH", "BBT", cal, cal2, TrainType.getSuburbanTrainTypes(), 1, 10, ResponseDetail.ALL);
+		List<Train> trains= railService.findTrains("SDAH", "BBT", cal, cal2, TrainType.getSuburbanTrainTypes(), 1, 10, ResponseDetail.ALL).getContent();
 		for (Train train : trains) {
 			LOG.debug("train: "+train+"\t"+train.getRoutes().get(0).getDeparture()+" "+train.getRoutes().get(1).getDeparture());
 		}

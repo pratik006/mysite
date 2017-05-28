@@ -1,5 +1,6 @@
 package com.prapps.app.rail.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
@@ -11,6 +12,8 @@ import java.util.TreeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -40,7 +43,7 @@ import com.prapps.app.rail.type.SuburbanRegionType;
 @Service @Transactional(readOnly = true)
 public class RailService {
 	private Logger LOG = LoggerFactory.getLogger(RailService.class);
-	
+
 	private StationRepo stationRepo;
 	private RegionRepo regionRepo;
 	private TrainRepo trainRepo;
@@ -48,7 +51,7 @@ public class RailService {
 	private TrainMapper trainMapper;
 	private RouteMapper routeMapper;
 	private RegionMapper regionMapper;
-	
+
 	@Autowired
 	public RailService(StationRepo stationRepo, RegionRepo regionRepo, StationMapper stationMapper, TrainRepo trainRepo, TrainMapper trainMapper, RouteMapper routeMapper, RegionMapper regionMapper) {
 		this.stationRepo = stationRepo;
@@ -59,19 +62,19 @@ public class RailService {
 		this.routeMapper = routeMapper;
 		this.regionMapper = regionMapper;
 	}
-	
+
 	public List<Station> getStations(SuburbanRegionType regionType) {
 		if (SuburbanRegionType.ALL != regionType) {
 			return stationMapper.map(stationRepo.findByType(regionType));
 		}
-		
+
 		return stationMapper.map(stationRepo.findAll());
 	}
-	
-	public List<Train> findTrains(String from, String to, Calendar startTime, Calendar endTime, List<TrainType> trainTypes, int page, int size, ResponseDetail detail) {
+
+	public Page<Train> findTrains(String from, String to, Calendar startTime, Calendar endTime, List<TrainType> trainTypes, int page, int size, ResponseDetail detail) {
 		Pageable request = new PageRequest(page - 1, size, Sort.Direction.ASC, "departure");
-		
-		List<TrainEntity> trainEntities = null;
+
+		Page<TrainEntity> trainEntities = null;
 		if (startTime != null && endTime != null) {
 			RunDayType runDayType = RunDayType.getByDayOfWeek(startTime.get(Calendar.DAY_OF_WEEK));
 			int startHour = startTime.get(Calendar.HOUR_OF_DAY);
@@ -84,18 +87,21 @@ public class RailService {
 				//time goes to next day
 				String departureStart = String.format("%02d", startHour) + "." + String.format("%02d", startTime.get(Calendar.MINUTE));
 				String departureEnd = "23.59";
-				trainEntities = trainRepo.findTrains(from, to, departureStart, departureEnd, runDayType.getRunDay(), trainTypes, request);
-				
+				Page<TrainEntity> resultPage1 = trainRepo.findTrains(from, to, departureStart, departureEnd, runDayType.getRunDay(), trainTypes, request);
+
 				departureStart = "00.00";
 				departureEnd = String.format("%02d", endTime.get(Calendar.HOUR_OF_DAY)) + "." + String.format("%02d", endTime.get(Calendar.MINUTE));
-				trainEntities.addAll(trainRepo.findTrains(from, to, departureStart, departureEnd, runDayType.getRunDay(), trainTypes, request));
+				Page<TrainEntity> resultPage2 = trainRepo.findTrains(from, to, departureStart, departureEnd, runDayType.getRunDay(), trainTypes, request);
+				List<TrainEntity> consolidatedList = new ArrayList<TrainEntity>(resultPage1.getContent());
+				consolidatedList.addAll(resultPage2.getContent());
+				trainEntities = new PageImpl<TrainEntity>(consolidatedList);
 			}
-			
+
 		} else {
 			trainEntities = trainRepo.findTrains(from, to, trainTypes, request);
 		}
-		
-		
+
+
 		Set<RouteEntity> routes;
 		for (TrainEntity entity : trainEntities) {
 			Iterator<RouteEntity> itr = entity.getRoutes().iterator();
@@ -116,12 +122,13 @@ public class RailService {
 					}
 				}
 			}
-			
+
 			entity.setRoutes(routes);
 		}
-		return trainMapper.map(trainEntities);
+		List<Train> trains = trainMapper.map(trainEntities);
+		return new PageImpl<Train>(trains, trainEntities.nextPageable() ,trainEntities.getTotalElements());
 	}
-	
+
 	public List<Station> getNearestStations(SuburbanRegionType regionType, double lat, double lon) {
 		Pageable pageable = new PageRequest(0, 3);
 		List<StationEntity> stationEntities = stationRepo.getNearestStations(regionType, lat, lon, pageable);
@@ -132,11 +139,11 @@ public class RailService {
 		List<RegionEntity> stationEntities = regionRepo.getRegion(lat, lon);
 		return regionMapper.map(stationEntities);
 	}
-	
+
 	public Set<Region> getAllRegions() {
 		return regionMapper.map(regionRepo.findAll());
 	}
-	
+
 	@Transactional
 	public synchronized void updateTrainRoute(Train train) {
 		TrainEntity trainEntity = null;
