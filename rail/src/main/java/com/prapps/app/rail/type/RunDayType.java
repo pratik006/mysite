@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum RunDayType {
-	SUN("S", 1), MON("M", 2),TUE("Tu", 3),WED("W", 4),THU("Th", 5),FRI("F", 6),SAT("Sa", 7), DAILY("D", -1);
+	SUN("S", 1), MON("M", 2),TUE("Tu", 3),WED("W", 4),THU("Th", 5),FRI("F", 6),SAT("Sa", 7), DAILY("D", 0);
 	
 	private String runDay;
 	private int dayOfWeek;

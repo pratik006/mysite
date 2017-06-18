@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.prapps.app.rail.dto.Train;
@@ -42,5 +43,14 @@ public class TrainMapper {
 		}
 		
 		return trains;
-	} 
+	}
+	
+	public List<Train> map(Page<TrainEntity> pages) {
+		List<Train> trains = new ArrayList<Train>(pages.getContent().size());
+		for (TrainEntity entity : pages.getContent()) {
+			trains.add(map(entity));
+		}
+		
+		return trains;
+	}
 }
