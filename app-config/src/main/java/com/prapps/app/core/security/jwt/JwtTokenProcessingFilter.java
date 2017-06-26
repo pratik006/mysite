@@ -1,4 +1,4 @@
-package com.prapps.app.core.secutiry.jwt;
+package com.prapps.app.core.security.jwt;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 import com.prapps.app.core.dto.User;
 import com.prapps.app.core.dto.UserDetailsImpl;
-import com.prapps.app.core.secutiry.rest.RestAuthenticationFailureHandler;
+import com.prapps.app.core.security.rest.RestAuthenticationFailureHandler;
 
 @Component
 public class JwtTokenProcessingFilter extends AbstractAuthenticationProcessingFilter {

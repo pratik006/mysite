@@ -1,4 +1,4 @@
-package com.prapps.app.core.secutiry.jwt;
+package com.prapps.app.core.security.jwt;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.prapps.app.core.secutiry.rest;
+package com.prapps.app.core.security.rest;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.prapps.app.core.secutiry.rest;
+package com.prapps.app.core.security.rest;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.prapps.app.core.secutiry.jwt.JwtTokenHelper;
+import com.prapps.app.core.security.jwt.JwtTokenHelper;
 
 @Component
 public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {

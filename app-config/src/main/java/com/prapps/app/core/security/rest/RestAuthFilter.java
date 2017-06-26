@@ -1,4 +1,4 @@
-package com.prapps.app.core.secutiry.rest;
+package com.prapps.app.core.security.rest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prapps.app.core.dto.User;
 import com.prapps.app.core.dto.UserDetailsImpl;
-import com.prapps.app.core.secutiry.jwt.RestAuthenticationManager;
+import com.prapps.app.core.security.jwt.RestAuthenticationManager;
 
 @Component
 public class RestAuthFilter extends AbstractAuthenticationProcessingFilter {
