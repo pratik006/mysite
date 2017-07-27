@@ -1,11 +1,8 @@
 package com.prapps.app.config.test;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,7 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prapps.app.core.dto.User;
-import com.prapps.app.core.secutiry.jwt.JwtTokenHelper;
+import com.prapps.app.core.security.jwt.JwtTokenHelper;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

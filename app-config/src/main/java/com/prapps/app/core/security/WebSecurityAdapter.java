@@ -16,7 +16,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.prapps.app.core.handler.DefaultAuthenticationSuccessHandler;
 import com.prapps.app.core.handler.HttpAuthenticationEntryPoint;
 import com.prapps.app.core.handler.RESTAuthenticationSuccessHandler;
-import com.prapps.app.core.secutiry.jwt.JwtTokenProcessingFilter;
+import com.prapps.app.core.security.jwt.JwtTokenProcessingFilter;
 
 @Configuration
 @EnableWebSecurity
