@@ -30,9 +30,8 @@ public class PrincipalHelper {
 	}
 	
 	public User getUserDetails() {
-		UserDetails userDetails =
-				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username = userDetails.getUsername();
+		String username =
+				 (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = null;
 		
 		if (userMap == null || userMap.get() == null) {
