@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 import com.prapps.app.core.dto.User;
 import com.prapps.app.core.dto.UserDetailsImpl;
-import com.prapps.app.core.security.rest.RestAuthenticationFailureHandler;
+import com.prapps.app.core.security.handler.RestAuthenticationFailureHandler;
 
 @Component
 public class JwtTokenProcessingFilter extends AbstractAuthenticationProcessingFilter {

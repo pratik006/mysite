@@ -64,4 +64,5 @@ public class CoreController {
 				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return userService.findUser(userDetails.getUsername());
     }
+
 }

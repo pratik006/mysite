@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.stereotype.Component;
@@ -21,6 +20,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prapps.app.core.dto.User;
 import com.prapps.app.core.dto.UserDetailsImpl;
+import com.prapps.app.core.security.handler.RestAuthenticationFailureHandler;
 import com.prapps.app.core.security.jwt.RestAuthenticationManager;
 
 @Component
@@ -41,10 +41,10 @@ public class RestAuthFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationServiceException {
 
         if (!request.getMethod().equals("POST")) {
-            throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
+            throw new AuthenticationServiceException("405" + request.getMethod());
         }
 
         StringBuffer jb = new StringBuffer();
@@ -68,7 +68,7 @@ public class RestAuthFilter extends AbstractAuthenticationProcessingFilter {
 
 
         if(user.getUserName() == null) {
-        	throw new AuthenticationServiceException("Username cannot be empty ");
+        	throw new AuthenticationServiceException("401");
         }
 
         UserDetails ud = new UserDetailsImpl(user);
