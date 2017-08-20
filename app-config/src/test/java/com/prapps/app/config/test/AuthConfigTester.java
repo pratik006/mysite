@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prapps.app.core.dto.User;
-import com.prapps.app.core.secutiry.jwt.JwtTokenHelper;
+import com.prapps.app.core.security.jwt.JwtTokenHelper;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
