@@ -19,6 +19,7 @@ public class Message implements Serializable, Comparable<Message> {
 	private String msg;
 	private Calendar time;
 	private String userName;
+	private String ip;
 
 	public int getId() {
 		return id;
@@ -61,6 +62,14 @@ public class Message implements Serializable, Comparable<Message> {
 		}
 		Message otherMsg = (Message) other;
 		return id == otherMsg.getId();
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 
 	@Override
