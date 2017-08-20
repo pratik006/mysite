@@ -16,6 +16,7 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 
 	private int id;
+	private Long threadId;
 	private String msg;
 	private Calendar time;
 	private String userName;
@@ -27,6 +28,14 @@ public class Message implements Serializable, Comparable<Message> {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public Long getThreadId() {
+		return threadId;
+	}
+
+	public void setThreadId(Long threadId) {
+		this.threadId = threadId;
+	}
+
 	public String getMsg() {
 		return msg;
 	}

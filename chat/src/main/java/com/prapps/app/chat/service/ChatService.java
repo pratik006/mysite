@@ -27,7 +27,7 @@ public class ChatService {
 		}
 		
 		if (threadId == null || !threads.containsKey(threadId)) {
-			threadId = (long) (++threadCount);
+			threadId = 1L;//(long) (++threadCount);
 			threads.put(threadId, new MessageThread());
 		}
 		

@@ -65,9 +65,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/rest/rail/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/rest/rail/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/chat/**").hasAnyRole("user", "admin")
-				
 				.antMatchers(HttpMethod.GET, "/rest/secured/chess").hasAnyRole("admin")
 				
+				.antMatchers(HttpMethod.GET, "/rest/secured/chat").hasAnyRole("user", "admin")
+				.antMatchers(HttpMethod.POST, "/rest/secured/chat").hasAnyRole("user", "admin")
+				.antMatchers(HttpMethod.PUT, "/rest/secured/chat").hasAnyRole("user", "admin")
+
 				//.antMatchers(HttpMethod.GET, "/rest/secured/**").hasAnyRole("user", "admin")
 				.antMatchers("/rest/blogs/*").permitAll()
 				.anyRequest().authenticated()
