@@ -14,7 +14,7 @@ var LoginView = Backbone.View.extend({
         var that = this;
         $.ajax({
           type: "POST",
-          url: ACTION_PATHS['login'],
+          url: '/blog/login',
           data: $('#navbar-form').serialize(),
           success: function(result) {
         	  try {

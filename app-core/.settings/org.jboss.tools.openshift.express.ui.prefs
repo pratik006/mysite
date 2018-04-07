@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+org.jboss.tools.openshift.ApplicationId=567051b47628e1edb0000193
+org.jboss.tools.openshift.ApplicationName=apps
+org.jboss.tools.openshift.Connection=https\://pratik006%40gmail.com@openshift.redhat.com
+org.jboss.tools.openshift.DeployFolder=webapps
+org.jboss.tools.openshift.Domain=pratiks
+org.jboss.tools.openshift.RemoteName=origin
