@@ -12,7 +12,8 @@ window.addEventListener('load', e => {
 async function loadBlogs() {
   fetch(context.posts).then(resp => resp.json()).then(posts => {
     for (let postCode in posts) {
-      const post = posts[postCode]; 
+      const post = posts[postCode];
+      post.code = postCode;
       postsDiv.innerHTML += blogEntryTemplate(post);
     }
   });
@@ -24,12 +25,12 @@ function blogEntryTemplate(post) {
     <img class="card-img-top" src="${post.previewUrl}" alt="Card image cap">
     <div class="card-body">
       <h2 class="card-title">${post.title}</h2>
-      <p class="card-text">${post.content.substring(0, 100)}</p>
-      <a href="#" class="btn btn-primary">Read More &rarr;</a>
+      <p class="card-text">${post.content.substring(0, 500)}</p>
+      <a href="#${post.code}" class="btn btn-primary">Read More &rarr;</a>
     </div>
     <div class="card-footer text-muted">
-      Posted on January 1, 2017 by
-      <a href="#">Start Bootstrap</a>
+      Posted on ${post.postDate} by
+      <a href="#">${post.author}</a>
     </div>
   </div>`;
 }
