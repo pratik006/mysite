@@ -54,11 +54,11 @@ function blogEntryTemplate(post) {
     <img class="card-img-top" src="${post.previewUrl}" alt="Card image cap">
     <div class="card-body">
       <h2 class="card-title">${post.title}</h2>
-      <p class="card-text">${post.content.substring(0, 500)}</p>
+      <p class="card-text lead">${post.intro}</p>
       <a href="#${post.code}" class="btn btn-primary">Read More &rarr;</a>
     </div>
     <div class="card-footer text-muted">
-      Posted on ${post.postDate} by
+      Posted on ${post.postTime} by
       <a href="#">${post.author}</a>
     </div>
   </div>`;
@@ -70,26 +70,20 @@ function blogPostTemplate(post) {
           <h1 class="mt-4">${post.title}</h1>
           <!-- Author -->
           <p class="lead">
-            by
-            <a href="#">${post.author}</a>
+            by <a href="#">${post.author}</a>
           </p>
+          <span class="small">Posted on ${post.postTime}</span>
           <hr>
-          <!-- Date/Time -->
-          <p>Posted on ${post.postTime}</p>
-          <hr>
-          <!-- Preview Image -->
           <img class="img-fluid rounded" src="${post.previewUrl}" alt="">
           <hr>
           <!-- Post Content -->
           <p>${post.content}</p>
-          <blockquote class="blockquote">
+          <!--blockquote class="blockquote">
             <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
             <footer class="blockquote-footer">Someone famous in
               <cite title="Source Title">Source Title</cite>
             </footer>
-          </blockquote>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
+          </blockquote-->
           <hr>
   `;
 }
